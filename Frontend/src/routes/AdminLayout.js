@@ -1,14 +1,11 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
+import Navbar from '../components/Admin/Navbar'
 import Dashboard from '../pages/Admin/Dashboard'
 const AdminLayout = () => {
     return (
         <React.Fragment>
-            <div> 
-                <aside className='navbar'>
-                    Hello
-                </aside>
-            </div>
+            <Navbar />
             <Routes>
                 <Route path='/' element={<Dashboard />} />
                 <Route path='/products' />
