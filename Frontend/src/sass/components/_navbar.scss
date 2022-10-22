@@ -1,17 +1,17 @@
 .navbar {
-    max-width: 260px;
     display: block;
     position: fixed;
     top: 0px;
     bottom: 0px;
-    width: 100%;
+    width: 18%;
     overflow-y: auto;
     background-color: rgb(255, 255, 255);
-    box-shadow: $box-shadow;
+
     z-index: 10;
     border-right: 1px solid rgba(108, 117, 125, 0.25);
     padding: 0;
     font-size: 1.5rem;
+
 
     &-header {
         @include flex(center, space-between);
@@ -33,9 +33,10 @@
             &-item {
                 margin-bottom: 5px;
                 display: list-item;
-                text-align: -webkit-match-parent;
+                border-radius: 5px;
 
                 &-link {
+
                     padding: 10px;
                     color: rgb(41, 51, 93);
                     font-weight: 700;
@@ -46,6 +47,16 @@
                     white-space: nowrap;
                     display: block;
                     text-decoration: none;
+                    font-size: 1.5rem;
+
+                  
+                    svg {
+                        width: 2rem;
+                        height: 1.75rem;
+                        display: inline-block;
+                        margin-right: 0.7rem;
+                        padding-bottom: 0.05rem;
+                    }
 
 
                 }
@@ -54,8 +65,14 @@
             }
 
             .active {
-                background-color: rgb(235, 240, 253);
+                background-color: rgb(204, 212, 231);
+
+                svg {
+                    color: $main-color;
+                }
             }
+
+
         }
     }
 }
