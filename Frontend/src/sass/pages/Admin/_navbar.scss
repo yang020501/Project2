@@ -10,9 +10,52 @@
     box-shadow: $box-shadow;
     z-index: 10;
     border-right: 1px solid rgba(108, 117, 125, 0.25);
+    padding: 0;
+    font-size: 1.5rem;
 
-    &-header{
+    &-header {
+        @include flex(center, space-between);
+
+
+        padding: 0.8rem;
+
+        &-title {
+            padding: 0 5px;
+        }
 
     }
 
+    &-body {
+        &-menu {
+            margin: 0.5rem;
+            padding: 0px;
+
+            &-item {
+                margin-bottom: 5px;
+                display: list-item;
+                text-align: -webkit-match-parent;
+
+                &-link {
+                    padding: 10px;
+                    color: rgb(41, 51, 93);
+                    font-weight: 700;
+                    border-radius: 0.3rem;
+                    position: relative;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    display: block;
+                    text-decoration: none;
+
+
+                }
+
+
+            }
+
+            .active {
+                background-color: rgb(235, 240, 253);
+            }
+        }
+    }
 }

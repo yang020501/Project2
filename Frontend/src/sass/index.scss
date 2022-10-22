@@ -4,6 +4,13 @@
 
 
 
+//customer page
+@import "./pages/Customer/catalog";
+@import "./pages/Customer/order";
+@import "./pages/Customer/contact";
+@import "./pages/Customer/customerinfo";
+@import "./pages/Customer/product";
+@import "./pages/Customer/cart";
 
 @import "./components/header";
 @import "./components/footer";
@@ -12,15 +19,11 @@
 @import "./components/section";
 @import "./components/policy-card";
 @import "./components/product-card";
-@import "./components/catalog";
 @import "./components/custom-checkbox";
-@import "./components/product";
 @import "./components/product-view-modal";
-@import "./components/cart";
 @import "./components/searchbar";
 @import "./components/loginsign-modal";
 @import "./components/alertmessage";
-@import "./components/order";
-@import "./components/customerinfo";
-@import "./components/contact";
-@import "pages/Admin/navbar";
+
+//admin page
+@import "./pages/Admin/navbar";
