@@ -44,6 +44,7 @@ a {
 a:hover {
     color: $main-color;
 }
+
 // ::after, ::before {
 //     box-sizing: border-box;
 // }
@@ -110,6 +111,22 @@ $val in $colors {
     }
 }
 
+.content {
+    padding-top: calc(#{$header-height} - 30px);
+    margin-left: 18%;
+    min-height: 100vh;
+    overflow: auto;
+    background-color: $temp-bg;
+    z-index: -1;
+    //  @include tablet {
+    //     padding-top: calc(#{$header-tablet-height} + 20px);
+    // }
+
+    // @include mobile {
+    //     margin-top: calc(#{$header-mobile-height} + 70px);
+    // }
+
+}
 
 .grid {
     display: grid;
