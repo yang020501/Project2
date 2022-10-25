@@ -47,10 +47,8 @@ const Navbar = () => {
             icon: faGear
         },
     ]
-    const location = useLocation();
     const { pathname } = useLocation();
     const activeNav = mainNav.findIndex(e => e.path === pathname)
-    console.log(pathname);
     return (
 
         <aside className='navbar'>
@@ -64,14 +62,17 @@ const Navbar = () => {
                 <ul className='navbar-body-menu'>
                     {
                         mainNav.map((item, index) => (
-                            <li key={index} className={`navbar-body-menu-item  ${index === activeNav ? 'active' : ''}`}>
-                                <Link className='navbar-body-menu-item-link' to={item.path}>
-                                    <FontAwesomeIcon icon={item.icon} />
-                                    <span>{item.display}</span>
+                            <React.Fragment key={index}>
+                                {item.display === 'Profile' ? <hr /> : '' } 
+                                <li  className={`navbar-body-menu-item  ${index === activeNav ? 'active' : ''}`}>
+                                    <Link className='navbar-body-menu-item-link' to={item.path}>
+                                        <FontAwesomeIcon icon={item.icon} />
+                                        <span>{item.display}</span>
 
-                                </Link>
+                                    </Link>
 
-                            </li>
+                                </li>
+                            </React.Fragment>
                         )
                         )
                     }

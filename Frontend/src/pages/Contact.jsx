@@ -1,16 +1,9 @@
 import React from 'react'
+import Develope from '../components/Develope'
 
 const Contact = () => {
   return (
-    <div className='contact'>
-      <div className='contact-img'>
-        <img src={require(`../assets/images/gif/setting.gif`)} alt="" />
-      </div>
-      <div className='contact-text'>
-        Tính năng đang phát triển.
-        Quay lại sau nhé!
-      </div>
-    </div>
+    <Develope />
   )
 }
 
