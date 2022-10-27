@@ -12,37 +12,37 @@ const Navbar = () => {
             icon: faHouse
         },
         {
-            display: "Products",
-            path: "/admin/products",
+            display: "Sản phẩm",
+            path: "/admin/product",
             icon: faShoppingBag
         },
         {
-            display: "Category",
+            display: "Phân loại",
             path: "/admin/category",
             icon: faList
         },
         {
-            display: "Orders",
-            path: "/admin/orders",
+            display: "Đơn hàng",
+            path: "/admin/order",
             icon: faCartPlus
         },
         {
-            display: "Customers",
-            path: "/admin/customers",
+            display: "Khách hàng",
+            path: "/admin/customer",
             icon: faUser
         },
         {
-            display: "Staffs",
-            path: "/admin/staffs",
+            display: "Nhân viên",
+            path: "/admin/staff",
             icon: faUserShield
         },
         {
-            display: "Profile",
+            display: "Thông tin",
             path: "/admin/profile",
             icon: faAddressCard
         },
         {
-            display: "Setting",
+            display: "Cài đặt",
             path: "/admin/setting",
             icon: faGear
         },
@@ -63,8 +63,8 @@ const Navbar = () => {
                     {
                         mainNav.map((item, index) => (
                             <React.Fragment key={index}>
-                                {item.display === 'Profile' ? <hr /> : '' } 
-                                <li  className={`navbar-body-menu-item  ${index === activeNav ? 'active' : ''}`}>
+                                {item.display === 'Profile' ? <hr /> : ''}
+                                <li className={`navbar-body-menu-item  ${index === activeNav ? 'active' : ''}`}>
                                     <Link className='navbar-body-menu-item-link' to={item.path}>
                                         <FontAwesomeIcon icon={item.icon} />
                                         <span>{item.display}</span>
