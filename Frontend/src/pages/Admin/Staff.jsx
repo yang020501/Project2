@@ -1,23 +1,29 @@
 import React from 'react'
 import ContentMain from '../../components/Admin/ContentMain'
+import Card, { CardBody, CardHeader } from '../../components/Card'
 import btnAction from '../../utils/btnAction'
-
-const Products = () => {
+const Staff = () => {
   const create = () => {
     console.log("Hello");
   }
-
   return (
-    <ContentMain headerTitle='Sản phẩm'
+    <ContentMain headerTitle='Nhân viên'
       headerRightAction={{
         ...btnAction,
         title: 'Tạo mới',
         action: create
-      }} >
+      }}
+    >
+      <Card>
+        <CardHeader>
 
+        </CardHeader>
+        <CardBody>
+        </CardBody>
+      </Card>
 
-    </ContentMain>
+    </ContentMain >
   )
 }
 
-export default Products
+export default Staff

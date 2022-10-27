@@ -4,7 +4,7 @@ import cartItemsSlice from "./shopping-cart/cartItemsSlice";
 import loginSlice from "./login-sign_modal/loginSlice";
 import signSlice from "./login-sign_modal/signSlice";
 import alertMessage from "./alert-message/alertMessage";
-import productSlice from "./product/productSlice";
+import productsSlice from "./product/productsSlice";
 import userState from "./user/userState";
 import accessoriesSlice from "./product/accessoriesSlice";
 import clothesSlice from "./product/clothesSlice";
@@ -17,7 +17,7 @@ export const store = configureStore({
         loginModal: loginSlice,
         signModal: signSlice,
         alertMessage: alertMessage,
-        productSlice: productSlice,
+        productsSlice: productsSlice,
         userState: userState,
         accessoriesSlice: accessoriesSlice,
         clothesSlice: clothesSlice,

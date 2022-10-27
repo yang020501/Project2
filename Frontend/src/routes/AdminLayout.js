@@ -3,13 +3,14 @@ import { Routes, Route } from "react-router-dom";
 import Header from "../components/Admin/Header";
 import Navbar from "../components/Admin/Navbar";
 import Category from "../pages/Admin/Category";
-import Customers from "../pages/Admin/Customers";
+import Customer from "../pages/Admin/Customer";
 import Dashboard from "../pages/Admin/Dashboard";
-import Orders from "../pages/Admin/Orders";
-import Products from "../pages/Admin/Products";
+import Order from "../pages/Admin/Order";
+import ProductAdmin from "../pages/Admin/ProductAdmin";
 import Profile from "../pages/Admin/Profile";
 import Setting from "../pages/Admin/Setting";
-import Staffs from "../pages/Admin/Staffs";
+import Staff from "../pages/Admin/Staff";
+import ProductViewAdmin from "../pages/Admin/ProductViewAdmin"
 const AdminLayout = () => {
   return (
     <React.Fragment>
@@ -19,12 +20,12 @@ const AdminLayout = () => {
         <div className="content-main">
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/product" element={<Products />} />
-            <Route path="/product/:slug" element={<Products />} />
-            <Route path="/customer" element={<Customers />} />
-            <Route path="/staff" element={<Staffs />} />
+            <Route path="/product" element={<ProductAdmin />} />
+            <Route path="/product/:slug" element={<ProductViewAdmin />} />
+            <Route path="/customer" element={<Customer />} />
+            <Route path="/staff" element={<Staff />} />
             <Route path="/category" element={<Category />} />
-            <Route path="/order" element={<Orders />} />
+            <Route path="/order" element={<Order />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/setting" element={<Setting />} />
           </Routes>

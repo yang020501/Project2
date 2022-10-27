@@ -10,7 +10,7 @@ import ProductCard from '../components/ProductCard'
 import { Link } from 'react-router-dom'
 import banner from '../assets/images/banner.png'
 import { getAllSale } from '../redux/product/saleSlice'
-import { getAllProduct } from '../redux/product/productSlice'
+import { getAllProduct } from '../redux/product/productsSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
 const Home = () => {

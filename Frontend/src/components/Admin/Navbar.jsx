@@ -63,7 +63,7 @@ const Navbar = () => {
                     {
                         mainNav.map((item, index) => (
                             <React.Fragment key={index}>
-                                {item.display === 'Profile' ? <hr /> : ''}
+                                {item.path.includes('profile') ? <hr /> : ''}
                                 <li className={`navbar-body-menu-item  ${index === activeNav ? 'active' : ''}`}>
                                     <Link className='navbar-body-menu-item-link' to={item.path}>
                                         <FontAwesomeIcon icon={item.icon} />

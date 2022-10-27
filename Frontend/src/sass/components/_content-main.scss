@@ -1,4 +1,7 @@
 .content-main {
+    padding: 20px 5%;
+    height: 100%;
+
     &-header {
         @include flex(center, space-between);
         margin-bottom: 20px;
@@ -9,6 +12,8 @@
         }
     }
     &-body {
-        height: 100%;
+        height: 100%;      
+        box-shadow: $box-shadow;
+        height: 480px;
     }
 }
