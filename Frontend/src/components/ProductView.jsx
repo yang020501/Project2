@@ -60,7 +60,7 @@ const ProductView = props => {
         }
         return true
     }
-    const addToCart = () => {
+    const addtoCart = () => {
         if (check()) {
             dispatch(addItem({
                 slug: product.slug,
@@ -196,7 +196,7 @@ const ProductView = props => {
                     </div>
                 </div>
                 <div className="product-info-item">
-                    <Button onclick={() => addToCart()}>
+                    <Button onclick={() => addtoCart()}>
                         Thêm vào giỏ
                     </Button>
                     <Button onclick={() => gotoCart()}>

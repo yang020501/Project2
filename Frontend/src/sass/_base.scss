@@ -110,10 +110,10 @@ a:hover {
 }
 //for admin layout
 .content {
-    margin-top: calc(#{$header-height} - 30px);
+    padding-top: calc(#{$header-height} - 30px);
     margin-left: 18%;
     min-height: 100vh;
-    // overflow-y: auto; // for background color flow
+    // overflow-y: hidden; // for background color flow
     background-color: $temp-bg;
     z-index: -1;
     //  @include tablet {
@@ -123,10 +123,6 @@ a:hover {
     // @include mobile {
     //     margin-top: calc(#{$header-mobile-height} + 70px);
     // }
-    &-main {
-        padding: 20px 5%;
-        height: inherit;
-    }
 }
 
 .grid {

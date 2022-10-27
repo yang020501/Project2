@@ -6,6 +6,20 @@ const ContentMain = props => {
     return (
         <React.Fragment>
             <div className='content-main-header'>
+
+                {props.headerLeftAction ?
+                    <div>
+                        <Button
+                            size={props.headerLeftAction.size}
+                            onclick={props.headerLeftAction.action}
+                            backgroundColor={'red'}
+                        >
+                            {props.headerRightAction.title}
+                        </Button>
+                    </div>
+                    : <></>
+                }
+
                 <div className='content-main-header-title'>
                     {
                         props.headerTitle
@@ -23,7 +37,7 @@ const ContentMain = props => {
                 </div>
             </div>
             <div className='content-main-body'>
-                {props.Children}
+                {props.children}
             </div>
         </React.Fragment>
 

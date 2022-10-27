@@ -1,0 +1,15 @@
+.kard {
+    border: 1px solid rgb(223, 223, 223);
+    border-radius: 4px;
+    height: 100%;
+    background-color: $main-bg;
+
+    &-header {
+        border-bottom: 1px solid rgb(223, 223, 223);
+        padding: 1.25rem;
+    }
+
+    &-body {
+        padding: 1.25rem;
+    }
+}
