@@ -12,7 +12,7 @@ const CustomerInfo = () => {
 
     const user = useSelector(state => state.userState.user)
     const cart = useSelector(state => state.userState.cart)
-    const products = useSelector(state => state.productSlice.value)
+    const products = useSelector(state => state.productsSlice.value)
     const initialForm = {
         customer_name: user.customer_name ? user.customer_name : "",
         email: user.username,

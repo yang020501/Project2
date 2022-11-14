@@ -6,10 +6,10 @@ const Order = () => {
 
   return (
 
-    <ContentMain headerTitle='Phân loại'>
+    <ContentMain headerTitle='Đơn hàng'>
       <Card>
         <CardHeader>
-          
+
         </CardHeader>
         <CardBody>
         </CardBody>
