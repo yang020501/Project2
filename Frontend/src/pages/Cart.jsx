@@ -17,7 +17,7 @@ const Cart = () => {
   const [cartProducts, setcartProducts] = useState([])
   const [totalProducts, settotalProducts] = useState(0)
   const [totalPrice, settotalPrice] = useState(0)
-  const productList = useSelector(state => state.productSlice.value)
+  const productList = useSelector(state => state.productsSlice.value)
   const user = useSelector(state => state.userState.user)
   const dispatch = useDispatch()
   let navigate = useNavigate()

@@ -1,7 +1,13 @@
 import React from 'react'
 import { Dropdown } from 'react-bootstrap'
-
+import { useLocation, useNavigate } from 'react-router-dom'
+import { logout } from '../../redux/user/userState'
+import { useDispatch, useSelector } from 'react-redux'
 const Header = () => {
+    const location = useLocation()
+    const navigate = useNavigate()
+    const user = useSelector(state => state.userState.user)
+    let dispatch = useDispatch()
     return (
 
         <div className='ad_header'>
@@ -15,7 +21,14 @@ const Header = () => {
                     <Dropdown.Item href="/admin/profile">My profile</Dropdown.Item>
                     <Dropdown.Item href="/admin/setting">Setting</Dropdown.Item>
                     <Dropdown.Divider />
-                    <Dropdown.Item href="" style={{ color: 'red' }}>Đăng xuất</Dropdown.Item>
+                    <Dropdown.Item href="" style={{ color: 'red' }}
+                        onClick={() => {
+                            dispatch(logout())
+                            // nếu logout ở quá trình đặt hàng thì bay về /cart
+                            if (location.pathname.includes('/admin'))
+                                navigate('/')
+                        }}
+                    >Đăng xuất</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
             {/* <div class="dropdown nav-item">

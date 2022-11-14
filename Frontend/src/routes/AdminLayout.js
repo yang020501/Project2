@@ -5,7 +5,7 @@ import Navbar from "../components/Admin/Navbar";
 import Category from "../pages/Admin/Category";
 import Customer from "../pages/Admin/Customer";
 import Dashboard from "../pages/Admin/Dashboard";
-import Order from "../pages/Admin/Order";
+import Order from "../pages/Admin/OrderAdmin";
 import ProductAdmin from "../pages/Admin/ProductAdmin";
 import Profile from "../pages/Admin/Profile";
 import Setting from "../pages/Admin/Setting";

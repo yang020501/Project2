@@ -13,8 +13,10 @@ const ContentMain = props => {
                             size={props.headerLeftAction.size}
                             onclick={props.headerLeftAction.action}
                             backgroundColor={'red'}
+                            animate={true}
+                          icon='bx bx-arrow-back'
                         >
-                            {props.headerRightAction.title}
+                            {props.headerLeftAction.title}
                         </Button>
                     </div>
                     : <></>
@@ -30,6 +32,8 @@ const ContentMain = props => {
                         <Button
                             size={props.headerRightAction.size}
                             onclick={props.headerRightAction.action}
+                            icon='bx bx-plus'
+                            animate={true}
                         >
                             {props.headerRightAction.title}
                         </Button> : <></>

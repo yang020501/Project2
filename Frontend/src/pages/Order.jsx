@@ -18,7 +18,7 @@ const Order = () => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.userState.user)
     const cartItems = useSelector((state) => state.cartItems.value)
-    const productList = useSelector(state => state.productSlice.value)
+    const productList = useSelector(state => state.productsSlice.value)
     const productSale = useSelector(state => state.saleSlice.value)
     const initialForm = {
         email: user.username,

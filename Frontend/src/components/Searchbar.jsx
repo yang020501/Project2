@@ -2,17 +2,17 @@ import React, { useState } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
 import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types'
 
+const Searchbar = props => {
 
-const Searchbar = ({ placeholder, data }) => {
- 
     const [filteredData, setFilteredData] = useState([]);
     const [wordEntered, setWordEntered] = useState("");
 
     const handleFilter = (event) => {
         const searchWord = event.target.value;
         setWordEntered(searchWord);
-        const newFilter = data.filter((value) => {         
+        const newFilter = props.data.filter((value) => {
             return normalizeStr(value.title).toLowerCase().includes(normalizeStr(searchWord).toLowerCase());
         });
 
@@ -38,7 +38,7 @@ const Searchbar = ({ placeholder, data }) => {
             <div className="search-inputs">
                 <input
                     type="text"
-                    placeholder={placeholder}
+                    placeholder={props.placeholder}
                     value={wordEntered}
                     onChange={handleFilter}
                 />
@@ -55,19 +55,20 @@ const Searchbar = ({ placeholder, data }) => {
 
                     filteredData.slice(0, 15).map((value, key) => {
                         return (
-                            <Link key={key} className="search-data-item" to={`/catalog/${value.slug}`}>
+                            <Link key={key} className="search-data-item" to={props.admin ? `/admin/product/${value.slug}` : `/catalog/${value.slug}`}>
                                 <p>{value.title} </p>
                             </Link>
 
                         );
                     })
-                )
-                }
-
-
+                )}
             </div>
         </div>
     )
 }
-
+Searchbar.propsTypes = {
+    data: PropTypes.array,
+    placeholder: PropTypes.string,
+    admin: PropTypes.bool
+}
 export default Searchbar

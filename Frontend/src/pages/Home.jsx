@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const Home = () => {
   let dispatch = useDispatch()
-  const productData = useSelector(state => state.productSlice.value)
+  const productData = useSelector(state => state.productsSlice.value)
   const productSale = useSelector(state => state.saleSlice.value)
   const getProducts = (count) => {
     const max = productData.length - count
