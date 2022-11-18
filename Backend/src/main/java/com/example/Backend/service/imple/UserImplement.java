@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserImplement implements UserService, UserDetailsService {
+public class UserImplement implements UserService {
 
     @Autowired
     private UserRepo userRepo;
@@ -109,18 +109,5 @@ public class UserImplement implements UserService, UserDetailsService {
         catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDto userDto = userRepo.find_byUserName(username);
-        if (userDto == null) {
-            throw new UsernameNotFoundException(username);
-        }
-        String id = userDto.getId();
-        String password = userDto.getPassword();
-
-
-        return null;
     }
 }
