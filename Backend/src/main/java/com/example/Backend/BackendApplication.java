@@ -21,28 +21,16 @@ public class BackendApplication {
 	}
 
 	// nhớ kỹ bật cors khi làm spring boot
-//	@EnableWebSecurity
-//	public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-//
-////		@Override
-////		protected void configure(HttpSecurity http) throws Exception {
-////			http.cors().and().csrf().disable();
-////			http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-////			http.authorizeHttpRequests().anyRequest().permitAll();
-////			http.addFilter(null);
-////		}
-//
-//	}
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**").allowedMethods("GET", "POST", "PATCH", "DELETE")
+						.allowedOrigins("*").allowedHeaders("*");
+			}
+		};
+	}
 
-//	@Bean
-//	public WebMvcConfigurer corsConfigurer() {
-//		return new WebMvcConfigurer() {
-//			@Override
-//			public void addCorsMappings(CorsRegistry registry) {
-//				registry.addMapping("/**").allowedMethods("GET", "POST", "PATCH", "DELETE")
-//						.allowedOrigins("*").allowedHeaders("*");
-//			}
-//		};
-//	}
 
 }
