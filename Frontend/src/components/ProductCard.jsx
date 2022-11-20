@@ -17,8 +17,8 @@ const ProductCard = props => {
         <div className='product-card'>
             <Link to={props.admin ? `/admin/product/${props.slug}` : `/catalog/${props.slug}`}>
                 <div className='product-card-image'>
-                    <img src={`../assets/images/${props.img01}`} alt="" />
-                    <img src={`../assets/images/${props.img02}`} alt="" />
+                    <img src={require(`../assets/${props.img01}`)} alt="" />
+                    <img src={require(`../assets/${props.img02}`)} alt="" />
                 </div>
                 <h3 className='product-card-name'>{props.name}</h3>
                 <div className="product-card-price">
@@ -40,7 +40,7 @@ const ProductCard = props => {
             <div className="product-card-btn">
                 {!props.admin ?
                     <Button
-                        size='sm'
+                        size='xs'
                         icon='bx bx-cart'
                         animate={true}
                         onclick={() => dispatch(set(props.slug))}
