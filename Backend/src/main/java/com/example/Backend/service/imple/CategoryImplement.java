@@ -2,6 +2,7 @@ package com.example.Backend.service.imple;
 
 import com.example.Backend.RandomGenerate;
 import com.example.Backend.dto.CategoryDto;
+import com.example.Backend.dto.CategoryRequestDto;
 import com.example.Backend.model.Category;
 import com.example.Backend.repository.CategoryRepo;
 import com.example.Backend.service.CategoryService;
@@ -64,7 +65,7 @@ public class CategoryImplement implements CategoryService {
     }
 
     @Override
-    public CategoryDto add(CategoryDto category) {
+    public CategoryDto add(CategoryRequestDto category) {
         try{
             String id = "";
             String id_check = "";
