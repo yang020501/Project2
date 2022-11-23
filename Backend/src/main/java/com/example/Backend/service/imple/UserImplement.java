@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,8 @@ public class UserImplement implements UserService {
 
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<UserDto> getAll() {
@@ -35,7 +38,9 @@ public class UserImplement implements UserService {
 //                }
 //            }
             for (UserDto u : list){
-                if(u.getUsername().equals(username) && u.getPassword().equals(password)){
+                String raw_password = u.getPassword();
+                u.setPassword(passwordEncoder.encode(u.getPassword()));
+                if(u.getUsername().equals(username) && passwordEncoder.matches(raw_password, u.getPassword())){
                     return true;
                 }
             }

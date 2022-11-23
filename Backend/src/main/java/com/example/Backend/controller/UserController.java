@@ -1,12 +1,20 @@
 package com.example.Backend.controller;
 
 import com.example.Backend.RandomGenerate;
+import com.example.Backend.dto.LoginRequestDto;
 import com.example.Backend.dto.UserDto;
 import com.example.Backend.model.User;
+import com.example.Backend.sercurity.CustomUserDetails;
+import com.example.Backend.sercurity.JwtTokenProvider;
+import com.example.Backend.service.RoleService;
 import com.example.Backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -19,23 +27,45 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtTokenProvider tokenProvider;
+
     @Transactional
     @PostMapping("/login")
-    public Object login(@RequestBody UserDto user) {
+    public Object login(@RequestBody LoginRequestDto request) {
         try {
             List<UserDto> list_user = userService.getAll();
-            boolean find = userService.checkLogin(user.getUsername(), user.getPassword(), list_user);
+            boolean find = userService.checkLogin(request.getUsername(), request.getPassword(), list_user);
 
             if(find){
-                UserDto login_user = userService.find_byUserName(user.getUsername());
+                UserDto login_user = userService.find_byUserName(request.getUsername());
                 login_user.setPassword(null);
-                return new ResponseEntity<UserDto>(login_user, HttpStatus.ACCEPTED);
+
+                Authentication authentication = authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                request.getUsername(),
+                                request.getPassword()
+                        )
+                );
+
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
+                String role = roleService.getNameFormId(login_user.getId_role());
+                String[] response = new String[]{jwt, role};
+
+                return new ResponseEntity<String[]>(response, HttpStatus.ACCEPTED);
             }
           
             return new ResponseEntity<String>("Login false", HttpStatus.FOUND);
 
         } catch (Exception e) {
-            return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>(e.toString(), HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.Backend.controller;
 
 import com.example.Backend.dto.CategoryDto;
+import com.example.Backend.dto.CategoryRequestDto;
 import com.example.Backend.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,12 +31,13 @@ public class CategoryController {
 
     @Transactional
     @PostMapping("/add-category")
-    private Object addCategory(@RequestBody CategoryDto categoryDto){
+    private Object addCategory(@RequestBody CategoryRequestDto categoryDto){
         try{
             String display = categoryDto.getDisplay();
             if(categoryService.check_Display_duplicate(display)){
                 return new ResponseEntity<>("Category name had existed", HttpStatus.CONFLICT);
             }
+
             CategoryDto category = categoryService.add(categoryDto);
             return new ResponseEntity<CategoryDto>(category, HttpStatus.CREATED);
         }
