@@ -30,56 +30,56 @@ const ProductAdmin = () => {
             gap={10}
           >
             <ProductCard
-              img01="aolenextradaitay-1.png"
-              img02="aolenextradaitay-2.png"
+              img01="images/aolenextradaitay-1.png"
+              img02="images/aolenextradaitay-2.png"
               name='Ao len'
               price={200000}
               slug="ao-len--extra-dai-tay"
               sale={0}
               admin />
             <ProductCard
-              img01="aolenextradaitay-1.png"
-              img02="aolenextradaitay-2.png"
+              img01="images/aolenextradaitay-1.png"
+              img02="images/aolenextradaitay-2.png"
               name='Ao len'
               price={200000}
               slug="ao-len--extra-dai-tay"
               sale={0}
               admin />
             <ProductCard
-              img01="aolenextradaitay-1.png"
-              img02="aolenextradaitay-2.png"
+              img01="images/aolenextradaitay-1.png"
+              img02="images/aolenextradaitay-2.png"
               name='Ao len'
               price={200000}
               slug="ao-len--extra-dai-tay"
               sale={0}
               admin />
             <ProductCard
-              img01="aolenextradaitay-1.png"
-              img02="aolenextradaitay-2.png"
+              img01="images/aolenextradaitay-1.png"
+              img02="images/aolenextradaitay-2.png"
               name='Ao len'
               price={200000}
               slug="ao-len--extra-dai-tay"
               sale={0}
               admin />
             <ProductCard
-              img01="aolenextradaitay-1.png"
-              img02="aolenextradaitay-2.png"
+              img01="images/aolenextradaitay-1.png"
+              img02="images/aolenextradaitay-2.png"
               name='Ao len'
               price={200000}
               slug="ao-len--extra-dai-tay"
               sale={0}
               admin />
             <ProductCard
-              img01="aolenextradaitay-1.png"
-              img02="aolenextradaitay-2.png"
+              img01="images/aolenextradaitay-1.png"
+              img02="images/aolenextradaitay-2.png"
               name='Ao len'
               price={200000}
               slug="ao-len--extra-dai-tay"
               sale={0}
               admin />
             <ProductCard
-              img01="aolenextradaitay-1.png"
-              img02="aolenextradaitay-2.png"
+              img01="images/aolenextradaitay-1.png"
+              img02="images/aolenextradaitay-2.png"
               name='Ao len'
               price={200000}
               slug="ao-len--extra-dai-tay"
