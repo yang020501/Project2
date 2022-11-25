@@ -11,6 +11,8 @@ import Profile from "../pages/Admin/Profile";
 import Setting from "../pages/Admin/Setting";
 import Staff from "../pages/Admin/Staff";
 import ProductViewAdmin from "../pages/Admin/ProductViewAdmin"
+import NoPage from "../pages/NoPage";
+import OrderViewAdmin from "../pages/Admin/OrderViewAdmin";
 const AdminLayout = () => {
   return (
     <React.Fragment>
@@ -26,8 +28,10 @@ const AdminLayout = () => {
             <Route path="/staff" element={<Staff />} />
             <Route path="/category" element={<Category />} />
             <Route path="/order" element={<Order />} />
+            <Route path="/order/:id" element={<OrderViewAdmin />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/setting" element={<Setting />} />
+            <Route path="*" element={<NoPage />}></Route>
           </Routes>
         </div>
       </div>

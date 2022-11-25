@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { DataGrid } from '@mui/x-data-grid';
 import DataGridOptions from './DataGridOptions';
-
 const MyDataGrid = props => {
     const columns = props.ColumnHeader ?
         props.ColumnHeader.map((item) => {
@@ -12,32 +11,36 @@ const MyDataGrid = props => {
                 width: item.width,
                 headerAlign: 'center',
                 align: 'center',
+                cellClassName: item.key === "option" ? item.class : "",
                 renderCell: (params) => {
-                    if (params.field === "option")
-                        return (<DataGridOptions />)
-
+                    if (params.field === "option") {
+                        let id = params.row.id
+                        let type = params.row.option.type
+                        return <DataGridOptions click={() => params.row.option.click(id)} type={type} />
+                    }
                 }
 
             }
         }
         ) : []
-    const rows = props.Data ? props.Data.map((item, index) => {
-        let keys = Object.keys(item)
-        let values = Object.values(item)
-        let row = {}
-        for (let i = 0; i < keys.length; i++) {
-            row = {
-                ...row,
-                [keys[i]]: values[i]
-            }
-        }
-        return {
-            ...row
-        }
-    }) : []
-    const handlechange = (items) => {
-        let tmp = rows.filter((row) => { return row.id == items })[0]
-        tmp.option(items)
+    const rows = props.Data ? props.Data : []
+    // const rows = props.Data ? props.Data.map((item, index) => {
+    //     let keys = Object.keys(item)
+    //     let values = Object.values(item)
+    //     let row = {}
+    //     for (let i = 0; i < keys.length; i++) {
+    //         row = {
+    //             ...row,
+    //             [keys[i]]: values[i]
+    //         }
+    //     }
+    //     return {
+    //         ...row
+    //     }
+    // }) : []
+    const handlechange = (id) => {
+        let tmp = rows.filter((row) => { return row.id == id })[0]
+        tmp.option.selectclick(id)
     }
     return (
         <DataGrid
@@ -45,9 +48,10 @@ const MyDataGrid = props => {
             rows={rows}
             columns={columns}
             // onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-            // rowsPerPageOptions={[5, 10, 15]}
+            // rowsPerPageOptions={10}
             // disableSelectionOnClick
-            onSelectionModelChange={item => handlechange(item)}
+            autoPageSize
+            onSelectionModelChange={id => handlechange(id)}
             experimentalFeatures={{ newEditingApi: true }}
         />
     )

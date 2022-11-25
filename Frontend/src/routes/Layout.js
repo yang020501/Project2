@@ -5,7 +5,8 @@ import Footer from "../components/Footer";
 import LoginModal from "../components/LoginModal";
 import RegisterModal from "../components/RegisterModal";
 import AlertMessage from "../components/AlertMessage";
-
+import { useSelector } from 'react-redux'
+import { useNavigate } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import Catalog from "../pages/Catalog";
@@ -18,7 +19,7 @@ import CustomerInfo from "../pages/CustomerInfo";
 import Policy from "../pages/Policy";
 import NoPage from "../pages/NoPage";
 /* import { getAllSale } from '../redux/product/saleSlice'
-import { useDispatch } from 'react-redux'
+
 import { getAllProduct } from '../redux/product/productSlice'
 import { getAllAccessories } from '../redux/product/accessoriesSlice'
 import { getAllclothes } from '../redux/product/clothesSlice' */
@@ -30,6 +31,14 @@ const Layout = () => {
       dispatch(getAllAccessories())
       dispatch(getAllclothes())
     }, []) */
+  const user = useSelector(state => state.userState.user)
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (user) {
+      if (user[1] === "admin")
+        navigate("/admin")
+    }
+  }, [user]);
   return (
     <React.Fragment>
       <Header />
