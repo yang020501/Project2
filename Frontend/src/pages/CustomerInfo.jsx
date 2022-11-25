@@ -23,7 +23,7 @@ const CustomerInfo = () => {
         address3: user.address3 ? user.address3 : ""
     }
     const dispatch = useDispatch()
-
+    console.log(user);
     const infoRef = useRef(null)
     const addressRef = useRef(null)
     const provinceRef = useRef(null)

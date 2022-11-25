@@ -32,8 +32,9 @@ const ContentMain = props => {
                         <Button
                             size={props.headerRightAction.size}
                             onclick={props.headerRightAction.action}
-                            icon='bx bx-plus'
+                            icon='bx bx-edit'
                             animate={true}
+                            backgroundColor={'green'}
                         >
                             {props.headerRightAction.title}
                         </Button> : <></>

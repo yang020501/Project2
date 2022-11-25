@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import ContentMain from '../../components/Admin/ContentMain'
 import btnAction from '../../utils/btnAction'
-import Card, { CardBody, CardHeader } from '../../components/Card'
+import Card, { CardBody } from '../../components/Card'
 import Form from 'react-bootstrap/Form'
 import colors from '../../assets/fake-data/product-color'
 import size from '../../assets/fake-data/product-size'
@@ -65,6 +65,13 @@ const ProductViewAdmin = props => {
       headerLeftAction={{
         ...btnAction,
         title: 'Quay lại Sản phẩm',
+        action: () => navigate('/admin/product')
+        // action: BacktoProducts
+      }}
+      headerRightAction={{
+        ...btnAction,
+        color: 'green',
+        title: 'Câp nhật',
         action: () => navigate('/admin/product')
         // action: BacktoProducts
       }}
