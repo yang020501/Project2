@@ -26,7 +26,7 @@ public interface UserRepo extends JpaRepository<User, Integer> {
     public UserDto find_byID(String id);
 
     @Modifying
-    @Query(value = "INSERT INTO Users(id, username, password, id_role, customer_name, phone, house_address, address1, address2, address3) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)", nativeQuery = true)
+    @Query(value = "INSERT INTO Users(id, username, password, id_role, customer_name, phone, house_address, address1, address2, address3) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)", nativeQuery = true)
     public void add(String id, String username, String password, String id_role, String customer_name, String phone,
                     String house_address, String address1, String address2, String address3);
 

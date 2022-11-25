@@ -17,6 +17,6 @@ public class RoleImplement implements RoleService {
 
     @Override
     public String getIdFromName(String name) {
-        return null;
+        return roleRepo.getId_byName(name);
     }
 }
