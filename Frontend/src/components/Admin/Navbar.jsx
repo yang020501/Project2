@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-
+import logo from "../../assets/images/sunshinelogo.png"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse, faShoppingBag, faList, faCartPlus, faUser, faUserShield, faAddressCard, faGear } from "@fortawesome/free-solid-svg-icons";
 
@@ -31,16 +31,16 @@ const Navbar = () => {
             path: "/admin/customer",
             icon: faUser
         },
-        {
-            display: "Nhân viên",
-            path: "/admin/staff",
-            icon: faUserShield
-        },
-        {
-            display: "Thông tin",
-            path: "/admin/profile",
-            icon: faAddressCard
-        },
+        // {
+        //     display: "Nhân viên",
+        //     path: "/admin/staff",
+        //     icon: faUserShield
+        // },
+        // {
+        //     display: "Thông tin",
+        //     path: "/admin/profile",
+        //     icon: faAddressCard
+        // },
         {
             display: "Cài đặt",
             path: "/admin/setting",
@@ -53,7 +53,7 @@ const Navbar = () => {
 
         <aside className='navbar'>
             <div className='navbar-header'>
-                Logo
+                <img src={logo}/>
                 {/* <div className='navbar-header-icon'>
                     <button>icon</button>
                 </div> */}

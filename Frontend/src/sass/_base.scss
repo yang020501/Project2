@@ -25,6 +25,25 @@ input::-webkit-inner-spin-button {
 
 body {
     font-family: "Roboto", sans-serif;
+    .MuiDataGrid-root {
+        border-left: unset;
+        border-right: unset;
+        border-top: unset;
+    }
+    .MuiDataGrid-cell {
+        font-weight: 700;
+        border-color: blue;
+        font-size: 10pt;
+    }
+    .MuiDataGrid-columnHeaderTitle {
+        font-size: 12pt;
+        color: black;
+        font-weight: 900 !important;
+    }
+    .MuiDataGrid-columnHeaders{
+       border-bottom: 1.5px solid black;
+    }
+  
 }
 
 ul {
@@ -55,6 +74,9 @@ a:hover {
 
     .bg-#{$color} {
         background-color: $val;
+    }
+    .cell-#{$color}{
+        color: $val;
     }
 }
 

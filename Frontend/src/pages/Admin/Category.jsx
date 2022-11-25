@@ -5,7 +5,6 @@ import Card, { CardBody } from '../../components/Card'
 import MyDataGrid from '../../components/MyDataGrid'
 import Button from '../../components/Button'
 import { useState } from 'react'
-
 const Category = () => {
   const [itemUpdate, setItemUpdate] = useState([])
   const [item, setItem] = useState("")
@@ -15,26 +14,39 @@ const Category = () => {
     {
       key: "name",
       value: "Tên",
+      class: "cell-red",
       width: 330,
     },
     {
       key: "option",
       value: "Tùy chọn",
+      class: "cell-red",
       width: 100
     },
   ]
-  const getItemUpdate = (item) => {
-    setItemUpdate(item)
+  const getItemUpdate = (id) => {
+    setItemUpdate(id)
+  }
+  const deleteItem = (id) => {
+    console.log("delete");
   }
   const rows = [{
     id: "seqweqweqwe",
     name: "Quan jean",
-    option: getItemUpdate
+    option: {
+      type: "delete",
+      click: deleteItem,
+      selectclick: getItemUpdate
+    }
   },
   {
     id: "sda23412321",
     name: "Quan bo",
-    option: getItemUpdate
+    option: {
+      type: "delete",
+      click: deleteItem,
+      selectclick: getItemUpdate
+    }
   }
   ]
   const handleChange = (e) => {
@@ -87,12 +99,13 @@ const Category = () => {
                   icon="bx bx-edit"
                   onclick={Update}
                 >cập nhật</Button>
-                <Button
+                {/* <Button
+                  disabled={isUpdate}
                   animate={true}
                   size="sm"
                   icon="bx bx-plus"
                   onclick={Create}
-                >tạo mới</Button>
+                >tạo mới</Button> */}
               </div>
             </div>
             <div style={{ width: "100%", height: "100%" }}>
