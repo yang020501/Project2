@@ -35,7 +35,7 @@ const Layout = () => {
   const navigate = useNavigate()
   useEffect(() => {
     if (user) {
-      if (user[1] === "admin")
+      if (user.role === "admin")
         navigate("/admin")
     }
   }, [user]);

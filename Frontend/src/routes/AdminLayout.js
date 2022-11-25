@@ -13,6 +13,7 @@ import Staff from "../pages/Admin/Staff";
 import ProductViewAdmin from "../pages/Admin/ProductViewAdmin"
 import NoPage from "../pages/NoPage";
 import OrderViewAdmin from "../pages/Admin/OrderViewAdmin";
+import CustomerViewAdmin from "../pages/Admin/CustomerViewAdmin";
 const AdminLayout = () => {
   return (
     <React.Fragment>
@@ -25,11 +26,12 @@ const AdminLayout = () => {
             <Route path="/product" element={<ProductAdmin />} />
             <Route path="/product/:slug" element={<ProductViewAdmin />} />
             <Route path="/customer" element={<Customer />} />
-            <Route path="/staff" element={<Staff />} />
+            <Route path="/customer/:id" element={<CustomerViewAdmin />} />
+            {/* <Route path="/staff" element={<Staff />} /> */}
             <Route path="/category" element={<Category />} />
             <Route path="/order" element={<Order />} />
             <Route path="/order/:id" element={<OrderViewAdmin />} />
-            <Route path="/profile" element={<Profile />} />
+            {/* <Route path="/profile" element={<Profile />} /> */}
             <Route path="/setting" element={<Setting />} />
             <Route path="*" element={<NoPage />}></Route>
           </Routes>
