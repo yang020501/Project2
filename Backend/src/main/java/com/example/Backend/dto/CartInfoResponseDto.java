@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
-public class CartInfoResponeDto implements Serializable {
+public class CartInfoResponseDto implements Serializable {
     private String cart_id;
     private List<CartInfoDto> list_product;
     private String address;
@@ -12,9 +12,9 @@ public class CartInfoResponeDto implements Serializable {
     private long total;
     private String status;
 
-    public CartInfoResponeDto() {}
+    public CartInfoResponseDto() {}
 
-    public CartInfoResponeDto(String cart_id, List<CartInfoDto> list_product, String address, LocalDate create_date, long total, String status) {
+    public CartInfoResponseDto(String cart_id, List<CartInfoDto> list_product, String address, LocalDate create_date, long total, String status) {
         this.cart_id = cart_id;
         this.list_product = list_product;
         this.address = address;

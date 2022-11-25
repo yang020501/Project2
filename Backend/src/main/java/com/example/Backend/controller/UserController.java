@@ -57,10 +57,11 @@ public class UserController {
                 String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
                 String role = roleService.getNameFormId(login_user.getId_role());
 
+                LoginResponseDto response = new LoginResponseDto(jwt, login_user.getId(), login_user.getUsername(), null, role,
+                        login_user.getCustomer_name(), login_user.getPhone(), login_user.getHouse_address(), login_user.getAddress1(),
+                        login_user.getAddress2(), login_user.getAddress3());
 
-                LoginResponseDto response = new LoginResponseDto(jwt, role, login_user);
-
-                return new ResponseEntity<LoginResponseDto>(response, HttpStatus.ACCEPTED);
+                return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
 
             }
           
@@ -72,8 +73,7 @@ public class UserController {
     }
 
     @Transactional
-    @PostMapping("/sign_in")
-
+    @PostMapping("/sign-in")
     public Object sign(@RequestBody SignInRequestDto new_user) {
         try {
             List<UserDto> list_user = userService.getAll();
@@ -97,7 +97,7 @@ public class UserController {
                 return new ResponseEntity<String>("Failed to create this user", HttpStatus.BAD_REQUEST);
             }
 
-            return new ResponseEntity<SignInResponseDto>(new SignInResponseDto("Add a new user successfully", user), HttpStatus.CREATED);
+            return new ResponseEntity<UserDto>(user, HttpStatus.CREATED);
 
         } catch (Exception e) {
             return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);

@@ -2,7 +2,7 @@ package com.example.Backend.controller;
 
 import com.example.Backend.RandomGenerate;
 import com.example.Backend.dto.CartDto;
-import com.example.Backend.dto.CartInfoResponeDto;
+import com.example.Backend.dto.CartInfoResponseDto;
 import com.example.Backend.dto.CartRequestDto;
 import com.example.Backend.model.CartInfo;
 import com.example.Backend.service.CartInfoService;
@@ -61,7 +61,7 @@ public class CartController {
     private Object getAll_byCustomerID(@PathVariable String customer_id){
         try{
             List<CartDto> list_cart = cartService.getCart_byCustomerID(customer_id);
-            return new ResponseEntity<List<CartInfoResponeDto>>(cartInfoService.getAll_byCartID(list_cart), HttpStatus.OK);
+            return new ResponseEntity<List<CartInfoResponseDto>>(cartInfoService.getAll_byCartID(list_cart), HttpStatus.OK);
         }
         catch (Exception e){
             e.printStackTrace();

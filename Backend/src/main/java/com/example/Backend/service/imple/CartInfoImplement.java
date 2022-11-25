@@ -2,7 +2,7 @@ package com.example.Backend.service.imple;
 
 import com.example.Backend.dto.CartDto;
 import com.example.Backend.dto.CartInfoDto;
-import com.example.Backend.dto.CartInfoResponeDto;
+import com.example.Backend.dto.CartInfoResponseDto;
 import com.example.Backend.model.CartInfo;
 import com.example.Backend.repository.CartInfoRepo;
 import com.example.Backend.service.CartInfoService;
@@ -18,20 +18,20 @@ public class CartInfoImplement implements CartInfoService {
     private CartInfoRepo cartInfoRepo;
 
     @Override
-    public List<CartInfoResponeDto> getAll_byCartID(List<CartDto> list_cart) {
+    public List<CartInfoResponseDto> getAll_byCartID(List<CartDto> list_cart) {
         try {
-            List<CartInfoResponeDto> list_product_buy_by_customer = new ArrayList<>();
+            List<CartInfoResponseDto> list_product_buy_by_customer = new ArrayList<>();
             for (CartDto cart : list_cart) {
-                CartInfoResponeDto cartInfoResponeDto = new CartInfoResponeDto();
+                CartInfoResponseDto cartInfoResponseDto = new CartInfoResponseDto();
 
-                cartInfoResponeDto.setCart_id(cart.getId());
-                cartInfoResponeDto.setList_product(cartInfoRepo.getAll_byCartID(cart.getId()));
-                cartInfoResponeDto.setCreate_date(cart.getCreate_date());
-                cartInfoResponeDto.setTotal(cart.getTotal());
-                cartInfoResponeDto.setStatus(cart.getStatus());
-                cartInfoResponeDto.setAddress(cart.getAddress());
+                cartInfoResponseDto.setCart_id(cart.getId());
+                cartInfoResponseDto.setList_product(cartInfoRepo.getAll_byCartID(cart.getId()));
+                cartInfoResponseDto.setCreate_date(cart.getCreate_date());
+                cartInfoResponseDto.setTotal(cart.getTotal());
+                cartInfoResponseDto.setStatus(cart.getStatus());
+                cartInfoResponseDto.setAddress(cart.getAddress());
 
-                list_product_buy_by_customer.add(cartInfoResponeDto);
+                list_product_buy_by_customer.add(cartInfoResponseDto);
             }
             return list_product_buy_by_customer;
         }

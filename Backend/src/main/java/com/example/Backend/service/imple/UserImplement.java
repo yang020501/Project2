@@ -99,6 +99,7 @@ public class UserImplement implements UserService {
     @Override
     public UserDto add(String id, String username, String password, String id_role, String customer_name, String phone, String house_address, String address1, String address2, String address3) {
         try{
+            password = passwordEncoder.encode(password);
             userRepo.add(id, username, password, id_role,customer_name, phone, house_address, address1, address2, address3);
             return new UserDto(id, username, null, id_role,customer_name, phone, house_address, address1, address2, address3);
         }

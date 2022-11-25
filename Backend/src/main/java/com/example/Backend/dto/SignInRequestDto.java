@@ -3,16 +3,17 @@ package com.example.Backend.dto;
 import java.io.Serializable;
 
 public class SignInRequestDto implements Serializable {
-    private final String username;
+    private String username;
     private String password;
-    private final String role;
-    private final String customer_name;
-    private final String phone;
-    private final String house_address;
-    private final String address1;
-    private final String address2;
-    private final String address3;
+    private String role;
+    private String customer_name;
+    private String phone;
+    private String house_address;
+    private String address1;
+    private String address2;
+    private String address3;
 
+    public SignInRequestDto(){ }
     public SignInRequestDto(String username, String password, String role,
                             String customer_name, String phone, String house_address, String address1, String address2, String address3) {
         this.username = username;
