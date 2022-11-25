@@ -24,6 +24,9 @@ public interface CategoryRepo extends JpaRepository<Category, Integer> {
     @Query(value = "SELECT id FROM Category WHERE display = ?1 AND active = 1")
     public String Check_Display_exist(String display);
 
+    @Query(value = "SELECT id FROM Category WHERE display = ?1 AND active = 1")
+    public String GetId_byDisplay(String display);
+
     @Transactional
     @Modifying
     @Query(value = "INSERT INTO Category(id, display) " +

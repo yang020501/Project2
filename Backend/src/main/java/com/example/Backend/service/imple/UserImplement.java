@@ -97,22 +97,26 @@ public class UserImplement implements UserService {
     }
 
     @Override
-    public void add(String id, String username, String password, String id_role, String customer_name, String phone, String house_address, String address1, String address2, String address3) {
+    public UserDto add(String id, String username, String password, String id_role, String customer_name, String phone, String house_address, String address1, String address2, String address3) {
         try{
             userRepo.add(id, username, password, id_role,customer_name, phone, house_address, address1, address2, address3);
+            return new UserDto(id, username, null, id_role,customer_name, phone, house_address, address1, address2, address3);
         }
         catch (Exception e){
             e.printStackTrace();
+            return null;
         }
     }
 
     @Override
-    public void update_information(String customer_name, String phone, String house_address, String address1, String address2, String address3, String id) {
+    public UserDto update_information(String customer_name, String phone, String house_address, String address1, String address2, String address3, String id) {
         try{
             userRepo.update_information(customer_name, phone, house_address, address1, address2, address3, id);
+            return new UserDto(id, null, null, null, customer_name, phone, house_address, address1, address2, address3);
         }
         catch (Exception e){
             e.printStackTrace();
+            return null;
         }
     }
 }

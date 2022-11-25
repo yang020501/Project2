@@ -10,5 +10,8 @@ public interface RoleRepo extends JpaRepository<Role, Integer> {
     public RoleDto find_byId(String id);
 
     @Query(value = "SELECT name FROM Roles WHERE id = ?1")
-    public String getname_byId(String id);
+    public String getName_byId(String id);
+
+    @Query(value = "SELECT id FROM Roles WHERE name = ?1")
+    public String getId_byName(String name);
 }

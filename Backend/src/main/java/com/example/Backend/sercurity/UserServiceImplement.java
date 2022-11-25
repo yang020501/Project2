@@ -25,7 +25,7 @@ public class UserServiceImplement implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
 
-        String role = roleRepository.getname_byId(user.getId_role());
+        String role = roleRepository.getName_byId(user.getId_role());
 
         return new CustomUserDetails(user, role);
     }
@@ -36,7 +36,7 @@ public class UserServiceImplement implements UserDetailsService {
             throw new UsernameNotFoundException(id);
         }
 
-        String role = roleRepository.getname_byId(user.getId_role());
+        String role = roleRepository.getName_byId(user.getId_role());
 
         return new CustomUserDetails(user, role);
     }
