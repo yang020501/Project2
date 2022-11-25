@@ -49,7 +49,7 @@ public class CategoryController {
 
     @Transactional
     @PostMapping("/update-category")
-    private Object updateCategory(@RequestBody CategoryDto categoryDto){
+    private Object updateCategory(@RequestBody CategoryRequestDto categoryDto){
         try{
             String display = categoryDto.getDisplay();
             if(categoryService.check_Display_duplicate(display)){
@@ -66,14 +66,14 @@ public class CategoryController {
 
     @Transactional
     @PostMapping("/delete-category")
-    private Object deleteCategory(@RequestBody CategoryDto categoryDto){
+    private Object deleteCategory(@RequestBody CategoryRequestDto categoryDto){
         try{
-            String id = categoryDto.getId();
-            if(categoryService.check_Id(id)){
-                return new ResponseEntity<>("Category doesn't existed", HttpStatus.CONFLICT);
+            String display = categoryDto.getDisplay();
+            if(categoryService.check_Display_duplicate(display)){
+                return new ResponseEntity<>("This category doesn't exist", HttpStatus.CONFLICT);
             }
-            CategoryDto category = categoryService.delete(categoryDto);
-            return new ResponseEntity<CategoryDto>(category, HttpStatus.OK);
+            String id = categoryService.delete(categoryDto);
+            return new ResponseEntity<>(id, HttpStatus.OK);
         }
         catch (Exception e){
             e.printStackTrace();

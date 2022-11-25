@@ -1,8 +1,7 @@
 package com.example.Backend.controller;
 
 import com.example.Backend.RandomGenerate;
-import com.example.Backend.dto.LoginRequestDto;
-import com.example.Backend.dto.UserDto;
+import com.example.Backend.dto.*;
 import com.example.Backend.model.User;
 import com.example.Backend.sercurity.CustomUserDetails;
 import com.example.Backend.sercurity.JwtTokenProvider;
@@ -57,9 +56,10 @@ public class UserController {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
                 String role = roleService.getNameFormId(login_user.getId_role());
-                String[] response = new String[]{jwt, role};
 
-                return new ResponseEntity<String[]>(response, HttpStatus.ACCEPTED);
+                LoginResponseDto response = new LoginResponseDto(jwt, role, login_user);
+
+                return new ResponseEntity<LoginResponseDto>(response, HttpStatus.ACCEPTED);
             }
           
             return new ResponseEntity<String>("Login false", HttpStatus.FOUND);
@@ -72,7 +72,7 @@ public class UserController {
     @Transactional
     @PostMapping("/sign_in")
 
-    public Object sign(@RequestBody UserDto new_user) {
+    public Object sign(@RequestBody SignInRequestDto new_user) {
         try {
             List<UserDto> list_user = userService.getAll();
             boolean find = userService.find_duplicate_username(new_user.getUsername(), list_user);
@@ -82,16 +82,20 @@ public class UserController {
             String id = RandomGenerate.GenerateId(5);
             String username = new_user.getUsername();
             String password = new_user.getPassword();
-            String id_role = new_user.getId_role();
+            String id_role = roleService.getIdFromName(new_user.getRole());
             String customer_name = new_user.getCustomer_name();
             String phone = new_user.getPhone();
             String house_address = new_user.getHouse_address();
             String address1 = new_user.getAddress1();
             String address2 = new_user.getAddress2();
             String address3 = new_user.getAddress3();
-            userService.add(id, username, password, id_role, customer_name, phone, house_address, address1, address2, address3);
+            UserDto user = userService.add(id, username, password, id_role, customer_name, phone, house_address, address1, address2, address3);
 
-            return new ResponseEntity<String>("Add a user successfully", HttpStatus.CREATED);
+            if(user == null){
+                return new ResponseEntity<String>("Failed to create this user", HttpStatus.BAD_REQUEST);
+            }
+
+            return new ResponseEntity<SignInResponseDto>(new SignInResponseDto("Add a new user successfully", user), HttpStatus.CREATED);
 
         } catch (Exception e) {
             return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
@@ -145,10 +149,12 @@ public class UserController {
                 address3 = u.getAddress1();
             }
 
+            UserDto refresh_user = userService.update_information(customer_name, phone, house_address, address1, address2, address3, id);
 
-            userService.update_information(customer_name, phone, house_address, address1, address2, address3, id);
-            UserDto refresh_user = userService.find_byID(id);
-            refresh_user.setPassword(null);
+            if(refresh_user == null){
+                return new ResponseEntity<String>("Failed to update user information", HttpStatus.BAD_REQUEST);
+            }
+
             return new ResponseEntity<UserDto>(refresh_user, HttpStatus.OK);
         }
         catch (Exception e) {

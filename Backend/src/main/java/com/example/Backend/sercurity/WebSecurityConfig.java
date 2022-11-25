@@ -74,8 +74,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 })
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user/login").permitAll() // Cho phép tất cả mọi người truy cập vào địa chỉ này
+                .antMatchers(HttpMethod.POST,"/user/login").permitAll()
+                .antMatchers(HttpMethod.POST,"/user/sign_in").permitAll()
+                .antMatchers(HttpMethod.POST,"/user/update").hasAnyRole("admin", "guest")
+                .antMatchers(HttpMethod.POST, "/cart/buy").hasAnyRole("admin", "guest")
                 .antMatchers(HttpMethod.GET).permitAll()
+                .antMatchers(HttpMethod.PATCH).hasRole("guest")
                 .antMatchers(HttpMethod.POST).hasRole("admin")
                 .anyRequest().authenticated()
                 .and()

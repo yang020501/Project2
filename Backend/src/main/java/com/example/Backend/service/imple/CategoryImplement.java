@@ -88,14 +88,15 @@ public class CategoryImplement implements CategoryService {
     }
 
     @Override
-    public CategoryDto update(CategoryDto category) {
+    public CategoryDto update(CategoryRequestDto category) {
         try{
-            String id = category.getId();
+            String id = categoryRepo.GetId_byDisplay(category.getDisplay());
             String display = category.getDisplay();
+            CategoryDto dto = new CategoryDto(id, display);
 
             categoryRepo.Update_Category(id,display);
 
-            return category;
+            return dto;
         }
         catch (Exception e){
             e.printStackTrace();
@@ -104,11 +105,12 @@ public class CategoryImplement implements CategoryService {
     }
 
     @Override
-    public CategoryDto delete(CategoryDto category) {
+    public String delete(CategoryRequestDto category) {
         try {
-            String id = category.getId();
+            String id = categoryRepo.GetId_byDisplay(category.getDisplay());
             categoryRepo.Delete_Category(id);
-            return category;
+
+            return id;
         }
         catch (Exception e){
             e.printStackTrace();
