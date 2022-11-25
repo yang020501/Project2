@@ -1,16 +1,13 @@
 import React from 'react'
 import ContentMain from '../../components/Admin/ContentMain'
-import Card, { CardBody, CardHeader } from '../../components/Card'
+
+import MyDataGrid from '../../components/MyDataGrid'
 const Customer = () => {
   return (
     <ContentMain headerTitle='Khách hàng'>
-      <Card>
-        <CardHeader>
-
-        </CardHeader>
-        <CardBody>
-        </CardBody>
-      </Card>
+       <div style={{ width: "100%", columnGap: 10, height: "560px" }}>
+        {/* <MyDataGrid ColumnHeader={columns} Data={rows} /> */}
+      </div>
 
     </ContentMain >
   )
