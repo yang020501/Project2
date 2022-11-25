@@ -60,10 +60,8 @@ const LoginModal = () => {
             dispatch(removeLoginModal())
             setAlert(<Alert variant='success'>Đăng nhập thành công!</Alert>)
         }
-        else if (user.errorMess) {
-            
+        else if (user.errorMess) {  
             setAlert(<Alert variant='danger'>Tài khoản hoặc mật khẩu không đúng!</Alert>)
-
         }
     }, [user])
     useEffect(() => {

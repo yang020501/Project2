@@ -12,7 +12,7 @@ public class RoleImplement implements RoleService {
 
     @Override
     public String getNameFormId(String id) {
-        return roleRepo.getname_byId(id);
+        return roleRepo.getName_byId(id);
     }
 
     @Override
