@@ -3,6 +3,7 @@ import axios from "axios";
 import { apiUrl } from "../../utils/constant";
 
 const user = localStorage.getItem('user') !== null ? JSON.parse(localStorage.getItem('user')) : null
+const token = localStorage.getItem('token') !== null ? JSON.parse(localStorage.getItem('token')) : null
 export const login = createAsyncThunk(
     'user/login',
     async (data, { rejectWithValue }) => {
@@ -32,6 +33,7 @@ export const userState = createSlice({
     initialState: {
         loading: false,
         user: user,
+        token: token,
         errorMess: "",
         cart: []
     },
@@ -40,6 +42,7 @@ export const userState = createSlice({
             state.user = null;
             state.errorMess = "";
             localStorage.removeItem('user')
+            localStorage.removeItem('token')
         },
         updateUser: (state, action) => {
             state.user = action.payload
@@ -60,9 +63,11 @@ export const userState = createSlice({
         })
         builder.addCase(login.fulfilled, (state, action) => {
             state.loading = false
-            state.user = action.payload
+
+            state.user = { ...action.payload.user, role: action.payload.role }
             state.errorMess = ""
-            localStorage.setItem('user', JSON.stringify(action.payload))
+            localStorage.setItem('user', JSON.stringify(state.user))
+            localStorage.setItem('token', JSON.stringify(action.payload.jwt))
         })
         builder.addCase(login.rejected, (state, action) => {
             state.loading = false;
@@ -92,5 +97,5 @@ export const userState = createSlice({
 
 
 })
-export const { logout, updateUser,updateUserPart } = userState.actions
+export const { logout, updateUser, updateUserPart } = userState.actions
 export default userState.reducer

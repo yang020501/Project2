@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import Header from "../components/Admin/Header";
 import Navbar from "../components/Admin/Navbar";
@@ -14,7 +16,25 @@ import ProductViewAdmin from "../pages/Admin/ProductViewAdmin"
 import NoPage from "../pages/NoPage";
 import OrderViewAdmin from "../pages/Admin/OrderViewAdmin";
 import CustomerViewAdmin from "../pages/Admin/CustomerViewAdmin";
+
+import { getAllProduct } from '../redux/product/productsSlice'
+import { getAllCategory } from "../redux/category/categorySlice";
+
 const AdminLayout = () => {
+  const user = useSelector(state => state.userState.user)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getAllProduct())
+    dispatch(getAllCategory())
+  }, [])
+  useEffect(() => {
+    console.log(user);
+    if (user) {
+      if (user.role === "customer")
+        navigate("/")
+    }
+  }, [user]);
   return (
     <React.Fragment>
       <Navbar />

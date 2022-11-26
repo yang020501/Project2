@@ -139,12 +139,12 @@ public class UserController {
             }
             String address2 = userDto.getAddress2();
             if(userDto.getAddress2() == null){
-                address2 = u.getAddress1();
+                address2 = u.getAddress2();
             }
 
             String address3 = userDto.getAddress3();
             if(userDto.getAddress3() == null){
-                address3 = u.getAddress1();
+                address3 = u.getAddress3();
             }
 
             String id = userService.findId_byUserName(userDto.getUsername());
@@ -158,6 +158,7 @@ public class UserController {
             return new ResponseEntity<UserDto>(refresh_user, HttpStatus.OK);
         }
         catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
         }
     }
