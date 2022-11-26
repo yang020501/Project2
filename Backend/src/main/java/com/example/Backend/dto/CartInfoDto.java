@@ -12,6 +12,8 @@ public class CartInfoDto implements Serializable {
     private int quantity;
     private long price;
 
+    public CartInfoDto(){ }
+
     public CartInfoDto(String cart_id, String product_id, String slug, String color, String size, int amount, long price) {
         this.cart_id = cart_id;
         this.product_id = product_id;
