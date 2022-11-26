@@ -28,6 +28,7 @@ public class CartController {
     @PostMapping("/buy")
     private Object saveCart(@RequestBody CartRequestDto cartRequestDto){
         try{
+            System.out.println(cartRequestDto.getUser());
             String cart_new_id = "";
             do{
                 boolean is_duplicate = false;
@@ -42,17 +43,17 @@ public class CartController {
                 }
             }
             while (true);
-            String customer_id = cartRequestDto.getUserID();
+            String customer_id = cartRequestDto.getUser();
             String address = cartRequestDto.getAddress();
             List<CartInfoDto> list = cartRequestDto.getList_product();
             long total = cartRequestDto.getTotal();
             cartService.add(cart_new_id, customer_id, address, list, total);
             cartInfoService.add(list, cart_new_id);
-            return new ResponseEntity<String>("Success", HttpStatus.CREATED);
+            return new ResponseEntity<>("Success", HttpStatus.CREATED);
         }
         catch (Exception e){
             e.printStackTrace();
-            return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);
         }
 
     }
