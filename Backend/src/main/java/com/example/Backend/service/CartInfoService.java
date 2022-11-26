@@ -9,7 +9,7 @@ import java.util.List;
 
 
 public interface CartInfoService {
-    public void add(List<CartInfo> list, String cart_id);
+    public void add(List<CartInfoDto> list, String cart_id);
     public List<CartInfoResponseDto> getAll_byCartID(List<CartDto> list_card_id);
     public List<CartInfoDto> delete_list_cartInfo(List<CartInfoDto> delete_list);
     public List<CartInfoDto> modify_list_cartInfo(List<CartInfoDto> modify_list);
