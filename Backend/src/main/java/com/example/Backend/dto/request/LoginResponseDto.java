@@ -1,4 +1,6 @@
-package com.example.Backend.dto;
+package com.example.Backend.dto.request;
+
+import com.example.Backend.dto.UserDto;
 
 import java.io.Serializable;
 

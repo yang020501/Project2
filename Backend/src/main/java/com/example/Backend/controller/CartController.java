@@ -2,8 +2,8 @@ package com.example.Backend.controller;
 
 import com.example.Backend.RandomGenerate;
 import com.example.Backend.dto.CartDto;
-import com.example.Backend.dto.CartInfoResponseDto;
-import com.example.Backend.dto.CartRequestDto;
+import com.example.Backend.dto.request.CartInfoResponseDto;
+import com.example.Backend.dto.request.CartRequestDto;
 import com.example.Backend.model.CartInfo;
 import com.example.Backend.service.CartInfoService;
 import com.example.Backend.service.CartService;

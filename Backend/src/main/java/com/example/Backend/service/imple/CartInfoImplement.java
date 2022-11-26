@@ -2,7 +2,7 @@ package com.example.Backend.service.imple;
 
 import com.example.Backend.dto.CartDto;
 import com.example.Backend.dto.CartInfoDto;
-import com.example.Backend.dto.CartInfoResponseDto;
+import com.example.Backend.dto.request.CartInfoResponseDto;
 import com.example.Backend.model.CartInfo;
 import com.example.Backend.repository.CartInfoRepo;
 import com.example.Backend.service.CartInfoService;

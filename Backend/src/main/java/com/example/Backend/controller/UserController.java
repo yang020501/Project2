@@ -2,6 +2,9 @@ package com.example.Backend.controller;
 
 import com.example.Backend.RandomGenerate;
 import com.example.Backend.dto.*;
+import com.example.Backend.dto.request.LoginRequestDto;
+import com.example.Backend.dto.request.LoginResponseDto;
+import com.example.Backend.dto.request.UserRequestDto;
 import com.example.Backend.sercurity.CustomUserDetails;
 import com.example.Backend.sercurity.JwtTokenProvider;
 import com.example.Backend.service.RoleService;
@@ -88,6 +91,7 @@ public class UserController {
             String address1 = new_user.getAddress1();
             String address2 = new_user.getAddress2();
             String address3 = new_user.getAddress3();
+
             UserDto user = userService.add(id, username, password, id_role, customer_name, phone, house_address, address1, address2, address3);
 
             if(user == null){
@@ -117,9 +121,12 @@ public class UserController {
     public Object update(@RequestBody UserRequestDto userDto) {
         try {
             UserDto u = userService.find_byUserName(userDto.getUsername());
-            System.out.println(userDto);
+            if(u == null){
+                return new ResponseEntity<>("This user isn't existed", HttpStatus.OK);
+            }
+
             String customer_name = userDto.getCustomer_name();
-            if(userDto.getUsername() == null){
+            if(userDto.getCustomer_name() == null){
                 customer_name = u.getCustomer_name();
             }
 

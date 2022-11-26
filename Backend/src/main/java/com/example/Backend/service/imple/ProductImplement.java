@@ -90,8 +90,7 @@ public class ProductImplement implements ProductService {
     }
 
     @Override
-    public boolean check_Title_duplicate(ProductDto product) {
-        String title = product.getTitle();
+    public boolean check_Title_duplicate(String title) {
         try{
             String checker = productRepo.Check_DuplicateTitle(title);
             if(checker != null){

@@ -128,7 +128,7 @@ public class ProductController {
     @PostMapping("/add-product")
     public Object addProduct(@RequestBody ProductDto productDto){
         try{
-            if(productService.check_Title_duplicate(productDto)){
+            if(productService.check_Title_duplicate(productDto.getTitle())){
                 return new ResponseEntity<String>("Duplicate name", HttpStatus.CONFLICT);
             }
 
@@ -145,7 +145,7 @@ public class ProductController {
     @PostMapping("/update-product")
     public Object updateProduct(@RequestBody ProductDto productDto){
         try{
-            if(productService.check_Title_duplicate(productDto)){
+            if(productService.check_Title_duplicate(productDto.getTitle())){
                 return new ResponseEntity<String>("Duplicate name", HttpStatus.CONFLICT);
             }
 

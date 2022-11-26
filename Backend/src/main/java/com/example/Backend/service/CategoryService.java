@@ -1,8 +1,7 @@
 package com.example.Backend.service;
 
 import com.example.Backend.dto.CategoryDto;
-import com.example.Backend.dto.CategoryRequestDto;
-import com.example.Backend.model.Category;
+import com.example.Backend.dto.request.CategoryRequestDto;
 
 import java.util.List;
 
