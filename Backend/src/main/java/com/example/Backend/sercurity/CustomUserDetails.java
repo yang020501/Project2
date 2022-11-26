@@ -18,6 +18,7 @@ public class CustomUserDetails implements UserDetails {
     private String role;
 
     public UserDto getUser(){return userDto;}
+    public String getRole(){return role;}
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -65,6 +65,16 @@ public class UserImplement implements UserService {
     }
 
     @Override
+    public String findId_byUserName(String username) {
+        try {
+            return userRepo.findId_byUsername(username);
+        }
+        catch (Exception e){
+            return null;
+        }
+    }
+
+    @Override
     public UserDto find_byID(String id) {
         try{
             return userRepo.find_byID(id);
