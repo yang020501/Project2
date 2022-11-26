@@ -1,4 +1,6 @@
-package com.example.Backend.dto;
+package com.example.Backend.dto.request;
+
+import com.example.Backend.dto.CartInfoDto;
 
 import java.io.Serializable;
 import java.time.LocalDate;

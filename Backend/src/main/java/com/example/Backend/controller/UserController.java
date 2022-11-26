@@ -2,6 +2,9 @@ package com.example.Backend.controller;
 
 import com.example.Backend.RandomGenerate;
 import com.example.Backend.dto.*;
+import com.example.Backend.dto.request.LoginRequestDto;
+import com.example.Backend.dto.request.LoginResponseDto;
+import com.example.Backend.dto.request.UserRequestDto;
 import com.example.Backend.sercurity.CustomUserDetails;
 import com.example.Backend.sercurity.JwtTokenProvider;
 import com.example.Backend.service.RoleService;
@@ -88,6 +91,7 @@ public class UserController {
             String address1 = new_user.getAddress1();
             String address2 = new_user.getAddress2();
             String address3 = new_user.getAddress3();
+
             UserDto user = userService.add(id, username, password, id_role, customer_name, phone, house_address, address1, address2, address3);
 
             if(user == null){
@@ -114,12 +118,15 @@ public class UserController {
     @CrossOrigin
     @Transactional
     @PatchMapping("/update")
-    public Object update(@RequestBody UserRequestDto userDto) {
+    public Object update(@RequestBody UserDto userDto) {
         try {
-            UserDto u = userService.find_byUserName(userDto.getUsername());
-            System.out.println(userDto);
+            UserDto u = userService.find_byID(userDto.getId());
+            if(u == null){
+                return new ResponseEntity<>("This user isn't existed", HttpStatus.OK);
+            }
+
             String customer_name = userDto.getCustomer_name();
-            if(userDto.getUsername() == null){
+            if(userDto.getCustomer_name() == null){
                 customer_name = u.getCustomer_name();
             }
 
@@ -147,7 +154,7 @@ public class UserController {
                 address3 = u.getAddress3();
             }
 
-            String id = userService.findId_byUserName(userDto.getUsername());
+            String id = userDto.getId();
 
             UserDto refresh_user = userService.update_information(customer_name, phone, house_address, address1, address2, address3, id);
 

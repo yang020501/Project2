@@ -1,6 +1,8 @@
 package com.example.Backend.controller;
 
+import com.example.Backend.RandomGenerate;
 import com.example.Backend.dto.ProductDto;
+import com.example.Backend.dto.request.ProductRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -126,13 +128,13 @@ public class ProductController {
 
     @Transactional
     @PostMapping("/add-product")
-    public Object addProduct(@RequestBody ProductDto productDto){
+    public Object addProduct(@RequestBody ProductRequestDto request){
         try{
-            if(productService.check_Title_duplicate(productDto)){
+            if(productService.check_Title_duplicate(request.getTitle())){
                 return new ResponseEntity<String>("Duplicate name", HttpStatus.CONFLICT);
             }
 
-            ProductDto product = productService.add(productDto);
+            ProductDto product = productService.add(request);
             return new ResponseEntity<ProductDto>(product, HttpStatus.CREATED);
         }
         catch (Exception e){
@@ -143,13 +145,13 @@ public class ProductController {
 
     @Transactional
     @PostMapping("/update-product")
-    public Object updateProduct(@RequestBody ProductDto productDto){
+    public Object updateProduct(@RequestBody ProductRequestDto request){
         try{
-            if(productService.check_Title_duplicate(productDto)){
-                return new ResponseEntity<String>("Duplicate name", HttpStatus.CONFLICT);
+            if(!productService.check_Title_duplicate(request.getTitle())){
+                return new ResponseEntity<String>("This product isn't existed", HttpStatus.CONFLICT);
             }
 
-            ProductDto product = productService.update(productDto);
+            ProductDto product = productService.update(request);
             return new ResponseEntity<ProductDto>(product, HttpStatus.CREATED);
         }
         catch (Exception e){
@@ -160,14 +162,18 @@ public class ProductController {
 
     @Transactional
     @PostMapping("/delete-product")
-    public Object deleteProduct(@RequestBody ProductDto productDto){
+    public Object deleteProduct(@RequestBody ProductRequestDto request){
         try{
-            ProductDto product = productService.delete(productDto);
-            return new ResponseEntity<ProductDto>(product, HttpStatus.OK);
+            if(!productService.check_Title_duplicate(request.getTitle())){
+                return new ResponseEntity<>("This product isn't existed", HttpStatus.CONFLICT);
+            }
+
+            String id = productService.delete(request);
+            return new ResponseEntity<>(id, HttpStatus.OK);
         }
         catch (Exception e){
             e.printStackTrace();
-            return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);
         }
     }
 

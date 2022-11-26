@@ -2,7 +2,7 @@ package com.example.Backend.service.imple;
 
 import com.example.Backend.dto.CartDto;
 import com.example.Backend.dto.CartInfoDto;
-import com.example.Backend.dto.CartInfoResponseDto;
+import com.example.Backend.dto.request.CartInfoResponseDto;
 import com.example.Backend.model.CartInfo;
 import com.example.Backend.repository.CartInfoRepo;
 import com.example.Backend.service.CartInfoService;
@@ -62,9 +62,9 @@ public class CartInfoImplement implements CartInfoService {
     }
 
     @Override
-    public void add(List<CartInfo> list, String cart_id) {
+    public void add(List<CartInfoDto> list, String cart_id) {
         try{
-            for (CartInfo product : list) {
+            for (CartInfoDto product : list) {
                 String product_id = product.getProduct_id();
                 String slug = product.getSlug();
                 String color = product.getColor();

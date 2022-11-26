@@ -2,8 +2,9 @@ package com.example.Backend.controller;
 
 import com.example.Backend.RandomGenerate;
 import com.example.Backend.dto.CartDto;
-import com.example.Backend.dto.CartInfoResponseDto;
-import com.example.Backend.dto.CartRequestDto;
+import com.example.Backend.dto.CartInfoDto;
+import com.example.Backend.dto.request.CartInfoResponseDto;
+import com.example.Backend.dto.request.CartRequestDto;
 import com.example.Backend.model.CartInfo;
 import com.example.Backend.service.CartInfoService;
 import com.example.Backend.service.CartService;
@@ -27,6 +28,7 @@ public class CartController {
     @PostMapping("/buy")
     private Object saveCart(@RequestBody CartRequestDto cartRequestDto){
         try{
+            System.out.println(cartRequestDto.getUser());
             String cart_new_id = "";
             do{
                 boolean is_duplicate = false;
@@ -41,19 +43,18 @@ public class CartController {
                 }
             }
             while (true);
-            String customer_id = cartRequestDto.getUserID();
+            String customer_id = cartRequestDto.getUser();
             String address = cartRequestDto.getAddress();
-            List<CartInfo> list = cartRequestDto.getList_product();
+            List<CartInfoDto> list = cartRequestDto.getList_product();
             long total = cartRequestDto.getTotal();
             cartService.add(cart_new_id, customer_id, address, list, total);
             cartInfoService.add(list, cart_new_id);
-            return new ResponseEntity<String>("Success", HttpStatus.CREATED);
+            return new ResponseEntity<>("Success", HttpStatus.CREATED);
         }
         catch (Exception e){
             e.printStackTrace();
-            return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);
         }
-
     }
     
 

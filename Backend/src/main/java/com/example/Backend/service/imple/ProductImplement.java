@@ -2,6 +2,7 @@ package com.example.Backend.service.imple;
 
 import com.example.Backend.RandomGenerate;
 import com.example.Backend.dto.ProductDto;
+import com.example.Backend.dto.request.ProductRequestDto;
 import com.example.Backend.repository.CategoryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -90,10 +91,9 @@ public class ProductImplement implements ProductService {
     }
 
     @Override
-    public boolean check_Title_duplicate(ProductDto product) {
-        String title = product.getTitle();
+    public boolean check_Title_duplicate(String title) {
         try{
-            String checker = productRepo.Check_DuplicateTitle(title);
+            String checker = productRepo.GetId_fromTitle(title);
             if(checker != null){
                 return false;
             }
@@ -108,7 +108,7 @@ public class ProductImplement implements ProductService {
 
 
     @Override
-    public ProductDto add(ProductDto product) {
+    public ProductDto add(ProductRequestDto product) {
         try{
             String id = "";
             String id_check = "";
@@ -118,13 +118,13 @@ public class ProductImplement implements ProductService {
             }
             while (id.equals(id_check));
             String title = product.getTitle();
-            String id_cate = product.getId_cate();
+            String id_cate = categoryRepo.GetId_byDisplay(product.getCategory());
             String gender = product.getGender();
             String image1 = product.getImage1();
             String image2 = product.getImage2();
             Long price = product.getPrice();
             String slug = generate_slug(product.getTitle());
-            String category_slug = generate_slug(categoryRepo.GetDisplay_byId(product.getId_cate()));
+            String category_slug = generate_slug(product.getCategory());
             String colors = product.getColors();
             String size = product.getSize();
             String description = product.getDescriptions();
@@ -144,11 +144,11 @@ public class ProductImplement implements ProductService {
     }
 
     @Override
-    public ProductDto update(ProductDto product) {
+    public ProductDto update(ProductRequestDto product) {
         try{
             String title = product.getTitle();
-            String id_cate = product.getId_cate();
-            String category_slug = generate_slug(categoryRepo.GetDisplay_byId(product.getId_cate()));
+            String id_cate = categoryRepo.GetId_byDisplay(product.getCategory());
+            String category_slug = generate_slug(product.getCategory());
             String gender = product.getGender();
             String image1 = product.getImage1();
             String image2 = product.getImage2();
@@ -158,7 +158,7 @@ public class ProductImplement implements ProductService {
             String size = product.getSize();
             String description = product.getDescriptions();
             int sale = product.getSale();
-            String id = product.getId();
+            String id = productRepo.GetId_fromTitle(title);
 
             productRepo.Update_Product(title, id_cate, category_slug, gender, image1, image2, price, slug, colors
             , size, description, sale, id);
@@ -175,10 +175,11 @@ public class ProductImplement implements ProductService {
     }
 
     @Override
-    public ProductDto delete(ProductDto product) {
+    public String delete(ProductRequestDto product) {
         try{
-            productRepo.Delete_Product(product.getId());
-            return product;
+            String id = productRepo.GetId_fromTitle(product.getTitle());
+            productRepo.Delete_Product(id);
+            return id;
         }
         catch (Exception e){
             e.printStackTrace();
