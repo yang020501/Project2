@@ -14,7 +14,7 @@ public interface ProductService {
     public List<ProductDto> getAll_SaleProduct();
     public List<ProductDto> getClothes();
     public List<ProductDto> getAccessory();
-    public boolean check_Title_duplicate(ProductDto product);
+    public boolean check_Title_duplicate(String title);
     public ProductDto add(ProductDto product);
     public ProductDto update(ProductDto product);
     public ProductDto delete(ProductDto product);

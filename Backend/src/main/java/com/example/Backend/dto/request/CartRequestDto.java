@@ -1,4 +1,4 @@
-package com.example.Backend.dto;
+package com.example.Backend.dto.request;
 
 import com.example.Backend.model.CartInfo;
 

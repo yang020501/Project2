@@ -2,8 +2,7 @@ package com.example.Backend.service.imple;
 
 import com.example.Backend.RandomGenerate;
 import com.example.Backend.dto.CategoryDto;
-import com.example.Backend.dto.CategoryRequestDto;
-import com.example.Backend.model.Category;
+import com.example.Backend.dto.request.CategoryRequestDto;
 import com.example.Backend.repository.CategoryRepo;
 import com.example.Backend.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;

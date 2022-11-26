@@ -1,7 +1,7 @@
 package com.example.Backend.controller;
 
 import com.example.Backend.dto.CategoryDto;
-import com.example.Backend.dto.CategoryRequestDto;
+import com.example.Backend.dto.request.CategoryRequestDto;
 import com.example.Backend.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
