@@ -24,8 +24,9 @@ create table Users(
 
 create table Category(
 	id varchar(10) primary key,
-	display varchar(50),
-	active bit default(1),
+	name nvarchar(50),
+	slug varchar(50),
+	active bit default(1)
 )
 
 create table Product(

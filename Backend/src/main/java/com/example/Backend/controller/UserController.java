@@ -118,9 +118,9 @@ public class UserController {
     @CrossOrigin
     @Transactional
     @PatchMapping("/update")
-    public Object update(@RequestBody UserRequestDto userDto) {
+    public Object update(@RequestBody UserDto userDto) {
         try {
-            UserDto u = userService.find_byUserName(userDto.getUsername());
+            UserDto u = userService.find_byID(userDto.getId());
             if(u == null){
                 return new ResponseEntity<>("This user isn't existed", HttpStatus.OK);
             }
@@ -146,15 +146,15 @@ public class UserController {
             }
             String address2 = userDto.getAddress2();
             if(userDto.getAddress2() == null){
-                address2 = u.getAddress1();
+                address2 = u.getAddress2();
             }
 
             String address3 = userDto.getAddress3();
             if(userDto.getAddress3() == null){
-                address3 = u.getAddress1();
+                address3 = u.getAddress3();
             }
 
-            String id = userService.findId_byUserName(userDto.getUsername());
+            String id = userDto.getId();
 
             UserDto refresh_user = userService.update_information(customer_name, phone, house_address, address1, address2, address3, id);
 
