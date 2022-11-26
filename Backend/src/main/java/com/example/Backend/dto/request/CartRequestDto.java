@@ -8,22 +8,22 @@ import java.util.List;
 
 public class CartRequestDto implements Serializable {
 
-    private String user_id;
+    private String user;
     private List<CartInfoDto> list_product;
     private String address;
     private long total;
 
     public CartRequestDto(){ }
 
-    public CartRequestDto(String user_id, List<CartInfoDto> list_product, String address, long total) {
-        this.user_id = user_id;
+    public CartRequestDto(String user, List<CartInfoDto> list_product, String address, long total) {
+        this.user = user;
         this.list_product = list_product;
         this.address = address;
         this.total = total;
     }
 
-    public String getUserID() {
-        return user_id;
+    public String getUser() {
+        return user;
     }
     public List<CartInfoDto> getList_product() {
         return list_product;
