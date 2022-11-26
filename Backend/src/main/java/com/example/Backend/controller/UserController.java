@@ -2,7 +2,6 @@ package com.example.Backend.controller;
 
 import com.example.Backend.RandomGenerate;
 import com.example.Backend.dto.*;
-import com.example.Backend.model.User;
 import com.example.Backend.sercurity.CustomUserDetails;
 import com.example.Backend.sercurity.JwtTokenProvider;
 import com.example.Backend.service.RoleService;
@@ -57,9 +56,7 @@ public class UserController {
                 String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
                 String role = roleService.getNameFormId(login_user.getId_role());
 
-                LoginResponseDto response = new LoginResponseDto(jwt, login_user.getId(), login_user.getUsername(), null, role,
-                        login_user.getCustomer_name(), login_user.getPhone(), login_user.getHouse_address(), login_user.getAddress1(),
-                        login_user.getAddress2(), login_user.getAddress3());
+                LoginResponseDto response = new LoginResponseDto(jwt, role, login_user);
 
                 return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
 
@@ -74,7 +71,7 @@ public class UserController {
 
     @Transactional
     @PostMapping("/sign-in")
-    public Object sign(@RequestBody SignInRequestDto new_user) {
+    public Object sign(@RequestBody UserRequestDto new_user) {
         try {
             List<UserDto> list_user = userService.getAll();
             boolean find = userService.find_duplicate_username(new_user.getUsername(), list_user);
@@ -117,10 +114,9 @@ public class UserController {
     @CrossOrigin
     @Transactional
     @PatchMapping("/update")
-    public Object update(@RequestBody UserDto userDto) {
+    public Object update(@RequestBody UserRequestDto userDto) {
         try {
-            String id = userDto.getId();
-            UserDto u = userService.find_byID(id);
+            UserDto u = userService.find_byUserName(userDto.getUsername());
             System.out.println(userDto);
             String customer_name = userDto.getCustomer_name();
             if(userDto.getUsername() == null){
@@ -150,6 +146,8 @@ public class UserController {
             if(userDto.getAddress3() == null){
                 address3 = u.getAddress1();
             }
+
+            String id = userService.findId_byUserName(userDto.getUsername());
 
             UserDto refresh_user = userService.update_information(customer_name, phone, house_address, address1, address2, address3, id);
 

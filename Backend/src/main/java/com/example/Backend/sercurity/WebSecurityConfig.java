@@ -76,15 +76,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/user/login").permitAll()
                 .antMatchers("/user/sign-in").permitAll()
-                .antMatchers("/user/update").hasAnyRole("admin", "customer")
-                .antMatchers("/cart/buy").hasAnyRole("admin", "customer")
+                .antMatchers("/user/update").hasAnyAuthority("admin", "customer")
+                .antMatchers("/cart/buy").hasAnyAuthority("admin", "customer")
                 .antMatchers(HttpMethod.GET).permitAll()
-                .antMatchers(HttpMethod.PATCH).hasRole("customer")
-                .antMatchers(HttpMethod.POST).hasRole("admin")
+                .antMatchers(HttpMethod.PATCH).hasAuthority("customer")
+                .antMatchers(HttpMethod.POST).hasAuthority("admin")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-// Tất cả các request khác đều cần phải xác thực mới được truy cập
+                // Tất cả các request khác đều cần phải xác thực mới được truy cập
 
         // Thêm một lớp Filter kiểm tra jwt
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

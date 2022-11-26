@@ -10,6 +10,7 @@ public interface UserService {
     public boolean checkLogin(String username, String password, List<UserDto> list);
     public boolean find_duplicate_username(String username, List<UserDto> list);
     public UserDto find_byUserName(String username);
+    public String findId_byUserName(String username);
     public UserDto find_byID(String id);
     public UserDto add(String id, String username, String password, String id_role, String customer_name, String phone,
                     String house_address, String address1, String address2, String address3);

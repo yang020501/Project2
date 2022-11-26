@@ -26,7 +26,6 @@ public class UserServiceImplement implements UserDetailsService {
         }
 
         String role = roleRepository.getName_byId(user.getId_role());
-
         return new CustomUserDetails(user, role);
     }
 

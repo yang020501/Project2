@@ -18,6 +18,22 @@ public class ProductDto implements Serializable {
     private final String descriptions;
     private final int sale;
 
+    public ProductDto(){
+        this.id = null;
+        this.title = null;
+        this.id_cate = null;
+        this.categorySlug = null;
+        this.gender = null;
+        this.image1 = null;
+        this.image2 = null;
+        this.price = 0;
+        this.slug = null;
+        this.colors = null;
+        this.size = null;
+        this.descriptions = null;
+        this.sale = 0;
+    }
+
     public ProductDto(String id, String title, String id_cate, String categorySlug, String gender, String image1, String image2, long price, String slug, String colors, String size, String descriptions, int sale) {
         this.id = id;
         this.title = title;
