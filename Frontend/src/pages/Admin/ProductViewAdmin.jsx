@@ -6,8 +6,12 @@ import Card, { CardBody } from '../../components/Card'
 import Form from 'react-bootstrap/Form'
 import colors from '../../assets/fake-data/product-color'
 import size from '../../assets/fake-data/product-size'
+import { useSelector } from 'react-redux'
 const ProductViewAdmin = props => {
   const navigate = useNavigate();
+  const { slug } = useParams();
+  const productData = useSelector(state => state.productsSlice.value)
+
   const [color, setColor] = useState([])
   const [sizes, setSizes] = useState([])
   const [productForm, setproductForm] = useState({
@@ -18,11 +22,30 @@ const ProductViewAdmin = props => {
     colors: "",
     size: "",
     sale: 0,
-    price: 0
+    price: 0,
+    description: ""
   })
-  const { title, img01, img02, sale, price } = productForm
-  const { slug } = useParams()
+  const { title, sale, price, description } = productForm
   const onChange = e => {
+
+    var file = e.target.files
+    if (FileReader && file && file.length) {
+      var fr = new FileReader();
+      fr.onload = function () {
+        // document.getElementById('avatar').childNodes[0].src = fr.result;
+        setproductForm({
+          ...productForm,
+          [e.target.name]: fr.result
+        })
+      }
+      fr.readAsDataURL(file[0]);
+    }
+    else {
+      setproductForm({
+        ...productForm,
+        [e.target.name]: e.target.value
+      })
+    }
 
   }
   const setActiveColor = (itemActive) => {
@@ -52,12 +75,9 @@ const ProductViewAdmin = props => {
         case "color": setColor([])
       }
     }
-    else {
-
-    }
   }
-  const BacktoProducts = () => {
-
+  const Update = () => {
+    console.log(productForm);
   }
 
   return (
@@ -72,7 +92,7 @@ const ProductViewAdmin = props => {
         ...btnAction,
         color: 'green',
         title: 'Câp nhật',
-        action: () => navigate('/admin/product')
+        action: Update
         // action: BacktoProducts
       }}
     >
@@ -87,6 +107,9 @@ const ProductViewAdmin = props => {
                   required
                   type="text"
                   size="lg"
+                  name="title"
+                  value={title}
+                  onChange={onChange}
                 />
                 <Form.Control.Feedback type="invalid">
                   Vui lòng nhập tên sản phẩm.
@@ -98,6 +121,9 @@ const ProductViewAdmin = props => {
                   required
                   type="number"
                   size="lg"
+                  name="price"
+                  value={price}
+                  onChange={onChange}
                 />
                 <Form.Control.Feedback type="invalid">
                   Vui lòng nhập tên sản phẩm.
@@ -132,7 +158,7 @@ const ProductViewAdmin = props => {
                 <Form.Control
                   required
                   type="file"
-                  value={img01}
+                  // value={img01}
                   name="img01"
                   onChange={onChange}
                   size="lg"
@@ -147,7 +173,7 @@ const ProductViewAdmin = props => {
                   required
                   type="file"
                   name="img02"
-                  value={img02}
+                  // value={img02}
                   onChange={onChange}
                   size="lg"
                 />
@@ -189,6 +215,21 @@ const ProductViewAdmin = props => {
                     </div>
                   }
                 </div>
+              </Form.Group>
+              <Form.Group className='me-5 mb-4' >
+                <Form.Label>Mô tả</Form.Label>
+                <Form.Control
+
+                  as="textarea"
+                  row={5}
+                  name="description"
+                  value={description}
+                  onChange={onChange}
+                // size="lg"
+                />
+                <Form.Control.Feedback type="invalid">
+                  Vui lòng ghi mô tả.
+                </Form.Control.Feedback>
               </Form.Group>
             </fieldset>
 

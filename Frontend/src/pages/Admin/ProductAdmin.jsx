@@ -6,9 +6,12 @@ import Grid from '../../components/Grid'
 import ProductCard from '../../components/ProductCard'
 import Searchbar from '../../components/Searchbar'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 const ProductAdmin = () => {
   const navigate = useNavigate()
-
+  const productData = useSelector(state => state.productsSlice.value)
+  const categoryData = useSelector(state => state.categorySlice.value)
+  console.log(categoryData);
   return (
     <ContentMain headerTitle='Sản phẩm'
       headerRightAction={{
@@ -19,72 +22,32 @@ const ProductAdmin = () => {
     >
       <Card>
         <CardHeader>
-          <Searchbar admin placeholder={"Tìm kiếm sản phẩm..."} data={[{
-            title: 'Ao am mua dong'
-          }]} />
+          <Searchbar admin placeholder={"Tìm kiếm sản phẩm..."} data={productData} />
         </CardHeader>
         <CardBody>
           <Grid col={4}
             mdCol={2}
             smCol={1}
-            gap={10}
+            gap={25}
           >
-            <ProductCard
-              img01="images/aolenextradaitay-1.png"
-              img02="images/aolenextradaitay-2.png"
-              name='Ao len'
-              price={200000}
-              slug="ao-len--extra-dai-tay"
-              sale={0}
-              admin />
-            <ProductCard
-              img01="images/aolenextradaitay-1.png"
-              img02="images/aolenextradaitay-2.png"
-              name='Ao len'
-              price={200000}
-              slug="ao-len--extra-dai-tay"
-              sale={0}
-              admin />
-            <ProductCard
-              img01="images/aolenextradaitay-1.png"
-              img02="images/aolenextradaitay-2.png"
-              name='Ao len'
-              price={200000}
-              slug="ao-len--extra-dai-tay"
-              sale={0}
-              admin />
-            <ProductCard
-              img01="images/aolenextradaitay-1.png"
-              img02="images/aolenextradaitay-2.png"
-              name='Ao len'
-              price={200000}
-              slug="ao-len--extra-dai-tay"
-              sale={0}
-              admin />
-            <ProductCard
-              img01="images/aolenextradaitay-1.png"
-              img02="images/aolenextradaitay-2.png"
-              name='Ao len'
-              price={200000}
-              slug="ao-len--extra-dai-tay"
-              sale={0}
-              admin />
-            <ProductCard
-              img01="images/aolenextradaitay-1.png"
-              img02="images/aolenextradaitay-2.png"
-              name='Ao len'
-              price={200000}
-              slug="ao-len--extra-dai-tay"
-              sale={0}
-              admin />
-            <ProductCard
-              img01="images/aolenextradaitay-1.png"
-              img02="images/aolenextradaitay-2.png"
-              name='Ao len'
-              price={200000}
-              slug="ao-len--extra-dai-tay"
-              sale={0}
-              admin />
+            {
+              productData ?
+                productData.map((item, index) => {
+                  return (
+                    <ProductCard
+                      key={index}
+                      img01={item.image1}
+                      img02={item.image2}
+                      name={item.title}
+                      price={item.price}
+                      slug={item.slug}
+                      sale={item.sale}
+                      admin
+                    />
+                  )
+                })
+                : <></>
+            }
 
           </Grid>
         </CardBody>

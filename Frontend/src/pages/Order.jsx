@@ -20,8 +20,9 @@ const Order = () => {
     const cartItems = useSelector((state) => state.cartItems.value)
     const productList = useSelector(state => state.productsSlice.value)
     const productSale = useSelector(state => state.saleSlice.value)
+    const token = useSelector(state => state.userState.token)
     const initialForm = {
-        email: user.username,
+        username: user.username,
         phone: Number(user.phone) ? Number(user.phone) : "",
         house_address: user.house_address ? user.house_address : "",
         address1: user.address1 ? user.address1 : "",
@@ -40,7 +41,7 @@ const Order = () => {
     const wardInvalidRef = useRef(null)
     const [validated, setValidated] = useState(false)
     const [OrderForm, setOrderForm] = useState(initialForm)
-    const { email, phone, address1, address2, address3, house_address } = OrderForm
+    const { username, phone, address1, address2, address3, house_address } = OrderForm
     const [Province, SetProvince] = useState(address)
     const [District, setDistrict] = useState([])
     const [Ward, setWard] = useState([])
@@ -74,6 +75,7 @@ const Order = () => {
         else {
             let listtmp = cartProducts.map((item) => {
                 let tmp = {
+                    cart_id: null,
                     product_id: item.product.id,
                     slug: item.slug,
                     color: item.color,
@@ -87,9 +89,10 @@ const Order = () => {
             if (!user.phone) {
                 let data = {
                     id: user.id,
+                    username: username,
                     phone: String(phone)
                 }
-                let rs = await axios.patch(`${apiUrl}/user/update`, data)
+                let rs = await axios.patch(`${apiUrl}/user/update`, data, { headers: { Authorization: `Bearer ${token}` } })
                 dispatch(updateUserPart({
                     name: "phone",
                     value: rs.data.phone
@@ -97,14 +100,15 @@ const Order = () => {
             }
 
             let body = {
-                user_id: user.id,
+                user: user.id,
                 address: `${house_address}, ${address3}, ${address2}, ${address1}`,
                 list_product: listtmp,
                 total: totalPrice
 
             }
-
-            const rs = await axios.post(`${apiUrl}/cart/buy`, body)
+            console.log(body);
+            const rs = await axios.post(`${apiUrl}/cart/buy`, body, { headers: { Authorization: `Bearer ${token}` } })
+            console.log(rs);
             if (rs.data) {
                 dispatch(setAlert({
                     message: "Đặt hàng thành công",
@@ -240,7 +244,7 @@ const Order = () => {
                                         disabled
                                         required
                                         type="email"
-                                        defaultValue={email}
+                                        defaultValue={username}
                                         size="lg"
                                     />
                                     <Form.Control.Feedback type="invalid">

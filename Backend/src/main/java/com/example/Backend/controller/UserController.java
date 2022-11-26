@@ -165,6 +165,7 @@ public class UserController {
             return new ResponseEntity<UserDto>(refresh_user, HttpStatus.OK);
         }
         catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
         }
     }

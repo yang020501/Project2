@@ -11,11 +11,12 @@ import numberWithCommas from '../utils/numberWithCommas'
 const CustomerInfo = () => {
 
     const user = useSelector(state => state.userState.user)
+    const token = useSelector(state => state.userState.token)
     const cart = useSelector(state => state.userState.cart)
     const products = useSelector(state => state.productsSlice.value)
     const initialForm = {
         customer_name: user.customer_name ? user.customer_name : "",
-        email: user.username,
+        username: user.username,
         phone: Number(user.phone) ? Number(user.phone) : "",
         house_address: user.house_address ? user.house_address : "",
         address1: user.address1 ? user.address1 : "",
@@ -23,7 +24,6 @@ const CustomerInfo = () => {
         address3: user.address3 ? user.address3 : ""
     }
     const dispatch = useDispatch()
-    console.log(user);
     const infoRef = useRef(null)
     const addressRef = useRef(null)
     const provinceRef = useRef(null)
@@ -77,8 +77,9 @@ const CustomerInfo = () => {
             id: user.id,
             ...CustomerForm
         }
-        let rs = await axios.patch(`${apiUrl}/user/update`, data)
-        dispatch(updateUser(rs.data))
+        
+        let rs = await axios.patch(`${apiUrl}/user/update`, data, { headers: { Authorization: `Bearer ${token}` } })
+        dispatch(updateUser(data))
     }
     useEffect(() => {
         handleSubmit()
