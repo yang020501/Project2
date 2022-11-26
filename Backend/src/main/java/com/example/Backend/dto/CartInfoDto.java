@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class CartInfoDto implements Serializable {
-    private final String cart_id;
-    private final String product_id;
-    private final String slug;
-    private final String color;
-    private final String size;
-    private final int quantity;
-    private final long price;
+    private String cart_id;
+    private String product_id;
+    private String slug;
+    private String color;
+    private String size;
+    private int quantity;
+    private long price;
 
     public CartInfoDto(String cart_id, String product_id, String slug, String color, String size, int amount, long price) {
         this.cart_id = cart_id;

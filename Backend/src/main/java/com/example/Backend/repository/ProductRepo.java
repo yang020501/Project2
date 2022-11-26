@@ -60,5 +60,7 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
     public String Check_Id_exist(String id);
 
     @Query(value = "SELECT id FROM Product WHERE title = ?1 AND active = 1", nativeQuery = true)
-    public String Check_DuplicateTitle(String title);
+    public String GetId_fromTitle(String title);
+
+
 }
