@@ -21,9 +21,9 @@ public class CategoryImplement implements CategoryService {
     }
 
     @Override
-    public String getDisplay_byId(String id) {
+    public String getName_byId(String id) {
         try{
-            return categoryRepo.GetDisplay_byId(id);
+            return categoryRepo.GetName_byId(id);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -48,9 +48,9 @@ public class CategoryImplement implements CategoryService {
     }
 
     @Override
-    public boolean check_Display_duplicate(String display) {
+    public boolean check_Name_duplicate(String display) {
         try{
-            String check = categoryRepo.Check_Display_exist(display);
+            String check = categoryRepo.Check_Name_exist(display);
             if(check != null){
                 return true;
             }
@@ -73,10 +73,11 @@ public class CategoryImplement implements CategoryService {
                 id_check = categoryRepo.Check_Id_exist(id);
             }
             while (id.equals(id_check));
-            String display = category.getDisplay();
-            CategoryDto dto = new CategoryDto(id, display);
+            String name = category.getName();
+            String slug = RandomGenerate.generate_slug(name);
+            CategoryDto dto = new CategoryDto(id, name, slug);
 
-            categoryRepo.Add_Category(id,display);
+            categoryRepo.Add_Category(id,name,slug);
 
             return dto;
         }
@@ -89,11 +90,12 @@ public class CategoryImplement implements CategoryService {
     @Override
     public CategoryDto update(CategoryRequestDto category) {
         try{
-            String id = categoryRepo.GetId_byDisplay(category.getDisplay());
-            String display = category.getDisplay();
-            CategoryDto dto = new CategoryDto(id, display);
+            String id = categoryRepo.GetId_byName(category.getName());
+            String name = category.getName();
+            String slug = RandomGenerate.generate_slug(name);
+            CategoryDto dto = new CategoryDto(id, name, slug);
 
-            categoryRepo.Update_Category(id,display);
+            categoryRepo.Update_Category(id,name, slug);
 
             return dto;
         }
@@ -106,7 +108,7 @@ public class CategoryImplement implements CategoryService {
     @Override
     public String delete(CategoryRequestDto category) {
         try {
-            String id = categoryRepo.GetId_byDisplay(category.getDisplay());
+            String id = categoryRepo.GetId_byName(category.getName());
             categoryRepo.Delete_Category(id);
 
             return id;

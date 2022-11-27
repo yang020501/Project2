@@ -77,10 +77,9 @@ create table CartInfo(
 
 
 insert into Roles values('00001', 'admin')
-insert into Roles values('00002', 'staff')
-insert into Roles values('00003', 'customer')
+insert into Roles values('00002', 'customer')
 
-insert into Users values('aaaaa','admin','$2a$12$68/ysYveNCsqjD2ocSxSSe7LeEusqEbgJjyiVPmYszdCxP8.oaWFG','00001',N'Nguyễn Hoàng Thái Dương','0366330205',N'30 đường Lê Hồng Phong',N'Hồ Chí Minh',N'Bình Tân',N'Bình trị Đông B', 1)
+insert into Users values('aaaaa','admin','$2a$12$68/ysYveNCsqjD2ocSxSSe7LeEusqEbgJjyiVPmYszdCxP8.oaWFG','00002',N'Nguyễn Hoàng Thái Dương','0366330205',N'30 đường Lê Hồng Phong',N'Hồ Chí Minh',N'Bình Tân',N'Bình trị Đông B', 1)
 insert into Users values('aaaad','admin@gmail.com','$2a$12$68/ysYveNCsqjD2ocSxSSe7LeEusqEbgJjyiVPmYszdCxP8.oaWFG','00001',N'Nguyễn Hoàng Thái Dương','0366330205',N'481 Tỉnh Lộ 10',N'Thành phố Hồ Chí Minh',N'Quận Bình Tân',N'Phường Bình Trị Đông B', 1)
 
 

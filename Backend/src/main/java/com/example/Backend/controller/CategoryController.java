@@ -33,8 +33,8 @@ public class CategoryController {
     @PostMapping("/add-category")
     private Object addCategory(@RequestBody CategoryRequestDto categoryDto){
         try{
-            String display = categoryDto.getDisplay();
-            if(categoryService.check_Display_duplicate(display)){
+            String name = categoryDto.getName();
+            if(categoryService.check_Name_duplicate(name)){
                 return new ResponseEntity<>("Category name had existed", HttpStatus.CONFLICT);
             }
 
@@ -51,8 +51,8 @@ public class CategoryController {
     @PostMapping("/update-category")
     private Object updateCategory(@RequestBody CategoryRequestDto categoryDto){
         try{
-            String display = categoryDto.getDisplay();
-            if(categoryService.check_Display_duplicate(display)){
+            String name = categoryDto.getName();
+            if(categoryService.check_Name_duplicate(name)){
                 return new ResponseEntity<>("Category name had existed", HttpStatus.CONFLICT);
             }
             CategoryDto category = categoryService.update(categoryDto);
@@ -68,8 +68,8 @@ public class CategoryController {
     @PostMapping("/delete-category")
     private Object deleteCategory(@RequestBody CategoryRequestDto categoryDto){
         try{
-            String display = categoryDto.getDisplay();
-            if(categoryService.check_Display_duplicate(display)){
+            String name = categoryDto.getName();
+            if(categoryService.check_Name_duplicate(name)){
                 return new ResponseEntity<>("This category doesn't exist", HttpStatus.CONFLICT);
             }
             String id = categoryService.delete(categoryDto);

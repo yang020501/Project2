@@ -9,10 +9,8 @@ import org.springframework.stereotype.Service;
 import com.example.Backend.repository.ProductRepo;
 import com.example.Backend.service.ProductService;
 
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 @Service
 public class ProductImplement implements ProductService {
@@ -118,13 +116,13 @@ public class ProductImplement implements ProductService {
             }
             while (id.equals(id_check));
             String title = product.getTitle();
-            String id_cate = categoryRepo.GetId_byDisplay(product.getCategory());
+            String id_cate = categoryRepo.GetId_byName(product.getCategory());
             String gender = product.getGender();
             String image1 = product.getImage1();
             String image2 = product.getImage2();
             Long price = product.getPrice();
-            String slug = generate_slug(product.getTitle());
-            String category_slug = generate_slug(product.getCategory());
+            String slug = RandomGenerate.generate_slug(product.getTitle());
+            String category_slug = RandomGenerate.generate_slug(product.getCategory());
             String colors = product.getColors();
             String size = product.getSize();
             String description = product.getDescriptions();
@@ -147,13 +145,13 @@ public class ProductImplement implements ProductService {
     public ProductDto update(ProductRequestDto product) {
         try{
             String title = product.getTitle();
-            String id_cate = categoryRepo.GetId_byDisplay(product.getCategory());
-            String category_slug = generate_slug(product.getCategory());
+            String id_cate = categoryRepo.GetId_byName(product.getCategory());
+            String category_slug = RandomGenerate.generate_slug(product.getCategory());
             String gender = product.getGender();
             String image1 = product.getImage1();
             String image2 = product.getImage2();
             Long price = product.getPrice();
-            String slug = generate_slug(product.getTitle());
+            String slug = RandomGenerate.generate_slug(product.getTitle());
             String colors = product.getColors();
             String size = product.getSize();
             String description = product.getDescriptions();
@@ -187,20 +185,5 @@ public class ProductImplement implements ProductService {
         }
     }
 
-    public String removeAccent(String s) {
-
-        String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
-        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-        return pattern.matcher(temp).replaceAll("");
-    }
-
-    public String generate_slug(String title){
-        String slug = title.replace("  ", " ");
-        slug = slug.trim();
-        slug = removeAccent(slug);
-        slug = slug.replace(" ", "-");
-
-        return slug;
-    }
 
 }

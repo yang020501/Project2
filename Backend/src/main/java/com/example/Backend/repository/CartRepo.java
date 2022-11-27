@@ -28,11 +28,11 @@ public interface CartRepo extends JpaRepository<Cart, Integer> {
             "p.customer_id = ?1 AND p.active = 1 ")
     public List<CartDto> getCart_byCustomerID(String customer_id);
 
-    @Query(value = "UPDATE Category SET customer_id = ?1, address = ?2, create_date = ?3, total = ?4, status = ?5" +
+    @Query(value = "UPDATE Cart SET customer_id = ?1, address = ?2, create_date = ?3, total = ?4, status = ?5" +
             "WHERE id = ?6", nativeQuery = true)
     public void update_Cart(String customer_id, String address, LocalDate create_date, long total, String status, String id);
 
-    @Query(value = "UPDATE Category SET active = 0 " +
+    @Query(value = "UPDATE Cart SET active = 0 " +
             "WHERE id = ?1", nativeQuery = true)
     public void delete_Cart(String id);
 

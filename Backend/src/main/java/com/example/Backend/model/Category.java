@@ -9,15 +9,17 @@ import javax.persistence.Table;
 public class Category {
     @Id
     private String id;
-    private String display;
+    private String name;
+    private String slug;
     private boolean active;
 
     public Category() {
     }
 
-    public Category(String id, String display) {
+    public Category(String id, String name, String slug) {
         this.id = id;
-        this.display = display;
+        this.name = name;
+        this.slug = slug;
         this.active = true;
     }
 
@@ -29,12 +31,20 @@ public class Category {
         this.id = id;
     }
 
-    public String getDisplay() {
-        return display;
+    public String getName() {
+        return name;
     }
 
-    public void setDisplay(String display) {
-        this.display = display;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public boolean isActive() {
