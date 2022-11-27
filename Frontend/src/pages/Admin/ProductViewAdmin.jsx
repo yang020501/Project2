@@ -11,7 +11,8 @@ const ProductViewAdmin = props => {
   const navigate = useNavigate();
   const { slug } = useParams();
   const productData = useSelector(state => state.productsSlice.value)
-
+  const categoryData = useSelector(state => state.categorySlice.value)
+  console.log(categoryData);
   const [color, setColor] = useState([])
   const [sizes, setSizes] = useState([])
   const [productForm, setproductForm] = useState({
