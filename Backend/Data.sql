@@ -1,13 +1,13 @@
 ﻿
-insert into Category values ('erq200113r', 'ao-thun',1);
-insert into Category values ('erqj9r5tw2', 'ao-somi',1);
-insert into Category values ('erq231146o', 'ao-len',1);
-insert into Category values ('erq55122d1', 'quan-kaki',1);
-insert into Category values ('erq135r5to', 'quan-jean',1);
-insert into Category values ('rqt6yu748o', 'that-lung',1)
-insert into Category values ('rkt6yu548e', 'o',1)
-insert into Category values ('rkt5yu848e', 'kinh',1)
-insert into Category values ('r0di179uhw', 'non',1)
+insert into Category values ('erq200113r','Áo thun' ,'ao-thun',1);
+insert into Category values ('erqj9r5tw2','Áo sơ mi', 'ao-somi',1);
+insert into Category values ('erq231146o','Áo len', 'ao-len',1);
+insert into Category values ('erq55122d1','Quần kaki', 'quan-kaki',1);
+insert into Category values ('erq135r5to','Quần jean','quan-jean',1);
+insert into Category values ('rqt6yu748o','Thắt lưng' ,'that-lung',1)
+insert into Category values ('rkt6yu548e','Ô', 'o',1)
+insert into Category values ('rkt5yu848e','Kính', 'kinh',1)
+insert into Category values ('r0di179uhw','Nón', 'non',1)
 
 
 insert into Product values ('x1e19t4ucd',N'Áo thun cổ tròn Dinasour','erq200113r','ao-thun',0,'images/aothuncotrondinasour-1.png','images/aothuncotrondinasour-2.png',230000,'ao-thun-co-tron-dinasour','orange,yellow,red','M,L,XL,XXL',N'Nhóm thiết kế tại Paris, do Christophe Lemaire dẫn đầu, đã tạo ra bộ sưu tập LifeWear mới bằng cách sử dụng các loại vải tân tiến và kiểu dáng hiện đại.Áo thun cổ thuyền có thiết kế đơn giản được làm từ chất liệu vải jersey dày dặn.Do chất liệu áo độc đáo với số lượng sợi thấp được dệt nhỏ gọn nên sản phẩm bền, lâu phai và càng giặt càng đẹp.Cổ áo có thể điều chỉnh để tạo kiểu cổ phẳng.Dáng áo vừa vặn, rộng rãi mang phong cách hiện đại.',0,1)
