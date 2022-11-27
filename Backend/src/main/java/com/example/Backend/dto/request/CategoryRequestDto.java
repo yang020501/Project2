@@ -3,13 +3,13 @@ package com.example.Backend.dto.request;
 import java.io.Serializable;
 
 public class CategoryRequestDto implements Serializable {
-    private String display;
+    private String name;
 
     public CategoryRequestDto(){ }
 
-    public CategoryRequestDto(String display){
-        this.display = display;
+    public CategoryRequestDto(String name){
+        this.name = name;
     }
 
-    public String getDisplay(){ return display; }
+    public String getName(){ return name; }
 }

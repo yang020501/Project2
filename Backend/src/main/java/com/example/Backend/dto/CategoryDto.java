@@ -5,20 +5,23 @@ import java.util.Objects;
 
 public class CategoryDto implements Serializable {
     private final String id;
-    private final String display;
+    private final String name;
+    private String slug;
 
-    public CategoryDto(String id, String display) {
+    public CategoryDto(String id, String name, String slug) {
         this.id = id;
-        this.display = display;
+        this.name = name;
+        this.slug = slug;
     }
 
     public String getId() {
         return id;
     }
 
-    public String getDisplay() {
-        return display;
+    public String getName() {
+        return name;
     }
+    public String getSlug() { return slug; }
 
     @Override
     public boolean equals(Object o) {
@@ -26,18 +29,20 @@ public class CategoryDto implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         CategoryDto entity = (CategoryDto) o;
         return Objects.equals(this.id, entity.id) &&
-                Objects.equals(this.display, entity.display);
+                Objects.equals(this.name, entity.name) &&
+                Objects.equals(this.slug, entity.slug);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, display);
+        return Objects.hash(id, name, slug);
     }
 
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
                 "id = " + id + ", " +
-                "display = " + display + ")";
+                "name = " + name + ", " +
+                "slug = " + slug + ")";
     }
 }
