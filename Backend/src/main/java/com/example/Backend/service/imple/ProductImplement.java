@@ -93,10 +93,26 @@ public class ProductImplement implements ProductService {
         try{
             String checker = productRepo.GetId_fromTitle(title);
             if(checker != null){
-                return false;
+                return true;
             }
 
-            return true;
+            return false;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean check_Id_exist(String id) {
+        try{
+            String checker = productRepo.Check_Id_exist(id);
+            if(checker != null){
+                return true;
+            }
+
+            return false;
         }
         catch (Exception e){
             e.printStackTrace();
@@ -144,6 +160,7 @@ public class ProductImplement implements ProductService {
     @Override
     public ProductDto update(ProductRequestDto product) {
         try{
+            String id = product.getId();
             String title = product.getTitle();
             String id_cate = categoryRepo.GetId_byName(product.getCategory());
             String category_slug = RandomGenerate.generate_slug(product.getCategory());
@@ -156,7 +173,6 @@ public class ProductImplement implements ProductService {
             String size = product.getSize();
             String description = product.getDescriptions();
             int sale = product.getSale();
-            String id = productRepo.GetId_fromTitle(title);
 
             productRepo.Update_Product(title, id_cate, category_slug, gender, image1, image2, price, slug, colors
             , size, description, sale, id);
@@ -175,7 +191,7 @@ public class ProductImplement implements ProductService {
     @Override
     public String delete(ProductRequestDto product) {
         try{
-            String id = productRepo.GetId_fromTitle(product.getTitle());
+            String id = product.getId();
             productRepo.Delete_Product(id);
             return id;
         }
