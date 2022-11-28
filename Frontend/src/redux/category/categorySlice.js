@@ -21,7 +21,38 @@ export const categorySlice = createSlice({
         value: []
     },
     reducers: {
+        updateCategory: (state, action) => {
+            const Categorys = state.value
+            const updateCategory = action.payload
 
+            let index = Categorys.findIndex(item => item.id === updateCategory.id)
+            //update
+            Categorys[index] = updateCategory
+            state.value = Categorys
+            console.log(index);
+            console.log(action.payload, Categorys[index], state.value);
+        },
+        addCategory: (state, action) => {
+            const Categorys = state.value
+            const updateCategory = action.payload
+
+            //add
+            Categorys.push(updateCategory)
+            state.value = Categorys
+
+            console.log(action.payload,  state.value);
+        },
+        deleteCategory: (state, action) => {
+            const Categorys = state.value
+            const updateCategory = action.payload
+
+            let index = Categorys.findIndex(item => item.id === updateCategory.id)
+            //delete
+            Categorys.splice(index,1)
+            state.value = Categorys
+
+            console.log(action.payload,  state.value);
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(getAllCategory.fulfilled, (state, action) => {
@@ -30,4 +61,5 @@ export const categorySlice = createSlice({
       
     }
 })
+export const { updateCategory,addCategory,deleteCategory } = categorySlice.actions
 export default categorySlice.reducer

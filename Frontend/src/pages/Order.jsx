@@ -106,9 +106,8 @@ const Order = () => {
                 total: totalPrice
 
             }
-            console.log(body);
             const rs = await axios.post(`${apiUrl}/cart/buy`, body, { headers: { Authorization: `Bearer ${token}` } })
-            console.log(rs);
+
             if (rs.data) {
                 dispatch(setAlert({
                     message: "Đặt hàng thành công",

@@ -22,7 +22,16 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-
+textarea {
+    height: 150px;
+}
+label {
+    font-size: 13pt;
+    font-weight: 700;
+    @include mobile {
+        font-size: 10pt;
+    }
+}
 body {
     font-family: "Roboto", sans-serif;
     .MuiDataGrid-root {
@@ -32,7 +41,7 @@ body {
     }
     .MuiDataGrid-cell {
         font-weight: 700;
-        border-color: blue;
+        // border-color: blue;
         font-size: 10pt;
     }
     .MuiDataGrid-columnHeaderTitle {
@@ -40,10 +49,9 @@ body {
         color: black;
         font-weight: 900 !important;
     }
-    .MuiDataGrid-columnHeaders{
-       border-bottom: 1.5px solid black;
+    .MuiDataGrid-columnHeaders {
+        border-bottom: 1.5px solid black;
     }
-  
 }
 
 ul {
@@ -75,7 +83,7 @@ a:hover {
     .bg-#{$color} {
         background-color: $val;
     }
-    .cell-#{$color}{
+    .cell-#{$color} {
         color: $val;
     }
 }

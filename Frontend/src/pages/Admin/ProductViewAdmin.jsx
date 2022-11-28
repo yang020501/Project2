@@ -6,13 +6,19 @@ import Card, { CardBody } from '../../components/Card'
 import Form from 'react-bootstrap/Form'
 import colors from '../../assets/fake-data/product-color'
 import size from '../../assets/fake-data/product-size'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios'
+import { apiUrl } from '../../utils/constant'
+import { updateProduct } from '../../redux/product/productsSlice'
+import { setAlert } from '../../redux/alert-message/alertMessage'
+
 const ProductViewAdmin = props => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const { slug } = useParams();
   const productData = useSelector(state => state.productsSlice.value)
   const categoryData = useSelector(state => state.categorySlice.value)
-  console.log(categoryData);
+  const token = useSelector(state => state.userState.token)
   const [color, setColor] = useState([])
   const [sizes, setSizes] = useState([])
   const [productForm, setproductForm] = useState({
@@ -24,11 +30,12 @@ const ProductViewAdmin = props => {
     size: "",
     sale: 0,
     price: 0,
-    description: ""
+    description: "",
+    gender: 2
   })
-  const { title, sale, price, description } = productForm
-  const onChange = e => {
 
+  const { title, sale, price, descriptions, gender } = productForm
+  const onChange = e => {
     var file = e.target.files
     if (FileReader && file && file.length) {
       var fr = new FileReader();
@@ -36,7 +43,7 @@ const ProductViewAdmin = props => {
         // document.getElementById('avatar').childNodes[0].src = fr.result;
         setproductForm({
           ...productForm,
-          [e.target.name]: fr.result
+          [e.target.name]: fr.result,
         })
       }
       fr.readAsDataURL(file[0]);
@@ -44,7 +51,7 @@ const ProductViewAdmin = props => {
     else {
       setproductForm({
         ...productForm,
-        [e.target.name]: e.target.value
+        [e.target.name]: e.target.value,
       })
     }
 
@@ -77,9 +84,47 @@ const ProductViewAdmin = props => {
       }
     }
   }
-  const Update = () => {
-    console.log(productForm);
+  const Update = async () => {
+    let body = {
+      ...productForm,
+      category: productForm.categorySlug
+    }
+    console.log(body);
+    let rs = await axios.post(`${apiUrl}/product/update-product`, body, { headers: { Authorization: `Bearer ${token}` } })
+
+    if (rs.data) {
+      dispatch(setAlert({
+        message: "Cập nhật thành công",
+        type: "success"
+      }))
+      dispatch(updateProduct(productForm))
+    }
+    else {
+      dispatch(setAlert({
+        message: "Lỗi cập nhật thất bại",
+        type: "danger"
+      }))
+    }
   }
+  useEffect(() => {
+    setproductForm({
+      ...productForm,
+      colors: color.join(","),
+      size: sizes.join(",")
+    })
+  }, [color, sizes])
+  useEffect(() => {
+    if (productData) {
+      let product = productData.find((item) => {
+        return item.slug === slug
+      })
+      if (product) {
+        setColor(product.colors.split(","));
+        setSizes(product.size.split(","))
+        setproductForm({ ...product })
+      }
+    }
+  }, [slug, productData])
 
   return (
     <ContentMain headerTitle='Sản phẩm'
@@ -116,20 +161,51 @@ const ProductViewAdmin = props => {
                   Vui lòng nhập tên sản phẩm.
                 </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group className='me-5 mb-3'  >
-                <Form.Label>Giá</Form.Label>
-                <Form.Control
-                  required
-                  type="number"
-                  size="lg"
-                  name="price"
-                  value={price}
-                  onChange={onChange}
-                />
-                <Form.Control.Feedback type="invalid">
-                  Vui lòng nhập tên sản phẩm.
-                </Form.Control.Feedback>
-              </Form.Group>
+              <div style={{ display: "flex", alignContent: "center", justifyContent: "center", width: "100%" }}>
+                <Form.Group className='me-5 mb-3 w-100'  >
+                  <Form.Label>Giá</Form.Label>
+                  <Form.Control
+                    required
+                    type="number"
+                    size="lg"
+                    name="price"
+                    value={price}
+                    onChange={onChange}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Vui lòng nhập tên sản phẩm.
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group className='me-5 mb-3 w-100'  >
+                  <Form.Label>Giới tính</Form.Label>
+                  <div style={{ display: "flex", alignContent: "center", justifyContent: "space-around", width: "100%", marginTop: "10px" }}>
+                    <Form.Check
+                      type='radio'
+                      label="Nam"
+                      name="gender"
+                      value={1}
+                      onChange={onChange}
+                      checked={gender == 1}
+                    />
+                    <Form.Check
+                      type='radio'
+                      label="Nữ"
+                      name="gender"
+                      value={0}
+                      onChange={onChange}
+                      checked={gender == 0}
+                    />
+                    <Form.Check
+                      type='radio'
+                      label="Unisex"
+                      name="gender"
+                      value={2}
+                      onChange={onChange}
+                      checked={gender == 2 || gender == null}
+                    />
+                  </div>
+                </Form.Group>
+              </div>
               <Form.Group className='me-5 mb-4' >
                 <Form.Label>Loại sản phẩm</Form.Label>
                 <Form.Select
@@ -207,7 +283,7 @@ const ProductViewAdmin = props => {
                         <div key={index} className={`product-info-item-list-item ${sizes.includes(item.size) ? 'active' : ''}`}
                           onClick={() => setActiveSize(item.size)}
                         >
-                          <div className="product-info-item-list-item-size">
+                          <div className="product-info-item-list-item-size" >
                             {item.size}
                           </div>
                         </div>
@@ -220,13 +296,11 @@ const ProductViewAdmin = props => {
               <Form.Group className='me-5 mb-4' >
                 <Form.Label>Mô tả</Form.Label>
                 <Form.Control
-
                   as="textarea"
-                  row={5}
-                  name="description"
-                  value={description}
+                  name="descriptions"
+                  value={descriptions}
                   onChange={onChange}
-                // size="lg"
+
                 />
                 <Form.Control.Feedback type="invalid">
                   Vui lòng ghi mô tả.
