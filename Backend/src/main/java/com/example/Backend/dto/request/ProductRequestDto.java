@@ -3,6 +3,7 @@ package com.example.Backend.dto.request;
 import java.io.Serializable;
 
 public class ProductRequestDto implements Serializable {
+    private String id;
     private String title;
     private String category;
     private String gender;
@@ -14,9 +15,10 @@ public class ProductRequestDto implements Serializable {
     private String descriptions;
     private int sale;
 
-
-    public ProductRequestDto(String title, String category, String gender, String image1,
+    public ProductRequestDto(){ }
+    public ProductRequestDto(String id,String title, String category, String gender, String image1,
                              String image2, long price, String colors, String size, String descriptions, int sale) {
+        this.id = id;
         this.title = title;
         this.category = category;
         this.gender = gender;
@@ -29,42 +31,34 @@ public class ProductRequestDto implements Serializable {
         this.sale = sale;
     }
 
+    public String getId(){ return id; }
     public String getTitle() {
         return title;
     }
-
     public String getCategory() {
         return category;
     }
-
     public String getGender() {
         return gender;
     }
-
     public String getImage1() {
         return image1;
     }
-
     public String getImage2() {
         return image2;
     }
-
     public long getPrice() {
         return price;
     }
-
     public String getColors() {
         return colors;
     }
-
     public String getSize() {
         return size;
     }
-
     public String getDescriptions() {
         return descriptions;
     }
-
     public int getSale() {
         return sale;
     }

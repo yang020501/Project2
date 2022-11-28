@@ -51,7 +51,7 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE Product SET title = ?1, id_cate = ?2, category_slug = ?3, gender = ?4, image1 = ?5, image2 = ?6, " +
+    @Query(value = "UPDATE Product SET title = ?1, id_cate = ?2, categorySlug = ?3, gender = ?4, image1 = ?5, image2 = ?6, " +
             "price = ?7, slug = ?8, colors = ?9, size = ?10, descriptions = ?11, sale = ?12 WHERE id = ?13", nativeQuery = true)
     public void Update_Product(String title, String id_cate, String category_slug, String gender, String image1, String image2
                                 , long price, String slug, String colors, String size, String descriptions, int sale, String id);
