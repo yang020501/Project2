@@ -19,6 +19,7 @@ import CustomerViewAdmin from "../pages/Admin/CustomerViewAdmin";
 
 import { getAllProduct } from '../redux/product/productsSlice'
 import { getAllCategory } from "../redux/category/categorySlice";
+import AlertMessage from "../redux/alert-message/alertMessage";
 
 const AdminLayout = () => {
   const user = useSelector(state => state.userState.user)
@@ -57,6 +58,7 @@ const AdminLayout = () => {
           </Routes>
         </div>
       </div>
+      {/* <AlertMessage /> */}
     </React.Fragment>
   )
 }
