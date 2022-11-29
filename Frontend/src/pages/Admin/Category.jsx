@@ -5,12 +5,26 @@ import Card, { CardBody } from '../../components/Card'
 import MyDataGrid from '../../components/MyDataGrid'
 import Button from '../../components/Button'
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { apiUrl } from '../../utils/constant'
+import axios from 'axios'
+import { setAlert } from '../../redux/alert-message/alertMessage'
+import { addCategory, deleteCategory, updateCategory } from '../../redux/category/categorySlice'
 const Category = () => {
-  const [itemUpdate, setItemUpdate] = useState([])
-  const [item, setItem] = useState("")
+  const dispatch = useDispatch()
+  const [IdItem, setIdItem] = useState([])
   const [isUpdate, setIsUpdate] = useState(true)
+  const categoryData = useSelector(state => state.categorySlice.value)
+  const token = useSelector(state => state.userState.token)
+  const [rows, setRows] = useState([])
+  const initialForm = {
+    id: "",
+    name: "",
+    slug: ""
+  }
+  const [categoryForm, setcategoryForm] = useState(initialForm)
+  const { name } = { ...categoryForm }
   const columns = [
-
     {
       key: "name",
       value: "Tên",
@@ -25,51 +39,106 @@ const Category = () => {
     },
   ]
   const getItemUpdate = (id) => {
-    setItemUpdate(id)
+    setIdItem(id)
   }
-  const deleteItem = (id) => {
-    console.log("delete");
-  }
-  const rows = [{
-    id: "seqweqweqwe",
-    name: "Quan jean",
-    option: {
-      type: "delete",
-      click: deleteItem,
-      selectclick: getItemUpdate
+  const deleteItem = async (id, name) => {
+    const element = categoryData.find(item => item.id === id)
+    if (window.confirm(`Bạn có muốn xóa ${name} khỏi loại sản phẩm chứ?`)) {
+      let rs = await axios.delete(`${apiUrl}/category/delete-category/${id}`, { headers: { Authorization: `Bearer ${token}` } }).catch(data => { return data })
+      if (rs.data) {
+        dispatch(setAlert({
+          message: "Xóa phân loại thành công",
+          type: "success"
+        }))
+        dispatch(deleteCategory(element))
+        setIsUpdate(true)
+        setcategoryForm(initialForm)
+      }
+      else {
+        dispatch(setAlert({
+          message: "Xóa phân loại thất bại ",
+          type: "danger"
+        }))
+      }
     }
-  },
-  {
-    id: "sda23412321",
-    name: "Quan bo",
-    option: {
-      type: "delete",
-      click: deleteItem,
-      selectclick: getItemUpdate
-    }
   }
-  ]
   const handleChange = (e) => {
-    setItem(e.target.value)
-    setIsUpdate(false)
+    if (e.target.value === "") {
+      setIsUpdate(true)
+      setIdItem([])
+      setcategoryForm(initialForm)
+    }
+    else {
+      setIsUpdate(false)
+      setcategoryForm({
+        ...categoryForm,
+        name: e.target.value
+      })
+    }
   }
 
-  const Update = () => {
+  const Update = async () => {
+    const type = categoryData.findIndex(item => item.id === IdItem[0])
 
-    setItem("")
+    if (type > -1) {
+      let rs = await axios.post(`${apiUrl}/category/update-category`, categoryForm, { headers: { Authorization: `Bearer ${token}` } }).catch(data => { return data })
+      if (rs.data) {
+        dispatch(setAlert({
+          message: "Cập nhật phân loại thành công",
+          type: "success"
+        }))
+        dispatch(updateCategory(categoryForm))
+      }
+      else {
+        dispatch(setAlert({
+          message: "Cập nhật phân loại thất bại ",
+          type: "danger"
+        }))
+      }
+    }
+    else {
+      if (window.confirm(`${categoryForm.name} chưa có, xác nhận tạo?`)) {
+        let rs = await axios.post(`${apiUrl}/category/add-category`, categoryForm, { headers: { Authorization: `Bearer ${token}` } }).catch(data => { return data })
+        if (rs.data) {
+
+          dispatch(setAlert({
+            message: "Tạo phân loại thành công",
+            type: "success"
+          }))
+          dispatch(addCategory(rs.data))
+        }
+        else {
+          dispatch(setAlert({
+            message: "Tên phân loại loại tồn tại ",
+            type: "danger"
+          }))
+        }
+      }
+    }
+
     setIsUpdate(true)
-  }
-  const Create = () => {
-    setItem("")
-    setIsUpdate(true)
+    setcategoryForm(initialForm)
   }
   useEffect(() => {
-    if (itemUpdate.length > 0) {
-      const tmp = rows.filter(row => row.id == itemUpdate)[0]
-      setItem(tmp.name)
+    if (IdItem.length > 0) {
+      const tmp = categoryData.filter(row => row.id == IdItem)[0]
+      setcategoryForm({ ...tmp })
       setIsUpdate(false)
     }
-  }, [itemUpdate]);
+  }, [IdItem]);
+  useEffect(() => {
+    const tmprows = categoryData.map((item) => {
+      return {
+        ...item,
+        option: {
+          type: "delete",
+          click: deleteItem,
+          selectclick: getItemUpdate
+        }
+      }
+    })
+    setRows(tmprows)
+  }, [categoryData])
   return (
     <ContentMain headerTitle='Phân loại'>
       <Card>
@@ -80,8 +149,8 @@ const Category = () => {
                 <Form.Label>Loại sản phẩm </Form.Label>
                 <Form.Control
                   required
-                  name="item"
-                  value={item}
+                  name="name"
+                  value={name}
                   onChange={handleChange}
                   type="text"
                   size="lg"

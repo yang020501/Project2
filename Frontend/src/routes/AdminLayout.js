@@ -19,7 +19,7 @@ import CustomerViewAdmin from "../pages/Admin/CustomerViewAdmin";
 
 import { getAllProduct } from '../redux/product/productsSlice'
 import { getAllCategory } from "../redux/category/categorySlice";
-import AlertMessage from "../redux/alert-message/alertMessage";
+import AlertMessage from "../components/AlertMessage"
 
 const AdminLayout = () => {
   const user = useSelector(state => state.userState.user)
@@ -30,7 +30,7 @@ const AdminLayout = () => {
     dispatch(getAllCategory())
   }, [])
   useEffect(() => {
-    console.log(user);
+
     if (user) {
       if (user.role === "customer")
         navigate("/")
@@ -57,8 +57,8 @@ const AdminLayout = () => {
             <Route path="*" element={<NoPage />}></Route>
           </Routes>
         </div>
-      </div>
-      {/* <AlertMessage /> */}
+      </div>      
+      <AlertMessage />
     </React.Fragment>
   )
 }

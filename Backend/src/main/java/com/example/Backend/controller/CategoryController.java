@@ -19,29 +19,27 @@ public class CategoryController {
     CategoryService categoryService;
 
     @GetMapping("/getAll")
-    private Object getAll(){
+    private Object getAll() {
         try {
             List<CategoryDto> categoryList = categoryService.getAll();
             return new ResponseEntity<List<CategoryDto>>(categoryList, HttpStatus.OK);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
         }
     }
 
     @Transactional
     @PostMapping("/add-category")
-    private Object addCategory(@RequestBody CategoryRequestDto categoryDto){
-        try{
+    private Object addCategory(@RequestBody CategoryRequestDto categoryDto) {
+        try {
             String name = categoryDto.getName();
-            if(categoryService.check_Name_duplicate(name)){
-                return new ResponseEntity<>("Category name had existed", HttpStatus.CONFLICT);
+            if (categoryService.check_Name_duplicate(name)) {
+                return new ResponseEntity<>("Category name had existed", HttpStatus.BAD_REQUEST);
             }
 
             CategoryDto category = categoryService.add(categoryDto);
             return new ResponseEntity<CategoryDto>(category, HttpStatus.CREATED);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);
         }
@@ -49,38 +47,34 @@ public class CategoryController {
 
     @Transactional
     @PostMapping("/update-category")
-    private Object updateCategory(@RequestBody CategoryRequestDto categoryDto){
-        try{
-            String name = categoryDto.getName();
-            if(categoryService.check_Name_duplicate(name)){
-                return new ResponseEntity<>("Category name had existed", HttpStatus.CONFLICT);
+    private Object updateCategory(@RequestBody CategoryDto categoryDto) {
+        try {
+            String id = categoryDto.getId();
+            if (!categoryService.check_Id(id)) {
+                return new ResponseEntity<>("Category had not existed", HttpStatus.BAD_REQUEST);
             }
             CategoryDto category = categoryService.update(categoryDto);
             return new ResponseEntity<CategoryDto>(category, HttpStatus.CREATED);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);
         }
     }
 
     @Transactional
-    @PostMapping("/delete-category")
-    private Object deleteCategory(@RequestBody CategoryRequestDto categoryDto){
-        try{
-            String name = categoryDto.getName();
-            if(categoryService.check_Name_duplicate(name)){
-                return new ResponseEntity<>("This category doesn't exist", HttpStatus.CONFLICT);
+    @DeleteMapping("/delete-category/{id}")
+    private Object deleteCategory(@PathVariable String id) {
+        try {
+            
+            if (!categoryService.check_Id(id)) {
+                return new ResponseEntity<>("This category doesn't exist", HttpStatus.BAD_REQUEST);
             }
-            String id = categoryService.delete(categoryDto);
-            return new ResponseEntity<>(id, HttpStatus.OK);
-        }
-        catch (Exception e){
+            String response = categoryService.delete(id);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);
         }
     }
-
-
 
 }

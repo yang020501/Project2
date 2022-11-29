@@ -15,8 +15,10 @@ const MyDataGrid = props => {
                 renderCell: (params) => {
                     if (params.field === "option") {
                         let id = params.row.id
-                        let type = params.row.option.type
-                        return <DataGridOptions click={() => params.row.option.click(id)} type={type} />
+                        let name = params.row.name
+                        let type = params.row ? params.row.option.type : ""
+                        let func = params.row ? params.row.option.click : null
+                        return <DataGridOptions click={() => func(id, name)} type={type} />
                     }
                 }
 
@@ -40,7 +42,8 @@ const MyDataGrid = props => {
     // }) : []
     const handlechange = (id) => {
         let tmp = rows.filter((row) => { return row.id == id })[0]
-        tmp.option.selectclick(id)
+        if (tmp)
+            tmp.option.selectclick(id)
     }
     return (
         <DataGrid

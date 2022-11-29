@@ -29,6 +29,6 @@ public class RandomGenerate {
         slug = removeAccent(slug);
         slug = slug.replace(" ", "-");
 
-        return slug;
+        return slug.toLowerCase();
     }
 }

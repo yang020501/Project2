@@ -21,6 +21,14 @@ const Searchbar = props => {
         } else {
             setFilteredData(newFilter);
         }
+        if (props.admin) {
+            if (searchWord === "") {
+                props.onsearch(props.data)
+            }
+            else props.onsearch(newFilter)
+
+        }
+
     };
     // cchuẩn hóa chuỗi về dạng không dấu
     const normalizeStr = (str) => {
@@ -32,6 +40,8 @@ const Searchbar = props => {
     const clearInput = () => {
         setFilteredData([]);
         setWordEntered("");
+        if (props.admin)
+            props.onsearch(props.data)
     };
     return (
         <div className="search">
@@ -69,6 +79,7 @@ const Searchbar = props => {
 Searchbar.propsTypes = {
     data: PropTypes.array,
     placeholder: PropTypes.string,
-    admin: PropTypes.bool
+    admin: PropTypes.bool,
+    onsearch: PropTypes.func
 }
 export default Searchbar

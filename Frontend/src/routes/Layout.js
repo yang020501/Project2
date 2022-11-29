@@ -18,6 +18,7 @@ import Order from "../pages/Order";
 import CustomerInfo from "../pages/CustomerInfo";
 import Policy from "../pages/Policy";
 import NoPage from "../pages/NoPage";
+import Backdropp from "../components/Backdropp";
 /* import { getAllSale } from '../redux/product/saleSlice'
 
 import { getAllProduct } from '../redux/product/productSlice'
@@ -65,6 +66,7 @@ const Layout = () => {
       <LoginModal />
       <RegisterModal />
       <AlertMessage />
+      <Backdropp />
     </React.Fragment>
   );
 };

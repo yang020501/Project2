@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class CategoryDto implements Serializable {
-    private final String id;
-    private final String name;
+    private String id;
+    private String name;
     private String slug;
 
     public CategoryDto(String id, String name, String slug) {
@@ -21,12 +21,17 @@ public class CategoryDto implements Serializable {
     public String getName() {
         return name;
     }
-    public String getSlug() { return slug; }
+
+    public String getSlug() {
+        return slug;
+    }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         CategoryDto entity = (CategoryDto) o;
         return Objects.equals(this.id, entity.id) &&
                 Objects.equals(this.name, entity.name) &&
@@ -45,4 +50,8 @@ public class CategoryDto implements Serializable {
                 "name = " + name + ", " +
                 "slug = " + slug + ")";
     }
+
+    public CategoryDto() {
+    }
+
 }

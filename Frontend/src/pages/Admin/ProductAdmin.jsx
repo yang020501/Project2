@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ContentMain from '../../components/Admin/ContentMain'
 import btnAction from '../../utils/btnAction'
 import Card, { CardBody, CardHeader } from '../../components/Card'
@@ -10,8 +10,11 @@ import { useSelector } from 'react-redux'
 const ProductAdmin = () => {
   const navigate = useNavigate()
   const productData = useSelector(state => state.productsSlice.value)
-  const categoryData = useSelector(state => state.categorySlice.value)
-  console.log(categoryData);
+  const [productDataSearch, setproductDataSearch] = useState([])
+  useEffect(() => {
+    setproductDataSearch(productData)
+  }, [productData])
+ 
   return (
     <ContentMain headerTitle='Sản phẩm'
       headerRightAction={{
@@ -22,7 +25,7 @@ const ProductAdmin = () => {
     >
       <Card>
         <CardHeader>
-          <Searchbar admin placeholder={"Tìm kiếm sản phẩm..."} data={productData} />
+          <Searchbar admin placeholder={"Tìm kiếm sản phẩm..."} data={productData} onsearch={(data) => { setproductDataSearch(data) }} />
         </CardHeader>
         <CardBody>
           <Grid col={4}
@@ -31,8 +34,8 @@ const ProductAdmin = () => {
             gap={25}
           >
             {
-              productData ?
-                productData.map((item, index) => {
+              productDataSearch ?
+                productDataSearch.map((item, index) => {
                   return (
                     <ProductCard
                       key={index}
@@ -42,6 +45,7 @@ const ProductAdmin = () => {
                       price={item.price}
                       slug={item.slug}
                       sale={item.sale}
+                      id={item.id}
                       admin
                     />
                   )
