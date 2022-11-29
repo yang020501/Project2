@@ -6,9 +6,12 @@ const AlertMessage = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        setTimeout(() => {
+        let timer = setTimeout(() => {
             dispatch(removeAlert())
-        }, 3500)
+        }, 2000)
+        return () => {
+            clearTimeout(timer);
+        }
     }, [alert])
     return (
         <div className='container'>

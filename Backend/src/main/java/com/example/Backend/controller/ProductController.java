@@ -147,8 +147,8 @@ public class ProductController {
     @PostMapping("/update-product")
     public Object updateProduct(@RequestBody ProductRequestDto request){
         try{
-            if(!productService.check_Title_duplicate(request.getTitle())){
-                return new ResponseEntity<String>("This product isn't existed", HttpStatus.CONFLICT);
+            if(!productService.check_Id_exist(request.getId())){
+                return new ResponseEntity<String>("This product isn't existed", HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
             ProductDto product = productService.update(request);
@@ -164,7 +164,7 @@ public class ProductController {
     @PostMapping("/delete-product")
     public Object deleteProduct(@RequestBody ProductRequestDto request){
         try{
-            if(!productService.check_Title_duplicate(request.getTitle())){
+            if(!productService.check_Id_exist(request.getId())){
                 return new ResponseEntity<>("This product isn't existed", HttpStatus.CONFLICT);
             }
 

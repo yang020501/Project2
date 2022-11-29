@@ -9,7 +9,7 @@ import size from '../../assets/fake-data/product-size'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { apiUrl } from '../../utils/constant'
-import { updateProduct } from '../../redux/product/productsSlice'
+import { addProduct, updateProduct } from '../../redux/product/productsSlice'
 import { setAlert } from '../../redux/alert-message/alertMessage'
 
 const ProductViewAdmin = props => {
@@ -21,21 +21,25 @@ const ProductViewAdmin = props => {
   const token = useSelector(state => state.userState.token)
   const [color, setColor] = useState([])
   const [sizes, setSizes] = useState([])
+
   const [productForm, setproductForm] = useState({
     title: "",
-    img01: "",
-    img02: "",
-    categoryid: "",
+    image1: "",
+    image2: "",
+    id_cate: "",
+    categorySlug: "",
     colors: "",
     size: "",
     sale: 0,
     price: 0,
-    description: "",
-    gender: 2
+    description: " ",
+    gender: 2,
+    slug: ""
   })
 
-  const { title, sale, price, descriptions, gender } = productForm
+  const { title, sale, price, descriptions, gender, categorySlug, image1, image2 } = productForm
   const onChange = e => {
+   
     var file = e.target.files
     if (FileReader && file && file.length) {
       var fr = new FileReader();
@@ -85,25 +89,44 @@ const ProductViewAdmin = props => {
     }
   }
   const Update = async () => {
+    let categoryName = categoryData.find(item => item.slug === productForm.categorySlug) ? categoryData.find(item => item.slug === productForm.categorySlug).name : ""
+    let type = productData.findIndex(item => item.id === productForm.id)
     let body = {
       ...productForm,
-      category: productForm.categorySlug
+      category: categoryName ? categoryName : ""
     }
-    console.log(body);
-    let rs = await axios.post(`${apiUrl}/product/update-product`, body, { headers: { Authorization: `Bearer ${token}` } })
-
-    if (rs.data) {
-      dispatch(setAlert({
-        message: "Cập nhật thành công",
-        type: "success"
-      }))
-      dispatch(updateProduct(productForm))
+    if (type > -1) {
+      let rs = await axios.post(`${apiUrl}/product/update-product`, body, { headers: { Authorization: `Bearer ${token}` } }).catch(data => { return data })
+      if (rs.data) {
+        dispatch(setAlert({
+          message: "Cập nhật sản phẩm thành công",
+          type: "success"
+        }))
+        dispatch(updateProduct(productForm))
+      }
+      else {
+        dispatch(setAlert({
+          message: "Cập nhật sản phẩm thất bại ",
+          type: "danger"
+        }))
+      }
     }
     else {
-      dispatch(setAlert({
-        message: "Lỗi cập nhật thất bại",
-        type: "danger"
-      }))
+      let rs = await axios.post(`${apiUrl}/product/add-product`, body, { headers: { Authorization: `Bearer ${token}` } }).catch(data => { return data })
+
+      if (rs.data) {
+        dispatch(setAlert({
+          message: "Tạo sản phẩm thành công",
+          type: "success"
+        }))
+        dispatch(addProduct(productForm))
+      }
+      else {
+        dispatch(setAlert({
+          message: "Lỗi: Tên sản phẩm đã tồn tại",
+          type: "danger"
+        }))
+      }
     }
   }
   useEffect(() => {
@@ -211,19 +234,18 @@ const ProductViewAdmin = props => {
                 <Form.Select
                   size="lg"
                   required
-                  // value={address1}
-                  // name="address1"
-                  // ref={provinceRef}
-                  // onChange={onOrderFormChangeProvince}
+                  value={categorySlug}
+                  name="categorySlug"
+                  onChange={onChange}
                   bsPrefix="form-select form-select-lg"
                 >
                   <option>Loại sản phẩm</option>
                   {
-                    // Province.map((item, index) => {
-                    //   return (
-                    //     <option key={index} value={item.Name} >{item.Name}</option>
-                    //   )
-                    // })
+                    categoryData.map((item, index) => {
+                      return (
+                        <option key={index} value={item.slug} >{item.name}</option>
+                      )
+                    })
                   }
                 </Form.Select>
                 <Form.Control.Feedback type="invalid">
@@ -235,8 +257,8 @@ const ProductViewAdmin = props => {
                 <Form.Control
                   required
                   type="file"
-                  // value={img01}
-                  name="img01"
+                  // value={image1}
+                  name="image1"
                   onChange={onChange}
                   size="lg"
                 />
@@ -249,8 +271,8 @@ const ProductViewAdmin = props => {
                 <Form.Control
                   required
                   type="file"
-                  name="img02"
-                  // value={img02}
+                  name="image2"
+                  // value={image2}
                   onChange={onChange}
                   size="lg"
                 />
@@ -300,7 +322,7 @@ const ProductViewAdmin = props => {
                   name="descriptions"
                   value={descriptions}
                   onChange={onChange}
-
+                  required
                 />
                 <Form.Control.Feedback type="invalid">
                   Vui lòng ghi mô tả.

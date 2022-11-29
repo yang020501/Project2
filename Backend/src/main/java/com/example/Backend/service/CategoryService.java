@@ -11,6 +11,6 @@ public interface CategoryService {
     public boolean check_Id(String id);
     public boolean check_Name_duplicate(String name);
     public CategoryDto add(CategoryRequestDto category);
-    public CategoryDto update(CategoryRequestDto category);
-    public String delete(CategoryRequestDto category);
+    public CategoryDto update(CategoryDto category);
+    public String delete(String id);
 }

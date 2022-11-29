@@ -18,6 +18,7 @@ export const getAllProduct = createAsyncThunk(
 export const productsSlice = createSlice({
     name: 'productsSlice',
     initialState: {
+        loading: false,
         value: []
     },
     reducers: {
@@ -40,7 +41,7 @@ export const productsSlice = createSlice({
             Products.push(updateProduct)
             state.value = Products
 
-            console.log(action.payload,  state.value);
+       
         },
         deleteProduct: (state, action) => {
             const Products = state.value
@@ -51,8 +52,11 @@ export const productsSlice = createSlice({
             Products.splice(index,1)
             state.value = Products
 
-            console.log(action.payload,  state.value);
+        
         },
+        updateProducts:(state,action) =>{
+            state.value = action.payload
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(getAllProduct.fulfilled, (state, action) => {
@@ -63,5 +67,5 @@ export const productsSlice = createSlice({
 
 
 })
-export const { updateProduct,addProduct,deleteProduct } = productsSlice.actions
+export const { updateProduct,addProduct,deleteProduct,updateProducts } = productsSlice.actions
 export default productsSlice.reducer

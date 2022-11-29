@@ -22,10 +22,9 @@ public class CategoryImplement implements CategoryService {
 
     @Override
     public String getName_byId(String id) {
-        try{
+        try {
             return categoryRepo.GetName_byId(id);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -33,15 +32,14 @@ public class CategoryImplement implements CategoryService {
 
     @Override
     public boolean check_Id(String id) {
-        try{
+        try {
             String check = categoryRepo.Check_Id_exist(id);
-            if(check != null){
+            if (check != null) {
                 return true;
             }
 
             return false;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -49,15 +47,14 @@ public class CategoryImplement implements CategoryService {
 
     @Override
     public boolean check_Name_duplicate(String display) {
-        try{
+        try {
             String check = categoryRepo.Check_Name_exist(display);
-            if(check != null){
+            if (check != null) {
                 return true;
             }
 
             return false;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -65,55 +62,51 @@ public class CategoryImplement implements CategoryService {
 
     @Override
     public CategoryDto add(CategoryRequestDto category) {
-        try{
+        try {
             String id = "";
             String id_check = "";
-            do{
+            do {
                 id = RandomGenerate.GenerateId(5);
                 id_check = categoryRepo.Check_Id_exist(id);
-            }
-            while (id.equals(id_check));
+            } while (id.equals(id_check));
             String name = category.getName();
             String slug = RandomGenerate.generate_slug(name);
             CategoryDto dto = new CategoryDto(id, name, slug);
 
-            categoryRepo.Add_Category(id,name,slug);
+            categoryRepo.Add_Category(id, name, slug);
 
             return dto;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
     @Override
-    public CategoryDto update(CategoryRequestDto category) {
-        try{
-            String id = categoryRepo.GetId_byName(category.getName());
-            String name = category.getName();
-            String slug = RandomGenerate.generate_slug(name);
-            CategoryDto dto = new CategoryDto(id, name, slug);
-
-            categoryRepo.Update_Category(id,name, slug);
-
-            return dto;
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    @Override
-    public String delete(CategoryRequestDto category) {
+    public CategoryDto update(CategoryDto category) {
         try {
-            String id = categoryRepo.GetId_byName(category.getName());
+            String id = category.getId();
+            String name = category.getName();
+            String slug = RandomGenerate.generate_slug(name);
+            CategoryDto dto = new CategoryDto(id, name, slug);
+
+            categoryRepo.Update_Category(id, name, slug);
+
+            return dto;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public String delete(String id) {
+        try {
+           
             categoryRepo.Delete_Category(id);
 
             return id;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

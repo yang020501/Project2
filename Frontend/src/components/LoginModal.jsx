@@ -8,6 +8,7 @@ import { setSignModal } from '../redux/login-sign_modal/signSlice'
 import Alert from 'react-bootstrap/Alert'
 import Form from 'react-bootstrap/Form'
 import { login } from '../redux/user/userState'
+import { setLoading } from '../redux/loading/loadingSlice'
 
 const LoginModal = () => {
     const user = useSelector(state => state.userState)
@@ -47,23 +48,33 @@ const LoginModal = () => {
         else {
             dispatch(login(LoginForm))
             setValidated(false)
+
         }
 
     };
     useEffect(() => {
-        setTimeout(() => {
+        let timer1 = setTimeout(() => {
             setAlert(null)
-        }, 3500)
+        }, 2000)
+        return () => {
+            clearTimeout(timer1)
+        }
     }, [alert])
     useEffect(() => {
-        if (user.user) {
-            dispatch(removeLoginModal())
-            setAlert(<Alert variant='success'>Đăng nhập thành công!</Alert>)
+        if (user.loading === false) {
+            dispatch(setLoading(false))
+            if (user.errorMess === undefined || user.errorMess) {
+                setAlert(<Alert variant='danger'>Tài khoản hoặc mật khẩu không đúng!</Alert>)
+            }
+            else if (user.user) {
+                dispatch(removeLoginModal())
+            }
         }
-        else if (user.errorMess) {  
-            setAlert(<Alert variant='danger'>Tài khoản hoặc mật khẩu không đúng!</Alert>)
+        else {
+            dispatch(setLoading(true))
         }
-    }, [user])
+
+    }, [user, user.errorMess])
     useEffect(() => {
         setLoginForm(initialForm)
         setValidated(false)

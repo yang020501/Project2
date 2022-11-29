@@ -1,9 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+
 import { apiUrl } from "../../utils/constant";
+
 
 const user = localStorage.getItem('user') !== null ? JSON.parse(localStorage.getItem('user')) : null
 const token = localStorage.getItem('token') !== null ? JSON.parse(localStorage.getItem('token')) : null
+
 export const login = createAsyncThunk(
     'user/login',
     async (data, { rejectWithValue }) => {
@@ -34,7 +37,7 @@ export const userState = createSlice({
         loading: false,
         user: user,
         token: token,
-        errorMess: "",
+        errorMess: null,
         cart: []
     },
     reducers: {
@@ -60,21 +63,18 @@ export const userState = createSlice({
     extraReducers: (builder) => {
         builder.addCase(login.pending, state => {
             state.loading = true;
+
         })
         builder.addCase(login.fulfilled, (state, action) => {
             state.loading = false
-
             state.user = { ...action.payload.user, role: action.payload.role }
-            state.errorMess = ""
+            
             localStorage.setItem('user', JSON.stringify(state.user))
             localStorage.setItem('token', JSON.stringify(action.payload.jwt))
         })
         builder.addCase(login.rejected, (state, action) => {
             state.loading = false;
-            console.log(action.payload);
-            state.errorMess = action.payload
-
-
+            state.errorMess = "Login failed"
         })
         builder.addCase(getCart.pending, state => {
             state.loading = true;
@@ -88,8 +88,7 @@ export const userState = createSlice({
         builder.addCase(getCart.rejected, (state, action) => {
             state.loading = false;
             state.errorMess = action.payload;
-
-
+            state.user = null
         })
 
     }

@@ -3,22 +3,52 @@ import PropTypes from 'prop-types'
 import { Link, useNavigate } from 'react-router-dom'
 import Button from './Button'
 import numberWithCommas from '../utils/numberWithCommas'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { set } from '../redux/product-modal/productModalSlice'
-import { useSelector } from 'react-redux'
-import { useEffect } from 'react'
+import axios from 'axios'
+import { apiUrl } from '../utils/constant'
+import { deleteProduct } from '../redux/product/productsSlice'
+import { setAlert } from '../redux/alert-message/alertMessage'
 
 const ProductCard = props => {
-    const productSale = useSelector(state => state.saleSlice.value)
+    const productData = useSelector(state => state.productsSlice.value)
+    const categoryData = useSelector(state => state.categorySlice.value)
+    const token = useSelector(state => state.userState.token)
 
+    const delProduct = async (id, name) => {
+        if (window.confirm(`Bạn có muốn xóa sản phẩm ${name} này chứ?`)) {
+            let productForm = productData.find(item => item.id === id)
+            if (productForm) {
+                let categoryName = categoryData.find(item => item.slug === productForm.categorySlug) ? categoryData.find(item => item.slug === productForm.categorySlug).name : ""
+                let body = {
+                    ...productForm,
+                    category: categoryName ? categoryName : ""
+                }
+                let rs = await axios.post(`${apiUrl}/product/delete-product`, body, { headers: { Authorization: `Bearer ${token}` } }).catch(data => { return data })
+                if (rs.data) {
+                    dispatch(setAlert({
+                        message: "Xóa sản phẩm thành công",
+                        type: "success"
+                    }))
+                    dispatch(deleteProduct(productForm))
+                }
+                else {
+                    dispatch(setAlert({
+                        message: "Xóa sản phẩm thất bại ",
+                        type: "danger"
+                    }))
+                }
+            }
+        }
+    }
     const navigate = useNavigate();
     const dispatch = useDispatch()
     return (
         <div className='product-card'>
             <Link to={props.admin ? `/admin/product/${props.slug}` : `/catalog/${props.slug}`}>
                 <div className='product-card-image'>
-                    <img src={require(`../assets/${props.img01}`)} alt="" />
-                    <img src={require(`../assets/${props.img02}`)} alt="" />
+                    <img src={props.img01.includes("images") ? require(`../assets/${props.img01}`) : props.img01} alt="" />
+                    <img src={props.img02.includes("images") ? require(`../assets/${props.img02}`) : props.img02} alt="" />
                 </div>
                 <h3 className='product-card-name'>{props.name}</h3>
                 <div className="product-card-price">
@@ -62,7 +92,7 @@ const ProductCard = props => {
                             backgroundColor={'red'}
                             icon='bx bx-trash'
                             animate={true}
-                        // onclick={() => dispatch(set(props.slug))}
+                            onclick={() => delProduct(props.id, props.name)}
                         >
                             xóa
                         </Button>
@@ -81,7 +111,8 @@ ProductCard.propTypes = {
     price: PropTypes.number.isRequired,
     slug: PropTypes.string.isRequired,
     sale: PropTypes.number,
-    admin: PropTypes.bool
+    admin: PropTypes.bool,
+    id: PropTypes.string
 }
 
 export default ProductCard
