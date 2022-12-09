@@ -14,7 +14,6 @@ public class UserDto implements Serializable {
     private String address1;
     private String address2;
     private String address3;
-
     public UserDto(){ }
 
     public UserDto(String id, String username, String password, String id_role,String customer_name, String phone, String house_address, String address1, String address2, String address3) {
