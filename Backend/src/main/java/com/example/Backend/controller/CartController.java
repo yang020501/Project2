@@ -70,4 +70,17 @@ public class CartController {
         }
     }
 
+    @Transactional
+    @PostMapping("/update-by-id")
+    private Object updateCart_Status(@RequestBody CartDto cartDto){
+        try{
+            cartService.updateCart_Status(cartDto);
+            return new ResponseEntity<>("Update status complete", HttpStatus.OK);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

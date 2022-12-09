@@ -78,9 +78,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/sign-in").permitAll()
                 .antMatchers("/user/update").hasAnyAuthority("admin", "customer")
                 .antMatchers("/cart/buy").hasAnyAuthority("admin", "customer")
+                .antMatchers("/user/get-all-customer").hasAuthority("admin")
                 .antMatchers(HttpMethod.GET).permitAll()
                 .antMatchers(HttpMethod.PATCH).hasAuthority("customer")
                 .antMatchers(HttpMethod.POST).hasAuthority("admin")
+                .antMatchers(HttpMethod.DELETE).hasAuthority("admin")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

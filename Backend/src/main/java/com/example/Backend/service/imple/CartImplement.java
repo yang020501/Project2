@@ -48,4 +48,16 @@ public class CartImplement implements CartService {
     public List<CartDto> getCart_byCustomerID(String customer_id) {
         return cartRepo.getCart_byCustomerID(customer_id);
     }
+
+    @Override
+    public CartDto updateCart_Status(CartDto cartDto) {
+        try{
+            cartRepo.update_Status(cartDto.getStatus(), cartDto.getId());
+            return cartDto;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
