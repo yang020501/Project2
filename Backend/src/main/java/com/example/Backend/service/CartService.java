@@ -12,4 +12,5 @@ public interface CartService {
     public List<String> getAll_Id();
     public List<String> getId_byCustomerID(String customer_id);
     public List<CartDto> getCart_byCustomerID(String customer_id);
+    public CartDto updateCart_Status(CartDto cartDto);
 }

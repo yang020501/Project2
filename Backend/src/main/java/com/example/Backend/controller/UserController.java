@@ -105,13 +105,71 @@ public class UserController {
         }
     }
 
-    @GetMapping("/getAll")
-    public Object getAll() {
+    @Transactional
+    @PostMapping("/sign-in-admin")
+    public Object sign_admin(@RequestBody UserRequestDto new_admin) {
+        try {
+            List<UserDto> list_user = userService.getAll();
+            boolean find = userService.find_duplicate_username(new_admin.getUsername(), list_user);
+            if (find) {
+                return new ResponseEntity<String>("Can not sign in with this username", HttpStatus.BAD_REQUEST);
+            }
+            String id = RandomGenerate.GenerateId(5);
+            String username = new_admin.getUsername();
+            String password = new_admin.getPassword();
+            String id_role = roleService.getIdFromName("admin");
+            String customer_name = new_admin.getCustomer_name();
+            String phone = new_admin.getPhone();
+            String house_address = new_admin.getHouse_address();
+            String address1 = new_admin.getAddress1();
+            String address2 = new_admin.getAddress2();
+            String address3 = new_admin.getAddress3();
+
+            UserDto user = userService.add(id, username, password, id_role, customer_name, phone, house_address, address1, address2, address3);
+
+            if(user == null){
+                return new ResponseEntity<String>("Failed to create this admin", HttpStatus.BAD_REQUEST);
+            }
+
+            return new ResponseEntity<UserDto>(user, HttpStatus.CREATED);
+
+        } catch (Exception e) {
+            return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    @GetMapping("/get-all-customer")
+    public Object getAllCustomer() {
+        try {
+            List<UserDto> customerList = userService.getAll_Customer();
+            return new ResponseEntity<List<UserDto>>(customerList, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/get-all-user")
+    public Object getAllUser() {
         try {
             List<UserDto> userlist = userService.getAll();
             return new ResponseEntity<List<UserDto>>(userlist, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @CrossOrigin
+    @Transactional
+    @DeleteMapping("/delete")
+    public Object deleteUser_byId(@RequestBody String id){
+        try{
+            System.out.print(id);
+            userService.delete_byId(id);
+            return new ResponseEntity<>("Delete successfully", HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);
         }
     }
 
