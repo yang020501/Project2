@@ -23,7 +23,7 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "DELETE Users WHERE id = ?1")
+    @Query(value = "UPDATE Users SET active = 0 WHERE id = ?1", nativeQuery = true)
     public void delete_byId(String id);
 
     @Query("SELECT new com.example.Backend.dto.UserDto(p.id, p.username, p.password, p.id_role, p.customer_name, p.phone, p.house_address, " +
