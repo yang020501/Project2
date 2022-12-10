@@ -12,8 +12,12 @@ const Searchbar = props => {
     const handleFilter = (event) => {
         const searchWord = event.target.value;
         setWordEntered(searchWord);
+
         const newFilter = props.data.filter((value) => {
-            return normalizeStr(value.title).toLowerCase().includes(normalizeStr(searchWord).toLowerCase());
+            if (props.type === "order")
+                return normalizeStr(value[props.keyword]).toLowerCase().startsWith(normalizeStr(searchWord).toLowerCase());
+
+            return normalizeStr(value[props.keyword]).toLowerCase().includes(normalizeStr(searchWord).toLowerCase());
         });
 
         if (searchWord === "") {
@@ -30,6 +34,7 @@ const Searchbar = props => {
         }
 
     };
+
     // cchuẩn hóa chuỗi về dạng không dấu
     const normalizeStr = (str) => {
         return str.normalize('NFD')
@@ -60,13 +65,13 @@ const Searchbar = props => {
                     )}
                 </div>
             </div>
-            <div className={`search-data ${filteredData.length !== 0 ? 'active' : ''}`}>
+            <div className={`search-data ${filteredData.length !== 0 && props.type !== "order" ? 'active' : ''}`}>
                 {filteredData.length != 0 && (
 
                     filteredData.slice(0, 15).map((value, key) => {
                         return (
                             <Link key={key} className="search-data-item" to={props.admin ? `/admin/product/${value.slug}` : `/catalog/${value.slug}`}>
-                                <p>{value.title} </p>
+                                <p>{value[props.keyword]} </p>
                             </Link>
 
                         );
@@ -80,6 +85,8 @@ Searchbar.propsTypes = {
     data: PropTypes.array,
     placeholder: PropTypes.string,
     admin: PropTypes.bool,
-    onsearch: PropTypes.func
+    onsearch: PropTypes.func,
+    keyword: PropTypes.string,
+    type: PropTypes.string
 }
 export default Searchbar

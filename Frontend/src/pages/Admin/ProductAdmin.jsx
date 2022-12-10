@@ -14,7 +14,7 @@ const ProductAdmin = () => {
   useEffect(() => {
     setproductDataSearch(productData)
   }, [productData])
- 
+
   return (
     <ContentMain headerTitle='Sản phẩm'
       headerRightAction={{
@@ -25,7 +25,7 @@ const ProductAdmin = () => {
     >
       <Card>
         <CardHeader>
-          <Searchbar admin placeholder={"Tìm kiếm sản phẩm..."} data={productData} onsearch={(data) => { setproductDataSearch(data) }} />
+          <Searchbar keyword="title" type="product" admin placeholder={"Tìm kiếm sản phẩm..."} data={productData} onsearch={(data) => { setproductDataSearch(data) }} />
         </CardHeader>
         <CardBody>
           <Grid col={4}
