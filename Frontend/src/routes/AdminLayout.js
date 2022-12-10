@@ -20,6 +20,8 @@ import CustomerViewAdmin from "../pages/Admin/CustomerViewAdmin";
 import { getAllProduct } from '../redux/product/productsSlice'
 import { getAllCategory } from "../redux/category/categorySlice";
 import AlertMessage from "../components/AlertMessage"
+import { getAllOrders } from "../redux/order/orderSlice";
+import { getAllCustomers } from "../redux/user/customerSlice";
 
 const AdminLayout = () => {
   const user = useSelector(state => state.userState.user)
@@ -28,6 +30,8 @@ const AdminLayout = () => {
   useEffect(() => {
     dispatch(getAllProduct())
     dispatch(getAllCategory())
+    dispatch(getAllOrders())
+    dispatch(getAllCustomers())
   }, [])
   useEffect(() => {
 

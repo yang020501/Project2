@@ -5,7 +5,7 @@ import { apiUrl } from "../../utils/constant";
 export const getAllOrders = createAsyncThunk(
     'order/getAllOrders',
     async (data, { rejectWithValue }) => {
-        const rs = await axios.get(`${apiUrl}/order/`)
+        const rs = await axios.get(`${apiUrl}/cart/getAllCart`)
         if (rs.status < 200 || rs.status >= 300) {
             return rejectWithValue(rs.data)
         }
@@ -16,15 +16,26 @@ export const getAllOrders = createAsyncThunk(
 
 export const orderSlice = createSlice({
     name: 'order',
-    initialState,
+    initialState: {
+        value: []
+    },
     reducers: {
-        set: (state, action) => {
-            state.value = action.payload
+        updateOrder: (state, action) => {
+            const Orders = state.value
+            const updateOrder = action.payload
+
+            let index = Orders.findIndex(item => item.id === updateOrder.id)
+            //update
+            Orders[index] = updateOrder
+            state.value = Orders
         },
-        remove: (state) => {
-            state.value = null
-        }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(getAllOrders.fulfilled, (state, action) => {
+            state.value = action.payload
+        })
+
     }
 })
-export const { set, remove } = orderSlice.actions
+export const { updateOrder } = orderSlice.actions
 export default orderSlice.reducer
