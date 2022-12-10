@@ -2,6 +2,7 @@ package com.example.Backend.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 
 public class CartDto implements Serializable {
@@ -9,19 +10,17 @@ public class CartDto implements Serializable {
     private String customer_id;
     private String address;
     private LocalDate create_date;
-    private long total;
+    private Long total;
     private String status;
-    private boolean active;
 
     public CartDto(){}
-    public CartDto(String id, String customer_id, String address, LocalDate create_date, long total, String status) {
+    public CartDto(String id, String customer_id, String address, LocalDate create_date, Long total, String status) {
         this.id = id;
         this.customer_id = customer_id;
         this.address = address;
         this.create_date = create_date;
         this.total = total;
         this.status = status;
-        this.active = true;
     }
 
     public String getId() {
@@ -40,16 +39,12 @@ public class CartDto implements Serializable {
         return create_date;
     }
 
-    public long getTotal() {
+    public Long getTotal() {
         return total;
     }
 
     public String getStatus() {
         return status;
-    }
-
-    public boolean getActive() {
-        return active;
     }
 
     @Override
@@ -67,7 +62,7 @@ public class CartDto implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, customer_id, address, create_date, total, status, active);
+        return Objects.hash(id, customer_id, address, create_date, total, status);
     }
 
     @Override
