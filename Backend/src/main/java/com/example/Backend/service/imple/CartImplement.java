@@ -18,7 +18,13 @@ public class CartImplement implements CartService {
 
     @Override
     public List<CartDto> getAll() {
-        return null;
+        try{
+            return cartRepo.getAll();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

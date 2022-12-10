@@ -2,10 +2,11 @@
     @include flex(center, flex-start);
 
     cursor: pointer;
-
+    i{
+        display: block;
+    }
     &:hover {
         color: $main-color;
-
     }
 
     input {
@@ -18,23 +19,26 @@
 
     &-checkmark {
         margin-right: 10px;
-        height: 15px;
-        width: 15px;
+        height: 18px;
+        width: fit-content;
         border: 1px solid $txt-second-color;
 
         i {
             transform: scale(0);
-            transition: transform .3s ease;
+            transition: transform 0.3s ease;
         }
     }
 
-    input:checked~&-checkmark {
+    input:checked ~ &-checkmark {
         background-color: $main-color;
         border: 1px solid $main-color;
         color: $txt-white;
+
+        display: block;
     }
 
     input:checked ~ &-checkmark > i {
         transform: scale(1);
+   
     }
 }

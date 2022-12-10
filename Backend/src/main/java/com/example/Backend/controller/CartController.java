@@ -56,7 +56,15 @@ public class CartController {
             return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);
         }
     }
-    
+    @GetMapping("/getAllCart")
+    public Object getAllCart() {
+        try {
+            List<CartDto> cartList = cartService.getAll();
+            return new ResponseEntity<List<CartDto>>(cartList, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @GetMapping("/{customer_id}")
     private Object getAll_byCustomerID(@PathVariable String customer_id){

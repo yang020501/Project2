@@ -29,8 +29,6 @@ export const categorySlice = createSlice({
             //update
             Categorys[index] = updateCategory
             state.value = Categorys
-            console.log(index);
-            console.log(action.payload, Categorys[index], state.value);
         },
         addCategory: (state, action) => {
             const Categorys = state.value

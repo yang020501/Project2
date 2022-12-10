@@ -14,7 +14,7 @@ const ContentMain = props => {
                             onclick={props.headerLeftAction.action}
                             backgroundColor={'red'}
                             animate={true}
-                          icon='bx bx-arrow-back'
+                            icon='bx bx-arrow-back'
                         >
                             {props.headerLeftAction.title}
                         </Button>
