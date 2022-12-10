@@ -14,15 +14,24 @@ import java.util.List;
 public interface UserRepo extends JpaRepository<User, Integer> {
 
     @Query("SELECT new com.example.Backend.dto.UserDto(p.id, p.username, p.password, p.id_role, p.customer_name, p.phone, p.house_address, " +
-            "p.address1, p.address2, p.address3) FROM Users p")
+            "p.address1, p.address2, p.address3) FROM Users p WHERE p.active = 1")
     public List<UserDto> getAll();
 
     @Query("SELECT new com.example.Backend.dto.UserDto(p.id, p.username, p.password, p.id_role, p.customer_name, p.phone, p.house_address, " +
-            "p.address1, p.address2, p.address3) FROM Users p WHERE p.username = ?1")
+            "p.address1, p.address2, p.address3) FROM Users p WHERE p.id_role = 00002 AND p.active = 1")
+    public List<UserDto> getAll_Customer();
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE Users SET active = 0 WHERE id = ?1", nativeQuery = true)
+    public void delete_byId(String id);
+
+    @Query("SELECT new com.example.Backend.dto.UserDto(p.id, p.username, p.password, p.id_role, p.customer_name, p.phone, p.house_address, " +
+            "p.address1, p.address2, p.address3) FROM Users p WHERE p.username = ?1 AND p.active = 1")
     public UserDto find_byUserName(String username);
 
     @Query("SELECT new com.example.Backend.dto.UserDto(p.id, p.username, p.password, p.id_role, p.customer_name, p.phone, p.house_address, " +
-            "p.address1, p.address2, p.address3) FROM Users p WHERE p.id = ?1")
+            "p.address1, p.address2, p.address3) FROM Users p WHERE p.id = ?1 AND p.active = 1")
     public UserDto find_byID(String id);
 
     @Query(value = "SELECT id FROM Users WHERE username = ?1")

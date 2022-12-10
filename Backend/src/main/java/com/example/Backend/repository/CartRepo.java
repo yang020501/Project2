@@ -18,6 +18,16 @@ public interface CartRepo extends JpaRepository<Cart, Integer> {
     @Query(value = "INSERT INTO Cart(id, customer_id, address ,create_date, total) VALUES (?1, ?2, ?3, ?4, ?5)", nativeQuery = true)
     public void add(String id, String customer_id, String address, LocalDate create_date, long total);
 
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE Cart SET status = ?1 WHERE id = ?2 AND active = 1", nativeQuery = true)
+    public void update_Status(String status, String id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE Cart SET active = 0 WHERE customer_id = ?1 AND active = 1", nativeQuery = true)
+    public void delete_Cart_of_User(String customer_id);
+
     @Query(value = "SELECT id FROM Cart WHERE active = 1")
     public List<String> get_list_id();
 

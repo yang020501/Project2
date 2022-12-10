@@ -22,7 +22,36 @@ public class UserImplement implements UserService {
 
     @Override
     public List<UserDto> getAll() {
-        return userRepo.getAll();
+        try{
+            return userRepo.getAll();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<UserDto> getAll_Customer() {
+        try{
+            return userRepo.getAll_Customer();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public String delete_byId(String id) {
+        try{
+            userRepo.delete_byId(id);
+            return id;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

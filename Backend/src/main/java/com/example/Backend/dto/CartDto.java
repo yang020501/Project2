@@ -5,14 +5,15 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class CartDto implements Serializable {
-    private final String id;
-    private final String customer_id;
-    private final String address;
-    private final LocalDate create_date;
-    private final long total;
-    private final String status;
-    private final boolean active;
+    private String id;
+    private String customer_id;
+    private String address;
+    private LocalDate create_date;
+    private long total;
+    private String status;
+    private boolean active;
 
+    public CartDto(){}
     public CartDto(String id, String customer_id, String address, LocalDate create_date, long total, String status) {
         this.id = id;
         this.customer_id = customer_id;
