@@ -10,7 +10,7 @@ public class ProductResponseDto implements Serializable {
     private String gender;
     private String image1;
     private String image2;
-    private long price;
+    private Long price;
     private String slug;
     private String colors;
     private String size;
@@ -22,7 +22,7 @@ public class ProductResponseDto implements Serializable {
     }
 
     public ProductResponseDto(String id, String title, String id_cate, String categorySlug, String gender, String image1, String image2,
-                              long price, String slug, String colors, String size, String descriptions, int sale) {
+                              Long price, String slug, String colors, String size, String descriptions, int sale) {
         this.id = id;
         this.title = title;
         this.id_cate = id_cate;
@@ -66,7 +66,7 @@ public class ProductResponseDto implements Serializable {
         return image2;
     }
 
-    public long getPrice() {
+    public Long getPrice() {
         return price;
     }
 

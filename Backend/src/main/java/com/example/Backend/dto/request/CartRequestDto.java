@@ -11,11 +11,11 @@ public class CartRequestDto implements Serializable {
     private String user;
     private List<CartInfoDto> list_product;
     private String address;
-    private long total;
+    private Long total;
 
     public CartRequestDto(){ }
 
-    public CartRequestDto(String user, List<CartInfoDto> list_product, String address, long total) {
+    public CartRequestDto(String user, List<CartInfoDto> list_product, String address, Long total) {
         this.user = user;
         this.list_product = list_product;
         this.address = address;
@@ -31,6 +31,6 @@ public class CartRequestDto implements Serializable {
     public String getAddress() {
         return address;
     }
-    public long getTotal() {return total;}
+    public Long getTotal() {return total;}
 
 }

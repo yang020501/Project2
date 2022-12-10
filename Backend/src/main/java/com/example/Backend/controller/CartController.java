@@ -24,6 +24,16 @@ public class CartController {
     @Autowired
     private CartInfoService cartInfoService;
 
+    @GetMapping("/get-all")
+    private Object getAll(){
+        try{
+            return new ResponseEntity<>(cartService.getAll(), HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @Transactional
     @PostMapping("/buy")
     private Object saveCart(@RequestBody CartRequestDto cartRequestDto){
