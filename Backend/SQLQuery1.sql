@@ -37,7 +37,7 @@ create table Product(
 	gender nvarchar(10),
 	image1 varchar(max),
 	image2 varchar(max),
-	price int,
+	price int default(0),
 	slug varchar(100),
 	colors varchar(100),
 	size varchar(50),
@@ -53,7 +53,7 @@ create table Cart(
 	customer_id varchar(5),
 	address nvarchar(max),
 	create_date smalldatetime,
-	total int,
+	total int default(0),
 	status nvarchar(50) default (N'đang chờ xữ lí'),
 	active bit default(1),
 
@@ -66,8 +66,8 @@ create table CartInfo(
 	slug varchar(50),
 	color varchar(50),
 	size varchar(50),
-	quantity int,
-	price int,
+	quantity int default(0),
+	price int default(0),
 	active bit default(1),
 
 	primary key (cart_id, product_id, color, size),

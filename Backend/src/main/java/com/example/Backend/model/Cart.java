@@ -17,14 +17,14 @@ public class Cart {
     private String customer_id;
     private String address;
     private LocalDate create_date;
-    private long total;
+    private Long total;
     private String status;
     private boolean active;
 
     public Cart() {
     }
 
-    public Cart(String id, String customer_id, String address, LocalDate create_date, long total, String status) {
+    public Cart(String id, String customer_id, String address, LocalDate create_date, Long total, String status) {
         this.id = id;
         this.customer_id = customer_id;
         this.address = address;
@@ -66,7 +66,7 @@ public class Cart {
         this.create_date = create_date;
     }
 
-    public long getTotal() {
+    public Long getTotal() {
         return total;
     }
 

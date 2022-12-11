@@ -9,7 +9,7 @@ public class ProductRequestDto implements Serializable {
     private String gender;
     private String image1;
     private String image2;
-    private long price;
+    private Long price;
     private String colors;
     private String size;
     private String descriptions;
@@ -17,7 +17,7 @@ public class ProductRequestDto implements Serializable {
 
     public ProductRequestDto(){ }
     public ProductRequestDto(String id,String title, String category, String gender, String image1,
-                             String image2, long price, String colors, String size, String descriptions, int sale) {
+                             String image2, Long price, String colors, String size, String descriptions, int sale) {
         this.id = id;
         this.title = title;
         this.category = category;
@@ -47,7 +47,7 @@ public class ProductRequestDto implements Serializable {
     public String getImage2() {
         return image2;
     }
-    public long getPrice() {
+    public Long getPrice() {
         return price;
     }
     public String getColors() {

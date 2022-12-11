@@ -10,7 +10,7 @@ public class CartInfoDto implements Serializable {
     private String color;
     private String size;
     private int quantity;
-    private long price;
+    private Long price;
 
     public CartInfoDto(){ }
 
