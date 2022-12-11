@@ -106,7 +106,7 @@ const Header = () => {
                     </div>
                     <div className="header-menu-right">
                         <div className="header-menu-item header-menu-right-item">
-                            <Searchbar placeholder={"Tìm kiếm sản phẩm...."} data={productData} />
+                            <Searchbar type="product" keyword="title" placeholder={"Tìm kiếm sản phẩm...."} data={productData} />
                         </div>
                         <div className="header-menu-item header-menu-right-item">
                             <Link to="/cart">

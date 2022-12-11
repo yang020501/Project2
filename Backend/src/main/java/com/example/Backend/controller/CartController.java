@@ -5,6 +5,7 @@ import com.example.Backend.dto.CartDto;
 import com.example.Backend.dto.CartInfoDto;
 import com.example.Backend.dto.request.CartInfoResponseDto;
 import com.example.Backend.dto.request.CartRequestDto;
+import com.example.Backend.dto.request.CartResponseDto;
 import com.example.Backend.model.CartInfo;
 import com.example.Backend.service.CartInfoService;
 import com.example.Backend.service.CartService;
@@ -66,15 +67,15 @@ public class CartController {
             return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);
         }
     }
-    @GetMapping("/getAllCart")
-    public Object getAllCart() {
-        try {
-            List<CartDto> cartList = cartService.getAll();
-            return new ResponseEntity<List<CartDto>>(cartList, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
-        }
-    }
+    // @GetMapping("/getAllCart")
+    // public Object getAllCart() {
+    //     try {
+    //         List<CartResponseDto> cartList = cartService.getAll();
+    //         return new ResponseEntity<List<CartDto>>(cartList, HttpStatus.OK);
+    //     } catch (Exception e) {
+    //         return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+    //     }
+    // }
 
     @GetMapping("/{customer_id}")
     private Object getAll_byCustomerID(@PathVariable String customer_id){

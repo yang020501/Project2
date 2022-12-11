@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import Helmet from '../components/Helmet'
-import category from '../assets/fake-data/category'
 import colors from '../assets/fake-data/product-color'
 import size from '../assets/fake-data/product-size'
 import gender from '../assets/fake-data/gender'
@@ -8,11 +7,12 @@ import CheckBox from '../components/CheckBox'
 import Button from '../components/Button'
 import CatalogNotFound from '../components/CatalogNotFound'
 import InfinityList from '../components/InfinityList'
-import { getAllclothes } from '../redux/product/clothesSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { getAllProduct } from '../redux/product/productsSlice'
 const Catalog = () => {
-  const Clothes = useSelector(state => state.clothesSlice.value)
-  const dispatch = useDispatch()
+  // const Clothes = useSelector(state => state.clothesSlice.value)
+  const categoryData = useSelector(state => state.categorySlice.value)
+  const productData = useSelector(state => state.productsSlice.value)
   const initFilter = {
     category: [],
     color: [],
@@ -23,12 +23,13 @@ const Catalog = () => {
   const [productList, setProductList] = useState();
   const [products, setProducts] = useState()
   const [filter, setFilter] = useState(initFilter)
-
-  const filterSelect = (type, checked, item) => {  
+  const [category, setCategory] = useState([])
+  const filterRef = useRef(null)
+  const filterSelect = (type, checked, item) => {
     if (checked) {
       switch (type) {
         case "CATEGORY":
-          setFilter({ ...filter, category: [...filter.category, item.categorySlug] })
+          setFilter({ ...filter, category: [...filter.category, item.slug] })
           break;
         case "COLOR":
           setFilter({ ...filter, color: [...filter.color, item.color] })
@@ -45,7 +46,7 @@ const Catalog = () => {
     else {
       switch (type) {
         case "CATEGORY":
-          const newCategory = filter.category.filter(e => e !== item.categorySlug)
+          const newCategory = filter.category.filter(e => e !== item.slug)
           setFilter({ ...filter, category: newCategory })
           break;
         case "COLOR":
@@ -96,14 +97,21 @@ const Catalog = () => {
   useEffect(() => {
     updateProducts();
   }, [updateProducts])
-  const filterRef = useRef(null)
+
   useEffect(() => {
-    dispatch(getAllclothes())
-  }, [])
+    let tmp = categoryData.filter(item => {
+      return item.slug.includes("ao") || item.slug.includes("quan")
+    })
+    setCategory(tmp)
+  }, [categoryData])
   useEffect(() => {
+    let Clothes = productData.filter(item => {
+
+      return category.findIndex(itemt => itemt.slug === item.categorySlug) > -1
+    })
     setProductList(Clothes)
     setProducts(Clothes)
-  }, [Clothes])
+  }, [productData, category])
 
   const showHideFilter = () => filterRef.current.classList.toggle('active')
   return (
@@ -138,13 +146,12 @@ const Catalog = () => {
             </div>
             <div className="catalog-widget-filter-content">
               {
-
                 category.map((item, index) => (
                   <div key={index} className='catalog-filter-widget-content-item'>
                     <CheckBox
-                      label={item.display}
+                      label={item.name}
                       onChange={(input) => { filterSelect("CATEGORY", input.checked, item) }}
-                      checked={filter.category.includes(item.categorySlug)}
+                      checked={filter.category.includes(item.slug)}
                     />
                   </div>
                 ))

@@ -6,7 +6,7 @@ const Button = props => {
     const size = props.size ? 'btn-' + props.size : ''
     const animate = props.animate ? 'btn-animate' : ''
     return (
-        <button disabled={props.disabled ? props.disabled : false} className={`btn ${bg} ${size} ${animate}`}
+        <button type={props.type ? props.type : null} disabled={props.disabled ? props.disabled : false} className={`btn ${bg} ${size} ${animate}`}
             onClick={props.onclick ? () => props.onclick() : null}>
             <span className='btn-txt'>{props.children}</span>
             {
@@ -28,7 +28,8 @@ Button.propTypes = {
     icon: PropTypes.string,
     animate: PropTypes.bool,
     onclick: PropTypes.func,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    type: PropTypes.string
 }
 
 export default Button

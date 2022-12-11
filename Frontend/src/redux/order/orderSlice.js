@@ -5,7 +5,7 @@ import { apiUrl } from "../../utils/constant";
 export const getAllOrders = createAsyncThunk(
     'order/getAllOrders',
     async (data, { rejectWithValue }) => {
-        const rs = await axios.get(`${apiUrl}/cart/getAllCart`)
+        const rs = await axios.get(`${apiUrl}/cart/get-all`)
         if (rs.status < 200 || rs.status >= 300) {
             return rejectWithValue(rs.data)
         }

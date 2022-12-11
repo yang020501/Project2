@@ -19,12 +19,34 @@ export const staffSlice = createSlice({
     initialState: {
         value: []
     },
+    reducers: {
+        addStaff: (state, action) => {
+            const Staffs = state.value
+            const updateSatff = action.payload
+
+            //add
+            Staffs.push(updateSatff)
+            state.value = Staffs
+
+
+        },
+        deleteStaff: (state, action) => {
+            const Staffs = state.value
+            const updateSatff = action.payload
+
+            let index = Staffs.findIndex(item => item.id === updateSatff.id)
+            //delete
+            Staffs.splice(index, 1)
+            state.value = Staffs
+
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(getAllUsers.fulfilled, (state, action) => {
             state.value = action.payload
         })
-      
+
     }
 })
-export const { } = staffSlice.actions
+export const { addStaff, deleteStaff } = staffSlice.actions
 export default staffSlice.reducer

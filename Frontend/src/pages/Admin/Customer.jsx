@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import ContentMain from '../../components/Admin/ContentMain'
-
+import Card, { CardBody, CardHeader } from '../../components/Card'
+import Searchbar from '../../components/Searchbar'
+import CheckBox from '../../components/CheckBox'
 import MyDataGrid from '../../components/MyDataGrid'
 import numberWithCommas from '../../utils/numberWithCommas'
 const Customer = () => {
   const customerData = useSelector(state => state.customerSlice.value)
   const orderData = useSelector(state => state.orderSlice.value)
+  const [Check, setCheck] = useState("customer_name")
   const [rows, setRows] = useState([])
+  const [customerDataSearch, setcustomerDataSearch] = useState([])
   const columns = [
     {
       key: "customer_name",
@@ -46,7 +50,9 @@ const Customer = () => {
       width: 120,
     }
   ]
-  console.log(rows);
+  useEffect(() => {
+    setcustomerDataSearch(rows)
+  }, [rows])
   useEffect(() => {
     const tmprows = customerData.map((item) => {
       return {
@@ -60,9 +66,30 @@ const Customer = () => {
   }, [customerData])
   return (
     <ContentMain headerTitle='Khách hàng'>
-      <div style={{ width: "100%", columnGap: 10, height: "560px" }}>
-        <MyDataGrid ColumnHeader={columns} Data={rows} />
-      </div>
+
+      <CardHeader>
+        <Searchbar type="customer" keyword={`${Check}`} admin placeholder={"Tìm kiếm khách hàng..."} data={rows} onsearch={(data) => { setcustomerDataSearch(data) }} />
+        <div style={{ display: "contents" }}>
+          <div onClick={() => { setCheck("customer_name") }}>
+            <CheckBox label='Tên' checked={Check === "customer_name"} />
+          </div>
+          <div onClick={() => { setCheck("username") }}>
+            <CheckBox label='E-mail' checked={Check === "username"} />
+          </div>
+        </div>
+      </CardHeader>
+      <CardBody>
+        {
+          customerDataSearch.length < rows.length ?
+            <div style={{ width: "100%", columnGap: 10, height: "540px" }}>
+              <MyDataGrid ColumnHeader={columns} Data={customerDataSearch} />
+            </div>
+            :
+            <div style={{ width: "100%", columnGap: 10, height: "540px" }}>
+              <MyDataGrid ColumnHeader={columns} Data={rows} />
+            </div>
+        }
+      </CardBody>
 
     </ContentMain >
   )

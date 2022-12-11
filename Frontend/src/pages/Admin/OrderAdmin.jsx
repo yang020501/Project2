@@ -14,6 +14,7 @@ const Order = () => {
   const customerData = useSelector(state => state.customerSlice.value)
   const [Check, setCheck] = useState("name")
   const [rows, setRows] = useState([])
+  const [orderDataSearch, setorderDataSearch] = useState([])
   const navigate = useNavigate()
   const columns = [
     {
@@ -56,29 +57,10 @@ const Order = () => {
   const findCustomerById = (id) => {
     return customerData.find(item => item.id === id)
   }
-  const [orderDataSearch, setorderDataSearch] = useState([])
+
   const gotoOrderView = (id) => {
     navigate(`/admin/order/${id}`)
   }
-  // const rows = [{
-  //   id: "seqweqweqwe",
-  //   name: "Quan jean",
-  //   option: {
-  //     type: "view",
-  //     click: gotoOrderView
-  //   }
-  // },
-  // {
-  //   id: "se2e",
-  //   name: "Quan qwe",
-  //   option: {
-  //     type: "view",
-  //     click: gotoOrderView
-  //   }
-  // }
-  // ]
-
-
   useEffect(() => {
     setorderDataSearch(rows)
   }, [rows])
@@ -89,7 +71,7 @@ const Order = () => {
         email: findCustomerById(item.customer_id) ? findCustomerById(item.customer_id).username : "",
         name: findCustomerById(item.customer_id) ? findCustomerById(item.customer_id).customer_name : "",
         createdate: item ? formatDate(item.create_date) : "",
-        total : item ? numberWithCommas(item.total) : "", 
+        total: item ? numberWithCommas(item.total) : "",
         option: {
           type: "view",
           click: gotoOrderView
@@ -100,34 +82,30 @@ const Order = () => {
   }, [orderData])
   return (
     <ContentMain headerTitle='Đơn hàng'>
-      <Card>
-        <CardHeader>
-          <Searchbar type="order" keyword={`${Check}`} admin placeholder={"Tìm kiếm đơn hàng..."} data={rows} onsearch={(data) => { setorderDataSearch(data) }} />
-          <div style={{ display: "contents" }}>
-            <div onClick={() => { setCheck("name") }}>
-              <CheckBox label='Tên' checked={Check === "name"} />
-            </div>
-            <div onClick={() => { setCheck("email") }}>
-              <CheckBox label='E-mail' checked={Check === "email"} />
-            </div>
-            {/* <CheckBox label='Trạng thái' checked ={Check === "status"} /> */}
+      <CardHeader>
+        <Searchbar type="order" keyword={`${Check}`} admin placeholder={"Tìm kiếm đơn hàng..."} data={rows} onsearch={(data) => { setorderDataSearch(data) }} />
+        <div style={{ display: "contents" }}>
+          <div onClick={() => { setCheck("name") }}>
+            <CheckBox label='Tên' checked={Check === "name"} />
           </div>
-        </CardHeader>
-        <CardBody>
-          {
-            orderDataSearch.length < rows.length ?
-              <div style={{ width: "100%", columnGap: 10, height: "540px" }}>
-                <MyDataGrid ColumnHeader={columns} Data={orderDataSearch} />
-              </div>
-              :
-              <div style={{ width: "100%", columnGap: 10, height: "540px" }}>
-                <MyDataGrid ColumnHeader={columns} Data={rows} />
-              </div>
-          }
-
-        </CardBody>
-      </Card>
-
+          <div onClick={() => { setCheck("email") }}>
+            <CheckBox label='E-mail' checked={Check === "email"} />
+          </div>
+          {/* <CheckBox label='Trạng thái' checked ={Check === "status"} /> */}
+        </div>
+      </CardHeader>
+      <CardBody>
+        {
+          orderDataSearch.length < rows.length ?
+            <div style={{ width: "100%", columnGap: 10, height: "540px" }}>
+              <MyDataGrid ColumnHeader={columns} Data={orderDataSearch} />
+            </div>
+            :
+            <div style={{ width: "100%", columnGap: 10, height: "540px" }}>
+              <MyDataGrid ColumnHeader={columns} Data={rows} />
+            </div>
+        }
+      </CardBody>
     </ContentMain >
 
   )
