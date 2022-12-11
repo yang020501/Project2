@@ -13,6 +13,7 @@ import categorySlice from "./category/categorySlice";
 import loadingSlice from "./loading/loadingSlice";
 import orderSlice from "./order/orderSlice";
 import customerSlice from "./user/customerSlice";
+import staffSlice from "./user/staffSlice";
 
 export const store = configureStore({
     reducer: {
@@ -29,7 +30,8 @@ export const store = configureStore({
         categorySlice: categorySlice,
         loading: loadingSlice,
         orderSlice: orderSlice,
-        customerSlice: customerSlice
+        customerSlice: customerSlice,
+        staffSlice: staffSlice
 
     },
     devTools: true

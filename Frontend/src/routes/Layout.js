@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 import LoginModal from "../components/LoginModal";
 import RegisterModal from "../components/RegisterModal";
 import AlertMessage from "../components/AlertMessage";
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
@@ -19,19 +19,21 @@ import CustomerInfo from "../pages/CustomerInfo";
 import Policy from "../pages/Policy";
 import NoPage from "../pages/NoPage";
 import Backdropp from "../components/Backdropp";
+import { getCart } from "../redux/user/userState";
 /* import { getAllSale } from '../redux/product/saleSlice'
 
 import { getAllProduct } from '../redux/product/productSlice'
 import { getAllAccessories } from '../redux/product/accessoriesSlice'
 import { getAllclothes } from '../redux/product/clothesSlice' */
 const Layout = () => {
-  /*   let dispatch = useDispatch()
-    useEffect(() => {
-      dispatch(getAllSale())
-      dispatch(getAllProduct())
-      dispatch(getAllAccessories())
-      dispatch(getAllclothes())
-    }, []) */
+  let dispatch = useDispatch()
+  useEffect(() => {
+    // dispatch(getAllSale())
+    // dispatch(getAllProduct())
+    // dispatch(getAllAccessories())
+    // dispatch(getAllclothes())
+    dispatch(getCart())
+  }, [])
   const user = useSelector(state => state.userState.user)
   const navigate = useNavigate()
   useEffect(() => {

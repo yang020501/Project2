@@ -34,7 +34,7 @@ const ContentMain = props => {
                             onclick={props.headerRightAction.action}
                             icon='bx bx-edit'
                             animate={true}
-                            backgroundColor={'green'}
+                            backgroundColor={props.headerRightAction.title === "Tạo mới" ? 'main' : 'green'}
                         >
                             {props.headerRightAction.title}
                         </Button> : <></>
