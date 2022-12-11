@@ -12,13 +12,19 @@ import axios from 'axios'
 import { apiUrl } from '../../utils/constant'
 import { setAlert } from '../../redux/alert-message/alertMessage'
 import { updateOrder } from '../../redux/order/orderSlice'
+import OrderItem from "../../components/OrderItem"
+import numberWithCommas from '../../utils/numberWithCommas'
 const OrderViewAdmin = () => {
 
   const { id } = useParams()
   const orderData = useSelector(state => state.orderSlice.value)
   const token = useSelector(state => state.userState.token)
+  const productData = useSelector(state => state.productsSlice.value)
+  const productSaleData = useSelector(state => state.saleSlice.value)
   const [order, setOrder] = useState({})
   const [status, setStatus] = useState("")
+  const [totalPrice, settotalPrice] = useState(0)
+  const [tmpPrice, settmpPrice] = useState(0)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const statusOption = [
@@ -61,18 +67,43 @@ const OrderViewAdmin = () => {
         }
       }
   }
+  const findProductById = (id) => {
+    return productData.find(item => {
+      return item.id === id
+    })
+  }
+  console.log(order);
   useEffect(() => {
     if (orderData) {
+      let list
       let order = orderData.find((item) => {
         return item.id === id
       })
-      setOrder({ ...order })
+      if (order) {
+        list = order.list_product.map(item => {
+          return { ...item, product: findProductById(item.product_id) }
+        })
+      }
+      setOrder({ ...order, list_product: list })
 
     }
 
   }, [id, orderData])
   useEffect(() => {
     setStatus(order.status)
+  }, [order])
+  useEffect(() => {
+    if (order.list_product) {
+      settotalPrice(order.list_product.reduce((total, item) => {
+        let findSale = productSaleData.find(element => element.slug === item.slug)
+        if (findSale) {
+          return total + (Number(item.quantity) * Number(item.price - item.price * findSale.sale / 100))
+        }
+        return total + (Number(item.quantity) * Number(item.price))
+      }, 0))
+      settmpPrice(order.list_product.reduce((total, item) => total + (Number(item.quantity) * Number(item.price)), 0))
+    }
+
   }, [order])
   return (
     <ContentMain headerTitle='Chi tiết đơn hàng'
@@ -128,8 +159,61 @@ const OrderViewAdmin = () => {
             </div>
           </CardHeader>
           <CardBody>
+            <div className="orderview-body">
+              <div className='orderview-body-info'>
 
+              </div>
+              <div className="orderview-body-listproduct">
+                {
+                  order ?
+                    order.list_product ?
+                      order.list_product.map((item, index) => {
+                        return <OrderItem item={item} key={index} />
+                      })
+                      : <></>
+                    : <></>
+                }
+              </div>
+              <div className='order-rightcontent-content-fee'>
+                <div className="order-rightcontent-content-fee-item">
+                  <div className='order-rightcontent-content-fee-item-left' >
+                    Tạm tính
+                  </div>
+                  <div className='order-rightcontent-content-fee-item-right'>
+                    {numberWithCommas(Number(tmpPrice))} đ
+                  </div>
+                </div>
+                <div className="order-rightcontent-content-fee-item">
+                  <div className='order-rightcontent-content-fee-item-left' >
+                    Phí ship
+                  </div >
+                  <div className='order-rightcontent-content-fee-item-right' >
+                    {totalPrice > 279000 ? "0" : numberWithCommas(Number(25000))} đ
+                  </div>
+                </div>
+                <div className="order-rightcontent-content-fee-item">
+                  <div className='order-rightcontent-content-fee-item-left' >
+                    Giảm giá
+                  </div >
+                  <div className='order-rightcontent-content-fee-item-right' >
+                    {totalPrice === tmpPrice ? "0" : numberWithCommas(Number(totalPrice - tmpPrice))} đ
+                  </div>
+                </div>
+              </div>
+              <div className='order-rightcontent-content-fee'>
+                <div className="order-rightcontent-content-fee-item">
+                  <div className='order-rightcontent-content-fee-item-left' >
+                    Tổng
+                  </div>
+                  <div className='order-rightcontent-content-fee-item-right'>
+                    {totalPrice > 279000 ? numberWithCommas(Number(totalPrice))
+                      : numberWithCommas(Number(totalPrice + 25000))} đ
+                  </div>
+                </div>
 
+              </div>
+
+            </div>
           </CardBody>
         </Card>
       </div>

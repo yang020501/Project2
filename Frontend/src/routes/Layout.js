@@ -20,18 +20,17 @@ import Policy from "../pages/Policy";
 import NoPage from "../pages/NoPage";
 import Backdropp from "../components/Backdropp";
 import { getCart } from "../redux/user/userState";
-/* import { getAllSale } from '../redux/product/saleSlice'
+import { getAllSale } from '../redux/product/saleSlice'
+import { getAllCategory } from "../redux/category/categorySlice";
+import { getAllProduct } from "../redux/product/productsSlice";
 
-import { getAllProduct } from '../redux/product/productSlice'
-import { getAllAccessories } from '../redux/product/accessoriesSlice'
-import { getAllclothes } from '../redux/product/clothesSlice' */
+
 const Layout = () => {
   let dispatch = useDispatch()
   useEffect(() => {
-    // dispatch(getAllSale())
-    // dispatch(getAllProduct())
-    // dispatch(getAllAccessories())
-    // dispatch(getAllclothes())
+    dispatch(getAllSale())
+    dispatch(getAllCategory())
+    dispatch(getAllProduct())
     dispatch(getCart())
   }, [])
   const user = useSelector(state => state.userState.user)

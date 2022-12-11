@@ -16,7 +16,7 @@ import ProductViewAdmin from "../pages/Admin/ProductViewAdmin"
 import NoPage from "../pages/NoPage";
 import OrderViewAdmin from "../pages/Admin/OrderViewAdmin";
 import CustomerViewAdmin from "../pages/Admin/CustomerViewAdmin";
-
+import Backdropp from "../components/Backdropp";
 import { getAllProduct } from '../redux/product/productsSlice'
 import { getAllCategory } from "../redux/category/categorySlice";
 import AlertMessage from "../components/AlertMessage"
@@ -63,8 +63,9 @@ const AdminLayout = () => {
             <Route path="*" element={<NoPage />}></Route>
           </Routes>
         </div>
-      </div>      
+      </div>
       <AlertMessage />
+      <Backdropp />
     </React.Fragment>
   )
 }

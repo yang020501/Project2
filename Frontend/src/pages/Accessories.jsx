@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import Helmet from '../components/Helmet'
-import category2 from '../assets/fake-data/category2'
 import gender from '../assets/fake-data/gender'
 import colors from '../assets/fake-data/product-color'
 import size from '../assets/fake-data/product-size'
@@ -13,6 +12,8 @@ import { getAllAccessories } from '../redux/product/accessoriesSlice'
 const Accessories = () => {
     const dispatch = useDispatch()
     const Accessories = useSelector(state => state.accessoriesSlice.value)
+    const categoryData = useSelector(state => state.categorySlice.value)
+    const productData = useSelector(state => state.productsSlice.value)
     const initFilter = {
         category: [],
         color: [],
@@ -23,12 +24,13 @@ const Accessories = () => {
     const [productList, setProductList] = useState();
     const [products, setProducts] = useState()
     const [filter, setFilter] = useState(initFilter)
-
+    const [category, setCategory] = useState([])
+    const filterRef = useRef(null)
     const filterSelect = (type, checked, item) => {
         if (checked) {
             switch (type) {
                 case "CATEGORY":
-                    setFilter({ ...filter, category: [...filter.category, item.categorySlug] })
+                    setFilter({ ...filter, category: [...filter.category, item.slug] })
                     break;
                 case "COLOR":
                     setFilter({ ...filter, color: [...filter.color, item.color] })
@@ -45,7 +47,7 @@ const Accessories = () => {
         else {
             switch (type) {
                 case "CATEGORY":
-                    const newCategory = filter.category.filter(e => e !== item.categorySlug)
+                    const newCategory = filter.category.filter(e => e !== item.slug)
                     setFilter({ ...filter, category: newCategory })
                     break;
                 case "COLOR":
@@ -65,6 +67,7 @@ const Accessories = () => {
             }
         }
     }
+    const showHideFilter = () => filterRef.current.classList.toggle('active')
     const clearFilter = () => {
         setFilter(initFilter)
     }
@@ -93,18 +96,26 @@ const Accessories = () => {
         },
         [filter, setProducts],
     )
+    console.log(productList);
     useEffect(() => {
         updateProducts();
     }, [updateProducts])
-    const filterRef = useRef(null)
+
     useEffect(() => {
-        dispatch(getAllAccessories())
-    }, [])
+        let tmp = categoryData.filter(item => {
+            return !item.slug.includes("ao") && !item.slug.includes("quan")
+        })
+        setCategory(tmp)
+    }, [categoryData])
     useEffect(() => {
+        let Accessories = productData.filter(item => {
+
+            return category.findIndex(itemt => itemt.slug === item.categorySlug) > -1
+        })
         setProductList(Accessories)
         setProducts(Accessories)
-    }, [Accessories])
-    const showHideFilter = () => filterRef.current.classList.toggle('active')
+    }, [productData, category])
+
     return (
         <Helmet title='Quần áo'>
             <div className="catalog">
@@ -138,12 +149,12 @@ const Accessories = () => {
                         <div className="catalog-widget-filter-content">
                             {
 
-                                category2.map((item, index) => (
+                                category.map((item, index) => (
                                     <div key={index} className='catalog-filter-widget-content-item'>
                                         <CheckBox
-                                            label={item.display}
+                                            label={item.name}
                                             onChange={(input) => { filterSelect("CATEGORY", input.checked, item) }}
-                                            checked={filter.category.includes(item.categorySlug)}
+                                            checked={filter.category.includes(item.slug)}
                                         />
                                     </div>
                                 ))
