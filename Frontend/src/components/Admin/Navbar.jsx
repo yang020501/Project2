@@ -31,21 +31,21 @@ const Navbar = () => {
             path: "/admin/customer",
             icon: faUser
         },
-        // {
-        //     display: "Nhân viên",
-        //     path: "/admin/staff",
-        //     icon: faUserShield
-        // },
+        {
+            display: "Nhân viên",
+            path: "/admin/staff",
+            icon: faUserShield
+        },
         // {
         //     display: "Thông tin",
         //     path: "/admin/profile",
         //     icon: faAddressCard
         // },
-        {
-            display: "Cài đặt",
-            path: "/admin/setting",
-            icon: faGear
-        },
+        // {
+        //     display: "Cài đặt",
+        //     path: "/admin/setting",
+        //     icon: faGear
+        // },
     ]
     const { pathname } = useLocation();
     const activeNav = mainNav.findIndex(e => e.path === pathname)

@@ -14,6 +14,7 @@ const CustomerInfo = () => {
     const token = useSelector(state => state.userState.token)
     const cart = useSelector(state => state.userState.cart)
     const products = useSelector(state => state.productsSlice.value)
+    console.log(cart);
     const initialForm = {
         customer_name: user.customer_name ? user.customer_name : "",
         username: user.username,
