@@ -21,7 +21,7 @@ const ProductViewAdmin = props => {
   const token = useSelector(state => state.userState.token)
   const [color, setColor] = useState([])
   const [sizes, setSizes] = useState([])
-
+  const [validated, setValidated] = useState(false);
   const [productForm, setproductForm] = useState({
     title: "",
     image1: "",
@@ -34,12 +34,13 @@ const ProductViewAdmin = props => {
     price: 0,
     description: " ",
     gender: 2,
-    slug: ""
+    slug: "",
   })
+
 
   const { title, sale, price, descriptions, gender, categorySlug, image1, image2 } = productForm
   const onChange = e => {
-   
+
     var file = e.target.files
     if (FileReader && file && file.length) {
       var fr = new FileReader();
@@ -88,44 +89,72 @@ const ProductViewAdmin = props => {
       }
     }
   }
-  const Update = async () => {
-    let categoryName = categoryData.find(item => item.slug === productForm.categorySlug) ? categoryData.find(item => item.slug === productForm.categorySlug).name : ""
-    let type = productData.findIndex(item => item.id === productForm.id)
-    let body = {
-      ...productForm,
-      category: categoryName ? categoryName : ""
+  const check = () => {
+    if (color.length === 0) {
+      dispatch(setAlert({
+        message: "Vui lòng chọn màu sắc",
+        type: "warning"
+      }))
+      return false
     }
-    if (type > -1) {
-      let rs = await axios.post(`${apiUrl}/product/update-product`, body, { headers: { Authorization: `Bearer ${token}` } }).catch(data => { return data })
-      if (rs.data) {
-        dispatch(setAlert({
-          message: "Cập nhật sản phẩm thành công",
-          type: "success"
-        }))
-        dispatch(updateProduct(productForm))
-      }
-      else {
-        dispatch(setAlert({
-          message: "Cập nhật sản phẩm thất bại ",
-          type: "danger"
-        }))
-      }
+    if (sizes.length === 0) {
+      dispatch(setAlert({
+        message: "Vui lòng chọn kích cỡ",
+        type: "warning"
+      }))
+      return false
+    }
+    return true
+  }
+  const Update = async (event) => {
+    const form = event.currentTarget;
+    event.preventDefault();
+    event.stopPropagation();
+    if (form.checkValidity() === false || check() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+      setValidated(true);
     }
     else {
-      let rs = await axios.post(`${apiUrl}/product/add-product`, body, { headers: { Authorization: `Bearer ${token}` } }).catch(data => { return data })
-
-      if (rs.data) {
-        dispatch(setAlert({
-          message: "Tạo sản phẩm thành công",
-          type: "success"
-        }))
-        dispatch(addProduct(productForm))
+      setValidated(false)
+      let categoryId = categoryData.find(item => item.slug === productForm.categorySlug) ? categoryData.find(item => item.slug === productForm.categorySlug).id : categoryData[0].id
+      let type = productData.findIndex(item => item.id === productForm.id)
+      let body = {
+        ...productForm,
+        category: categoryId ? categoryId : ""
+      }
+      if (type > -1 && slug !== "new") {
+        let rs = await axios.post(`${apiUrl}/product/update-product`, body, { headers: { Authorization: `Bearer ${token}` } }).catch(data => { return data })
+        if (rs.data) {
+          dispatch(setAlert({
+            message: "Cập nhật sản phẩm thành công",
+            type: "success"
+          }))
+          dispatch(updateProduct(productForm))
+        }
+        else {
+          dispatch(setAlert({
+            message: "Cập nhật sản phẩm thất bại ",
+            type: "danger"
+          }))
+        }
       }
       else {
-        dispatch(setAlert({
-          message: "Lỗi: Tên sản phẩm đã tồn tại",
-          type: "danger"
-        }))
+        let rs = await axios.post(`${apiUrl}/product/add-product`, body, { headers: { Authorization: `Bearer ${token}` } }).catch(data => { return data })
+
+        if (rs.data) {
+          dispatch(setAlert({
+            message: "Tạo sản phẩm thành công",
+            type: "success"
+          }))
+          dispatch(addProduct(rs.data))
+        }
+        else {
+          dispatch(setAlert({
+            message: "Lỗi: Tên sản phẩm đã tồn tại",
+            type: "danger"
+          }))
+        }
       }
     }
   }
@@ -150,24 +179,25 @@ const ProductViewAdmin = props => {
   }, [slug, productData])
 
   return (
-    <ContentMain headerTitle='Sản phẩm'
-      headerLeftAction={{
-        ...btnAction,
-        title: 'Quay lại Sản phẩm',
-        action: () => navigate('/admin/product')
-        // action: BacktoProducts
-      }}
-      headerRightAction={{
-        ...btnAction,
-        color: 'green',
-        title: 'Câp nhật',
-        action: Update
-        // action: BacktoProducts
-      }}
-    >
-      <Card>
-        <CardBody>
-          <Form >
+    <Form noValidate validated={validated} onSubmit={Update}>
+      <ContentMain headerTitle='Sản phẩm'
+        headerLeftAction={{
+          ...btnAction,
+          title: 'Quay lại Sản phẩm',
+          action: () => navigate('/admin/product')
+          // action: BacktoProducts
+        }}
+        headerRightAction={{
+          ...btnAction,
+          color: 'green',
+          title: 'Câp nhật',
+          type: "submit",
+          action: null
+          // action: BacktoProducts
+        }}
+      >
+        <Card>
+          <CardBody>
             <fieldset className='border p-3'  >
               <legend className='float-none w-auto p-3'>{slug === "new" ? "Tạo sản phẩm mới" : "Chỉnh sửa thông tin sản phẩm"}</legend>
               <Form.Group className='me-5 mb-3'  >
@@ -196,7 +226,7 @@ const ProductViewAdmin = props => {
                     onChange={onChange}
                   />
                   <Form.Control.Feedback type="invalid">
-                    Vui lòng nhập tên sản phẩm.
+                    Vui lòng nhập giá.
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className='me-5 mb-3 w-100'  >
@@ -239,7 +269,6 @@ const ProductViewAdmin = props => {
                   onChange={onChange}
                   bsPrefix="form-select form-select-lg"
                 >
-                  <option>Loại sản phẩm</option>
                   {
                     categoryData.map((item, index) => {
                       return (
@@ -255,7 +284,7 @@ const ProductViewAdmin = props => {
               <Form.Group className='me-5 mb-4' >
                 <Form.Label>Hình ảnh 1</Form.Label>
                 <Form.Control
-                  required
+
                   type="file"
                   // value={image1}
                   name="image1"
@@ -269,7 +298,7 @@ const ProductViewAdmin = props => {
               <Form.Group className='me-5 mb-4' >
                 <Form.Label>Hình ảnh 2</Form.Label>
                 <Form.Control
-                  required
+
                   type="file"
                   name="image2"
                   // value={image2}
@@ -329,13 +358,10 @@ const ProductViewAdmin = props => {
                 </Form.Control.Feedback>
               </Form.Group>
             </fieldset>
-
-          </Form>
-
-        </CardBody>
-      </Card>
-
-    </ContentMain >
+          </CardBody>
+        </Card>
+      </ContentMain >
+    </Form>
   )
 }
 

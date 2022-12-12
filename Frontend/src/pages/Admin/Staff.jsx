@@ -11,7 +11,7 @@ import { useEffect } from 'react'
 import axios from 'axios'
 import { apiUrl } from '../../utils/constant'
 import { setAlert } from '../../redux/alert-message/alertMessage'
-import { deleteStaff } from '../../redux/user/staffSlice'
+import { addStaff, deleteStaff } from '../../redux/user/staffSlice'
 import Button from '../../components/Button'
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form'
@@ -23,6 +23,14 @@ const Staff = () => {
   const token = useSelector(state => state.userState.token)
   const [show, setShow] = useState(false);
   const [validated, setValidated] = useState(false);
+  const initialForm = {
+    username: "",
+    customer_name: "",
+    phone: "",
+    address: ""
+  }
+  const [userForm, setuserForm] = useState(initialForm)
+  const { username, customer_name, phone, address } = userForm
   const dispatch = useDispatch()
   const columns = [
     {
@@ -58,6 +66,12 @@ const Staff = () => {
   ]
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const onChange = (e) => {
+    setuserForm({
+      ...userForm,
+      [e.target.name]: e.target.value
+    })
+  }
   const deleteItem = async (id, name) => {
     let element = staffData.find(item => item.id === id)
     if (window.confirm(`Bạn có muốn xóa tài khoản của ${name} khỏi danh sách nhân viên?`)) {
@@ -77,19 +91,52 @@ const Staff = () => {
       }
     }
   }
+  const handleAddress = (item) => {
+    console.log(item);
+    let tmp = item.split(",")
+    console.log(tmp);
+    return {
+      house_address: tmp[0],
+      address1: tmp[3],
+      address2: tmp[2],
+      address3: tmp[1],
+    }
+  }
   const addItem = async (event) => {
-    console.log("hello");
     const form = event.currentTarget;
-    // event.preventDefault();
-    // event.stopPropagation();
+    event.preventDefault();
+    event.stopPropagation();
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
       setValidated(true);
     }
     else {
-      // dispatch(login(LoginForm))
       setValidated(false)
+      if (window.confirm(`Xác nhận đăng ký tài khoản?`)) {
+        let body = {
+          ...userForm,
+          ...handleAddress(userForm.address),
+          password: "admin"
+        }
+        let rs = await axios.post(`${apiUrl}/user/sign-in-admin`, body, { headers: { Authorization: `Bearer ${token}` } }).catch(data => { return data })
+        if (rs.data) {
+          setShow(false)
+          dispatch(setAlert({
+            message: "Tạo tài khoản thành công!",
+            type: "success"
+          }))
+
+          dispatch(addStaff(rs.data))
+
+        }
+        else {
+          dispatch(setAlert({
+            message: "Tạo tài khoản thất bại!",
+            type: "danger"
+          }))
+        }
+      }
     }
   }
   useEffect(() => {
@@ -152,9 +199,9 @@ const Staff = () => {
               <Form.Control
                 required
                 type="email"
-                // value={username}
+                value={username}
                 name="username"
-              // onChange={onLoginFormChange}
+                onChange={onChange}
               />
               <Form.Control.Feedback type="invalid">
                 Vui lòng nhập email.
@@ -165,9 +212,9 @@ const Staff = () => {
               <Form.Control
                 required
                 type="text"
-                // value={username}
+                value={customer_name}
                 name="customer_name"
-              // onChange={onLoginFormChange}
+                onChange={onChange}
               />
               <Form.Control.Feedback type="invalid">
                 Vui lòng nhập họ tên.
@@ -178,9 +225,9 @@ const Staff = () => {
               <Form.Control
                 required
                 type="number"
-                // value={username}
-                name="customer_name"
-              // onChange={onLoginFormChange}
+                value={phone}
+                name="phone"
+                onChange={onChange}
               />
               <Form.Control.Feedback type="invalid">
                 Vui lòng nhập số điện thoại.
@@ -191,9 +238,9 @@ const Staff = () => {
               <Form.Control
                 required
                 type="text"
-                // value={username}
-                name="customer_name"
-              // onChange={onLoginFormChange}
+                value={address}
+                name="address"
+                onChange={onChange}
               />
               <Form.Control.Feedback type="invalid">
                 Vui lòng nhập địa chỉ.

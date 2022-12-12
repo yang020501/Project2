@@ -1,3 +1,0 @@
-const convert = (data) =>{
-    
-}

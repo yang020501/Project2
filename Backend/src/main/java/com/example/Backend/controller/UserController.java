@@ -161,8 +161,8 @@ public class UserController {
 
     @CrossOrigin
     @Transactional
-    @DeleteMapping("/delete")
-    public Object deleteUser_byId(@RequestBody String id){
+    @DeleteMapping("/delete/{id}")
+    public Object deleteUser_byId(@PathVariable String id){
         try{
             System.out.print(id);
             userService.delete_byId(id);
