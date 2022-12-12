@@ -28,7 +28,6 @@ export const staffSlice = createSlice({
             Staffs.push(updateSatff)
             state.value = Staffs
 
-
         },
         deleteStaff: (state, action) => {
             const Staffs = state.value

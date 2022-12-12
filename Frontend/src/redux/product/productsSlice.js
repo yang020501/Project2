@@ -4,6 +4,7 @@ import axios from "axios";
 import { apiUrl } from "../../utils/constant";
 
 
+
 export const getAllProduct = createAsyncThunk(
     'product/getAllProduct',
     async (data, { rejectWithValue }) => {
@@ -30,8 +31,6 @@ export const productsSlice = createSlice({
             //update
             Products[index] = updateProduct
             state.value = Products
-            console.log(index);
-            console.log(action.payload, Products[index], state.value);
         },
         addProduct: (state, action) => {
             const Products = state.value
@@ -41,7 +40,7 @@ export const productsSlice = createSlice({
             Products.push(updateProduct)
             state.value = Products
 
-       
+
         },
         deleteProduct: (state, action) => {
             const Products = state.value
@@ -49,16 +48,19 @@ export const productsSlice = createSlice({
 
             let index = Products.findIndex(item => item.id === updateProduct.id)
             //delete
-            Products.splice(index,1)
+            Products.splice(index, 1)
             state.value = Products
 
-        
+
         },
-        updateProducts:(state,action) =>{
+        updateProducts: (state, action) => {
             state.value = action.payload
         }
     },
     extraReducers: (builder) => {
+        builder.addCase(getAllProduct.pending, (state, action) => {
+            
+        })
         builder.addCase(getAllProduct.fulfilled, (state, action) => {
             state.value = action.payload
         })
@@ -67,5 +69,5 @@ export const productsSlice = createSlice({
 
 
 })
-export const { updateProduct,addProduct,deleteProduct,updateProducts } = productsSlice.actions
+export const { updateProduct, addProduct, deleteProduct, updateProducts } = productsSlice.actions
 export default productsSlice.reducer

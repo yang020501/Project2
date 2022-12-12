@@ -54,16 +54,15 @@ public class ProductImplement implements ProductService {
     public List<ProductDto> getClothes() {
         List<ProductDto> list = productRepo.GetAll();
         List<ProductDto> clothes = new ArrayList<>();
-        try{
-            for(ProductDto product : list){
-                if(product.getCategorySlug().contains("quan") || product.getCategorySlug().contains("ao")){
+        try {
+            for (ProductDto product : list) {
+                if (product.getCategorySlug().contains("quan") || product.getCategorySlug().contains("ao")) {
                     clothes.add(product);
                 }
             }
 
             return clothes;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -73,16 +72,15 @@ public class ProductImplement implements ProductService {
     public List<ProductDto> getAccessory() {
         List<ProductDto> list = productRepo.GetAll();
         List<ProductDto> accessory = new ArrayList<>();
-        try{
-            for(ProductDto product : list){
-                if(!(product.getCategorySlug().contains("quan") || product.getCategorySlug().contains("ao"))){
+        try {
+            for (ProductDto product : list) {
+                if (!(product.getCategorySlug().contains("quan") || product.getCategorySlug().contains("ao"))) {
                     accessory.add(product);
                 }
             }
 
             return accessory;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -90,15 +88,14 @@ public class ProductImplement implements ProductService {
 
     @Override
     public boolean check_Title_duplicate(String title) {
-        try{
+        try {
             String checker = productRepo.GetId_fromTitle(title);
-            if(checker != null){
+            if (checker != null) {
                 return true;
             }
 
             return false;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -106,20 +103,18 @@ public class ProductImplement implements ProductService {
 
     @Override
     public boolean check_Id_exist(String id) {
-        try{
+        try {
             String checker = productRepo.Check_Id_exist(id);
-            if(checker != null){
+            if (checker != null) {
                 return true;
             }
 
             return false;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
-
 
     @Override
     public ProductDto add(ProductRequestDto product) {
@@ -132,13 +127,13 @@ public class ProductImplement implements ProductService {
             }
             while (id.equals(id_check));
             String title = product.getTitle();
-            String id_cate = categoryRepo.GetId_byName(product.getCategory());
+            String id_cate =product.getCategory();
             String gender = product.getGender();
             String image1 = product.getImage1();
             String image2 = product.getImage2();
             Long price = product.getPrice();
             String slug = RandomGenerate.generate_slug(product.getTitle());
-            String category_slug = RandomGenerate.generate_slug(product.getCategory());
+            String category_slug = RandomGenerate.generate_slug(categoryRepo.GetName_byId(product.getCategory()));
             String colors = product.getColors();
             String size = product.getSize();
             String description = product.getDescriptions();
@@ -159,7 +154,7 @@ public class ProductImplement implements ProductService {
 
     @Override
     public ProductDto update(ProductRequestDto product) {
-        try{
+        try {
             String id = product.getId();
             String title = product.getTitle();
             String id_cate = categoryRepo.GetId_byName(product.getCategory());
@@ -174,15 +169,14 @@ public class ProductImplement implements ProductService {
             String description = product.getDescriptions();
             int sale = product.getSale();
 
-            productRepo.Update_Product(title, id_cate, category_slug, gender, image1, image2, price, slug, colors
-            , size, description, sale, id);
+            productRepo.Update_Product(title, id_cate, category_slug, gender, image1, image2, price, slug, colors, size,
+                    description, sale, id);
 
-            ProductDto dto = new ProductDto(id, title, id_cate, category_slug, gender, image1, image2, price, slug, colors
-                    , size, description, sale);
+            ProductDto dto = new ProductDto(id, title, id_cate, category_slug, gender, image1, image2, price, slug,
+                    colors, size, description, sale);
 
             return dto;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -190,16 +184,14 @@ public class ProductImplement implements ProductService {
 
     @Override
     public String delete(ProductRequestDto product) {
-        try{
+        try {
             String id = product.getId();
             productRepo.Delete_Product(id);
             return id;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-
 
 }
