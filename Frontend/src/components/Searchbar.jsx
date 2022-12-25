@@ -65,7 +65,7 @@ const Searchbar = props => {
                     )}
                 </div>
             </div>
-            <div className={`search-data ${filteredData.length !== 0 && props.type !== "order" && props.type !== "customer"  && props.type !== "staff" ? 'active' : ''}`}>
+            <div className={`search-data ${(filteredData.length !== 0 && props.type !== "order" && props.type !== "customer"  && props.type !== "staff" )? 'active' : ''}`}>
                 {filteredData.length != 0 && (
 
                     filteredData.slice(0, 15).map((value, key) => {

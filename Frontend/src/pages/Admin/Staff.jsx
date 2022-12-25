@@ -165,7 +165,7 @@ const Staff = () => {
       }}
     >
       <CardHeader>
-        <Searchbar type="" keyword={`${Check}`} admin placeholder={"Tìm kiếm nhân viên..."} data={rows} onsearch={(data) => { setstaffDataSearch(data) }} />
+        <Searchbar type="staff" keyword={`${Check}`} admin placeholder={"Tìm kiếm nhân viên..."} data={rows} onsearch={(data) => { setstaffDataSearch(data) }} />
         <div style={{ display: "contents" }}>
           <div onClick={() => { setCheck("customer_name") }}>
             <CheckBox label='Tên' checked={Check === "customer_name"} />
