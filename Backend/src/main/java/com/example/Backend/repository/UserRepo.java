@@ -14,11 +14,11 @@ import java.util.List;
 public interface UserRepo extends JpaRepository<User, Integer> {
 
     @Query("SELECT new com.example.Backend.dto.UserDto(p.id, p.username, p.password, p.id_role, p.customer_name, p.phone, p.house_address, " +
-            "p.address1, p.address2, p.address3) FROM Users p WHERE p.id_role = '00001' AND p.active = 1")
+            "p.address1, p.address2, p.address3) FROM Users p WHERE p.active = 1")
     public List<UserDto> getAll();
 
     @Query("SELECT new com.example.Backend.dto.UserDto(p.id, p.username, p.password, p.id_role, p.customer_name, p.phone, p.house_address, " +
-            "p.address1, p.address2, p.address3) FROM Users p WHERE p.id_role = '00003' AND p.active = 1")
+            "p.address1, p.address2, p.address3) FROM Users p WHERE p.id_role = '00002' AND p.active = 1")
     public List<UserDto> getAll_Customer();
 
     @Transactional
