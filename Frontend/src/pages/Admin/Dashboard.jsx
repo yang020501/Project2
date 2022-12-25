@@ -44,7 +44,7 @@ const Dashboard = () => {
                 // id: 'sale',
                 type: 'linear',
                 position: 'right',
-
+                
                 ticks: { beginAtZero: true, color: 'blue' },
             },
             x: { ticks: { beginAtZero: true } }
@@ -55,6 +55,7 @@ const Dashboard = () => {
     const customerData = useSelector(state => state.customerSlice.value)
     const productData = useSelector(state => state.productsSlice.value)
     const staffData = useSelector(state => state.staffSlice.value)
+   
     const [rows, setRows] = useState([])
     const [ProductDataChart, setProductDataChart] = useState({
         labels: [],
@@ -237,20 +238,22 @@ const Dashboard = () => {
         navigate(`/admin/order/${id}`)
     }
     useEffect(() => {
-        const tmprows = orderData.reverse().map((item) => {
-            return {
-                ...item,
-                email: findCustomerById(item.customer_id) ? findCustomerById(item.customer_id).username : "",
-                name: findCustomerById(item.customer_id) ? findCustomerById(item.customer_id).customer_name : "",
-                createdate: item ? formatDate(item.create_date) : "",
-                total: item ? numberWithCommas(item.total) : "",
-                option: {
-                    type: "view",
-                    click: gotoOrderView
+        if (orderData && orderData.length > 0) {
+            const tmprows = orderData.map((item) => {
+                return {
+                    ...item,
+                    email: findCustomerById(item.customer_id) ? findCustomerById(item.customer_id).username : "",
+                    name: findCustomerById(item.customer_id) ? findCustomerById(item.customer_id).customer_name : "",
+                    createdate: item ? formatDate(item.create_date) : "",
+                    total: item ? numberWithCommas(item.total) : "",
+                    option: {
+                        type: "view",
+                        click: gotoOrderView
+                    }
                 }
-            }
-        })
-        setRows(tmprows)
+            })
+            setRows(tmprows)
+        }
     }, [orderData])
 
     return (
