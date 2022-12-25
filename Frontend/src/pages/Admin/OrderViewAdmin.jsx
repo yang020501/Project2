@@ -21,6 +21,7 @@ const OrderViewAdmin = () => {
   const token = useSelector(state => state.userState.token)
   const productData = useSelector(state => state.productsSlice.value)
   const productSaleData = useSelector(state => state.saleSlice.value)
+  const customerData = useSelector(state => state.customerSlice.value)
   const [order, setOrder] = useState({})
   const [status, setStatus] = useState("")
   const [totalPrice, settotalPrice] = useState(0)
@@ -72,7 +73,9 @@ const OrderViewAdmin = () => {
       return item.id === id
     })
   }
-  console.log(order);
+  const findCustomerById = (id) => {
+    return customerData.find(item => item.id === id)
+  }
   useEffect(() => {
     if (orderData) {
       let list
@@ -105,6 +108,7 @@ const OrderViewAdmin = () => {
     }
 
   }, [order])
+
   return (
     <ContentMain headerTitle='Chi tiết đơn hàng'
       headerLeftAction={{
@@ -161,7 +165,55 @@ const OrderViewAdmin = () => {
           <CardBody>
             <div className="orderview-body">
               <div className='orderview-body-info'>
+                <div className="dashboard-counts-item">
+                  <Card>
+                    <CardBody>
+                      <div className="dashboard-counts-item-container">
+                        <span className='dashboard-counts-item-container-icon customer'>
+                          <i className='bx bx-face'></i>
+                        </span>
+                        <div className='dashboard-counts-item-container-title'>
+                          <p>Khách hàng</p>
+                          <p>{order ? findCustomerById(order.customer_id) ? findCustomerById(order.customer_id).customer_name : "" : ""}</p>
+                          <p>{order ? findCustomerById(order.customer_id) ? findCustomerById(order.customer_id).username : "" : ""}</p>
+                        </div>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </div>
+                <div className="dashboard-counts-item">
+                  <Card>
+                    <CardBody>
+                      <div className="dashboard-counts-item-container">
+                        <span className='dashboard-counts-item-container-icon order'>
+                          <i class='bx bxs-truck'></i>
+                        </span>
+                        <div className='dashboard-counts-item-container-title'>
+                          <p>Thông tin đơn</p>
+                          <p>Giao hàng nhanh</p>
+                          <p>Thanh toán: tiền mặt</p>
+                        </div>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </div>
+                <div className="dashboard-counts-item">
+                  <Card>
+                    <CardBody>
+                      <div className="dashboard-counts-item-container">
+                        <span className='dashboard-counts-item-container-icon sale'>
+                          <i class='bx bxs-edit-location' ></i>
+                        </span>
+                        <div className='dashboard-counts-item-container-title'>
+                          <p>Vận chuyển</p>
+                          <p></p>
+                          <p>Địa chỉ: {order ? order.address : ""}</p>
 
+                        </div>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </div>
               </div>
               <div className="orderview-body-listproduct">
                 {

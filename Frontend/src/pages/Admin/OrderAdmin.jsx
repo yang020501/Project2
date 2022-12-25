@@ -91,6 +91,9 @@ const Order = () => {
           <div onClick={() => { setCheck("email") }}>
             <CheckBox label='E-mail' checked={Check === "email"} />
           </div>
+          <div onClick={() => { setCheck("status") }}>
+            <CheckBox label='Trạng thái' checked={Check === "status"} />
+          </div>
           {/* <CheckBox label='Trạng thái' checked ={Check === "status"} /> */}
         </div>
       </CardHeader>

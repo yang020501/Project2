@@ -6,11 +6,15 @@ import numberWithCommas from '../../utils/numberWithCommas'
 import Form from 'react-bootstrap/Form'
 import { Doughnut, Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Colors, CategoryScale, LinearScale, BarElement, Title } from 'chart.js';
+import MyDataGrid from '../../components/MyDataGrid'
+import { useNavigate } from 'react-router-dom'
+import formatDate from '../../utils/formatDate'
 
 
 const Dashboard = () => {
-    ChartJS.register(ArcElement, Tooltip, Legend, Colors);
-    ChartJS.register(CategoryScale, LinearScale, BarElement,);
+    ChartJS.register(ArcElement, Tooltip, Legend, Colors)
+    ChartJS.register(CategoryScale, LinearScale, BarElement)
+    let navigate = useNavigate()
     const options = {
         plugins: {
             colors: {
@@ -30,26 +34,28 @@ const Dashboard = () => {
             },
         },
         scales: {
-            yAxes: [{
-              id: 'order',
-              type: 'linear',
-              position: 'left',
-            }, {
-              id: 'sale',
-              type: 'linear',
-              position: 'right',
-              ticks: {
-                max: 1000,
-                min: 0
-              }
-            }]
-          }
+            order: {
+                // id: 'order',
+                type: 'linear',
+                position: 'left',
+                ticks: { beginAtZero: true, color: 'green' },
+            },
+            sale: {
+                // id: 'sale',
+                type: 'linear',
+                position: 'right',
+
+                ticks: { beginAtZero: true, color: 'blue' },
+            },
+            x: { ticks: { beginAtZero: true } }
+        }
     };
     const categoryData = useSelector(state => state.categorySlice.value)
     const orderData = useSelector(state => state.orderSlice.value)
     const customerData = useSelector(state => state.customerSlice.value)
     const productData = useSelector(state => state.productsSlice.value)
     const staffData = useSelector(state => state.staffSlice.value)
+    const [rows, setRows] = useState([])
     const [ProductDataChart, setProductDataChart] = useState({
         labels: [],
         datasets: [{
@@ -72,14 +78,60 @@ const Dashboard = () => {
         }
         ]
     })
-    const [year, setYear] = useState(new Date().getFullYear())
-
+    const columns = [
+        {
+            key: "name",
+            value: "Tên",
+            class: "cell-green",
+            width: 200,
+        },
+        {
+            key: "email",
+            value: "Email",
+            class: "cell-green",
+            width: 250,
+        },
+        {
+            key: "status",
+            value: "Trạng thái",
+            class: "cell-green",
+            width: 150,
+        },
+        {
+            key: "createdate",
+            value: "Ngày",
+            class: "cell-green",
+            width: 200,
+        },
+        {
+            key: "total",
+            value: "Tổng",
+            class: "cell-green",
+            width: 170,
+        },
+        {
+            key: "option",
+            value: "Tùy chọn",
+            class: "cell-green",
+            width: 100
+        },
+    ]
+    const [Year, setYear] = useState(new Date().getFullYear())
+    const listYears = [new Date().getFullYear(), new Date().getFullYear() - 1, new Date().getFullYear() - 2]
+    const { year } = Year
     const findProdutByCategory = (find, data) => {
         if (data && data.length > 0) {
             let tmp = data.filter(item => item.categorySlug === find)
             return tmp.length
         }
         return 0
+    }
+
+    const onChange = (e) => {
+        if (orderData && orderData.length > 0) {
+            setSaleDataChart({ ...saleDataChart(orderData, e.target.value) })
+        }
+
     }
     const productDataChart = (Data) => {
 
@@ -114,16 +166,17 @@ const Dashboard = () => {
         if (Data && Data.length > 0) {
             let labels = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
             let orders = labels.map((item, index) => {
-                let count = Data.filter(item => {
-                    console.log(item.create_date[1] === (index + 1));
+                let count = Data.filter(item => { return item.create_date[0] == year }).filter(item => {
+
                     return item.create_date[1] === (index + 1)
                 })
                 return count.length
             })
             let sales = labels.map((item, index) => {
                 let total = Data.reduce((prev, cur) => {
-                    if (cur.create_date[1] === (index + 1))
-                        return prev + cur.total
+                    if (cur.create_date[0] == year)
+                        if (cur.create_date[1] === (index + 1))
+                            return prev + cur.total
                     return prev
                 }, 0)
                 return total
@@ -132,13 +185,13 @@ const Dashboard = () => {
                 labels: labels,
                 datasets: [{
                     label: ' Đơn hàng: ',
-                    yAxisID:'order',
+                    yAxisID: 'order',
                     data: orders,
 
                 },
                 {
                     label: ' Doanh thu: ',
-                    yAxisID:'sale',
+                    yAxisID: 'sale',
                     data: sales,
 
                 }]
@@ -165,6 +218,9 @@ const Dashboard = () => {
         }
         return 0
     }
+    const findCustomerById = (id) => {
+        return customerData.find(item => item.id === id)
+    }
     useEffect(() => {
         if (productData && productData.length > 0) {
             setProductDataChart({ ...productDataChart(productData) })
@@ -173,10 +229,30 @@ const Dashboard = () => {
     }, [productData])
     useEffect(() => {
         if (orderData && orderData.length > 0) {
-            setSaleDataChart({ ...saleDataChart(orderData, year) })
+            setSaleDataChart({ ...saleDataChart(orderData, new Date().getFullYear()) })
         }
 
-    }, [orderData, year])
+    }, [orderData])
+    const gotoOrderView = (id) => {
+        navigate(`/admin/order/${id}`)
+    }
+    useEffect(() => {
+        const tmprows = orderData.reverse().map((item) => {
+            return {
+                ...item,
+                email: findCustomerById(item.customer_id) ? findCustomerById(item.customer_id).username : "",
+                name: findCustomerById(item.customer_id) ? findCustomerById(item.customer_id).customer_name : "",
+                createdate: item ? formatDate(item.create_date) : "",
+                total: item ? numberWithCommas(item.total) : "",
+                option: {
+                    type: "view",
+                    click: gotoOrderView
+                }
+            }
+        })
+        setRows(tmprows)
+    }, [orderData])
+
     return (
         <ContentMain headerTitle='Dashboard'>
             <div className="dashboard">
@@ -265,18 +341,18 @@ const Dashboard = () => {
                                     <Form.Select
                                         size="lg"
                                         required
-                                        // value={categorySlug}
+                                        value={year}
                                         name="categorySlug"
-                                        // onChange={onChange}
+                                        onChange={onChange}
                                         bsPrefix="form-select form-select-lg"
-                                    >  <option  >12</option>
-                                        {/* {
-                                            categoryData.map((item, index) => {
+                                    >
+                                        {
+                                            listYears.map((item, index) => {
                                                 return (
-                                                    <option key={index} value={item.slug} >{item.name}</option>
+                                                    <option key={index} value={item} >{item}</option>
                                                 )
                                             })
-                                        } */}
+                                        }
                                     </Form.Select>
                                     <Form.Control.Feedback type="invalid">
                                         Vui lòng nhập loại sản phẩm.
@@ -307,7 +383,16 @@ const Dashboard = () => {
                 </div>
                 <div className="dashboard-order">
                     <div className="dashboard-order-title">
-                        Latest Orders
+                        <Card>
+                            <CardHeader>
+                                Đơn hàng mới nhất
+                            </CardHeader>
+                            <CardBody>
+                                <div style={{ width: "100%", columnGap: 10, height: "350px" }}>
+                                    <MyDataGrid ColumnHeader={columns} Data={rows} />
+                                </div>
+                            </CardBody>
+                        </Card>
                     </div>
                 </div>
             </div>

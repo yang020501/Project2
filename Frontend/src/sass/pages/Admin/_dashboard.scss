@@ -64,21 +64,32 @@
             }
         }
     }
-    &-statistic{
-        @include flex(center,center);
+    &-statistic {
+        @include flex(center, center);
         width: 100%;
         column-gap: 10px;
-        // flex-direction: column;
+        flex-direction: column;
         row-gap: 20px;
-        &-chart{
+        &-chart {
             height: 100%;
             width: 100%;
-            // flex-grow: 1;
+            flex-grow: 1;
 
-           &:nth-child(1){
-            flex-grow: 2;
-           }
+            .kard-header {
+                font-size: 14pt;
+                font-weight: 700;
+            }
 
+            &:nth-child(2) {
+                width: 50%;
+            }
+        }
+    }
+    &-order {
+        width: 100%;
+        .kard-header {
+            font-size: 14pt;
+            font-weight: 700;
         }
     }
 }
