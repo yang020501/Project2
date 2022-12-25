@@ -47,7 +47,7 @@ const Category = () => {
       let rs = await axios.delete(`${apiUrl}/category/delete-category/${id}`, { headers: { Authorization: `Bearer ${token}` } }).catch(data => { return data })
       if (rs.data) {
         dispatch(setAlert({
-          message: "Xóa phân loại thành công",
+          message: "Xóa phân loại thành côngg",
           type: "success"
         }))
         dispatch(deleteCategory(element))

@@ -11,6 +11,8 @@ import clothesSlice from "./product/clothesSlice";
 import saleSlice from "./product/saleSlice";
 import categorySlice from "./category/categorySlice";
 import loadingSlice from "./loading/loadingSlice";
+import orderSlice from "./order/orderSlice";
+import customerSlice from "./user/customerSlice";
 
 export const store = configureStore({
     reducer: {
@@ -25,7 +27,9 @@ export const store = configureStore({
         clothesSlice: clothesSlice,
         saleSlice: saleSlice,
         categorySlice: categorySlice,
-        loading: loadingSlice
+        loading: loadingSlice,
+        orderSlice: orderSlice,
+        customerSlice: customerSlice
 
     },
     devTools: true

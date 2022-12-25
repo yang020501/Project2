@@ -23,35 +23,9 @@ public class CartImplement implements CartService {
     private CartInfoRepo cartInfoRepo;
 
     @Override
-    public List<CartResponseDto> getAll() {
-        List<CartResponseDto> response_list = new ArrayList<>();
-
+    public List<CartDto> getAll() {
         try{
-            List<CartDto> list_cart = cartRepo.getAllCart();
-
-            if(list_cart.isEmpty()){
-                return null;
-            }
-
-            for (CartDto cart : list_cart) {
-                List<CartInfoDto> list_product = cartInfoRepo.getAll_byCartID(cart.getId());
-
-                CartResponseDto c;
-                if(list_product.isEmpty()){
-
-                    c = new CartResponseDto(cart.getId(), cart.getCustomer_id(), null,
-                            cart.getAddress(), cart.getCreate_date(), cart.getTotal(), cart.getStatus());
-
-                }
-                else {
-                    c = new CartResponseDto(cart.getId(), cart.getCustomer_id(), list_product,
-                            cart.getAddress(), cart.getCreate_date(), cart.getTotal(), cart.getStatus());
-
-                }
-                response_list.add(c);
-            }
-
-            return response_list;
+            return cartRepo.getAll();
         }
         catch (Exception e){
             e.printStackTrace();

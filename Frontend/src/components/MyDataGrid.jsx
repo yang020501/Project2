@@ -43,7 +43,8 @@ const MyDataGrid = props => {
     const handlechange = (id) => {
         let tmp = rows.filter((row) => { return row.id == id })[0]
         if (tmp)
-            tmp.option.selectclick(id)
+            if (tmp.option.selectclick)
+                tmp.option.selectclick(id)
     }
     return (
         <DataGrid
