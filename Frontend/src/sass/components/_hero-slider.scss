@@ -4,15 +4,14 @@
     overflow: hidden;
     position: relative;
     margin-bottom: 50px;
-    margin-top: calc(#{$header-height}*+1);
+    margin-top: calc(#{$header-height}* +1);
 
     @include tablet {
-        margin-top: calc(#{$header-tablet-height}*+1);
-
+        margin-top: calc(#{$header-tablet-height}* +1);
     }
 
     @include mobile {
-        margin-top: calc(#{$header-mobile-height}*+1);
+        margin-top: calc(#{$header-mobile-height}* +1);
     }
 
     &-item {
@@ -54,7 +53,6 @@
 
                 @include tablet {
                     margin-bottom: 15px;
-
                 }
             }
 
@@ -65,13 +63,11 @@
                 line-height: 6.75rem;
                 overflow: hidden;
 
-                @include mobile{
+                @include mobile {
                     font-size: 2.5rem;
                     line-height: 3.75rem;
-
                 }
             }
-
 
             &-description {
                 color: $txt-second-color;
@@ -79,19 +75,18 @@
                 line-height: 2.25rem;
                 overflow: hidden;
 
-                @include mobile{
+                @include mobile {
                     font-size: 1rem;
                     line-height: 1.5rem;
                 }
-
             }
 
             &-btn {
                 overflow: hidden;
             }
 
-            &-title>span,
-            &-description>span,
+            &-title > span,
+            &-description > span,
             &-btn button {
                 display: block;
                 transform: translateY(-100%);
@@ -100,9 +95,8 @@
         }
 
         &.active &-info {
-
-            &-title>span,
-            &-description>span,
+            &-title > span,
+            &-description > span,
             &-btn button {
                 transform: translateY(0);
             }
@@ -129,8 +123,8 @@
                 bottom: 0;
                 right: 0;
                 transform: scale(0) rotate(65deg);
-                transition: transform .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                @include tablet{
+                transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                @include tablet {
                     height: 100%;
                     position: relative;
                 }
@@ -148,22 +142,19 @@
                 transition: border-radius 13s ease;
                 animation: border 10s infinite;
 
-                @include tablet{
+                @include tablet {
                     $size: 250px;
                     height: $size;
                     width: $size;
                     right: 50%;
-                    transform: translate(50%,-50%);
-                   
+                    transform: translate(50%, -50%);
                 }
             }
         }
 
-        &.active &-image>img {
-            transform: scale(1) rotate(0)
+        &.active &-image > img {
+            transform: scale(1) rotate(0);
         }
-
-
     }
 
     &-control {
@@ -172,14 +163,13 @@
         bottom: 50px;
         left: 50%;
         transform: translateX(-50%);
-
-        &-item~&item {
+        color: $txt-main-color;
+        &-item ~ &item {
             margin-left: 10px;
-
         }
 
         &-item {
-            @include flex (center, center);
+            @include flex(center, center);
             font-size: 2rem;
             cursor: pointer;
 

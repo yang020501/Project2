@@ -123,7 +123,7 @@ const Catalog = () => {
           </div>
           <div className="catalog-filter-widget">
             <div className="catalog-filter-widget-title">
-              Giới tính
+              Quốc gia
             </div>
             <div className="catalog-widget-filter-content">
               {
@@ -142,7 +142,7 @@ const Catalog = () => {
           </div>
           <div className="catalog-filter-widget">
             <div className="catalog-filter-widget-title">
-              Danh mục sản phẩm
+              Thể loại 
             </div>
             <div className="catalog-widget-filter-content">
               {
@@ -158,7 +158,7 @@ const Catalog = () => {
               }
             </div>
           </div>
-          <div className="catalog-filter-widget">
+          {/* <div className="catalog-filter-widget">
             <div className="catalog-filter-widget-title">
               màu sắc
             </div>
@@ -193,7 +193,7 @@ const Catalog = () => {
                 ))
               }
             </div>
-          </div>
+          </div> */}
           <div className="catalog-filter-widget">
             <div className="catalog-filter-widget-content">
               <Button size='sm' onclick={clearFilter}>Xóa bộ lọc</Button>
