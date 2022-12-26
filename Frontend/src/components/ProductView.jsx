@@ -6,7 +6,26 @@ import { useDispatch } from 'react-redux'
 import { addItem } from '../redux/shopping-cart/cartItemsSlice'
 import { setAlert } from '../redux/alert-message/alertMessage'
 import { remove } from '../redux/product-modal/productModalSlice'
+import Box from '@mui/material/Box';
+import Rating from '@mui/material/Rating';
+import StarIcon from '@mui/icons-material/Star';
 import numberWithCommas from '../utils/numberWithCommas'
+const labels = {
+    0.5: 'Useless',
+    1: 'Useless+',
+    1.5: 'Poor',
+    2: 'Poor+',
+    2.5: 'Ok',
+    3: 'Ok+',
+    3.5: 'Good',
+    4: 'Good+',
+    4.5: 'Excellent',
+    5: 'Excellent+',
+};
+function getLabelText(value) {
+    return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
+}
+
 const ProductView = props => {
     let navigate = useNavigate();
     const dispatch = useDispatch();
@@ -34,7 +53,8 @@ const ProductView = props => {
     const [color, setColor] = useState(undefined)
     const [size, setSize] = useState(undefined)
     const [quantity, setQuantity] = useState(1)
-
+    const [value, setValue] = useState(3.5)
+    const [hover, setHover] = useState(-1)
     const updateQuantity = (type) => {
         if (type === "plus") {
             setQuantity(quantity + 1)
@@ -42,6 +62,9 @@ const ProductView = props => {
         else {
             setQuantity(quantity - 1 < 1 ? 1 : quantity - 1)
         }
+    }
+    const onRateChange = (e) => {
+        setValue(e.target.value)
     }
     const check = () => {
         if (color === undefined) {
@@ -142,7 +165,7 @@ const ProductView = props => {
                                     </span>
                                 </div>)
                             :
-                            <div>{numberWithCommas(Number((product.price)))} đ</div>} 
+                            <div>{numberWithCommas(Number((product.price)))} đ</div>}
                     </span>
                 </div>
                 <div className="product-info-item">
@@ -162,6 +185,37 @@ const ProductView = props => {
                         }
                     </div>
                 </div>
+                <div className="product-info-item">
+                    <div className='product-info-item-title'>
+                        Đánh giá
+                    </div>
+                    <Box
+                        sx={{
+                            width: 200,
+                            display: 'flex',
+                            alignItems: 'center',
+                            fontSize: '20pt'
+                        }}
+                    >
+                        <Rating
+                            name="hover-feedback"
+                            value={value}
+                            precision={0.5}
+                            getLabelText={getLabelText}
+                            onChange={(event, newValue) => {
+                                setValue(newValue);
+                            }}
+                            onChangeActive={(event, newHover) => {
+                                setHover(newHover);
+                            }}
+                            emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                        />
+                        {value !== null && (
+                            <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
+                        )}
+                    </Box>
+                </div>
+
                 <div className="product-info-item">
                     <div className='product-info-item-title'>
                         Kích cỡ

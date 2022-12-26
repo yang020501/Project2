@@ -103,14 +103,14 @@ const Footer = () => {
             </div>
           </div>
           <div className='footer-about'>
-            <p>
+            {/* <p>
               <Link to="/">
                 <img src={logo} className="footer-logo" alt='sunshinelogo.png' />
               </Link>
-            </p>
+            </p> */}
             <p>
-              Hướng đến mục tiêu mang lại niềm vui ăn mặc với mỗi ngày cho hàng triệu
-              người tiêu dùng Việt. Hãy cùng sunshine hướng đến một cuộc sống năng động,
+              Hướng đến mục tiêu mang lại niềm vui giải trí với mỗi ngày cho hàng triệu
+              người tiêu dùng Việt. Hãy cùng chúng tôi hướng đến một cuộc sống năng động,
               tích cực hơn. Vì mỗi ngày là một cuộc vui.
             </p>
           </div>

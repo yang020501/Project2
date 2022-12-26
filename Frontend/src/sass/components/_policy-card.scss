@@ -2,10 +2,10 @@
     @include flex(center, flex-start);
     padding: 20px;
     padding-left: 0;
-    box-shadow: $box-shadow;
+    box-shadow: rgba(96, 98, 100, 0.2) 0px 8px 24px;
     transition: transform 0.5s ease;
     height: 100%;
-
+    border: 1px solid white;
     &:hover {
         transform: translateY(-20px);
     }
@@ -25,6 +25,7 @@
             font-size: 1.25rem;
             font-weight: 600;
             margin-bottom: 10px;
+            color: $txt-main-color;
         }
 
         &-description {

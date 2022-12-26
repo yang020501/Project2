@@ -1,9 +1,12 @@
 .footer {
-    padding: 70px 0;
+    // padding: 70px 0;
     box-shadow: $box-shadow;
     font-size: 1.1rem;
+    color: $txt-main-color;
 
-
+    .container{
+        padding-top: 70px;
+    }
     &-logo {
         height: 190px;
 

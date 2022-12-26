@@ -78,9 +78,9 @@ const Header = () => {
         <div className="header " ref={headerRef}>
             <div className="container">
                 <div className="header-logo">
-                    <Link to="/">
+                    {/* <Link to="/">
                         <img src={logo} alt="logo" />
-                    </Link>
+                    </Link> */}
                 </div>
                 <div className="header-menu">
                     <div className="header-menu-mobile-toggle" onClick={menuToggle}>

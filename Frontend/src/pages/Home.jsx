@@ -115,9 +115,9 @@ const Home = () => {
         </SectionBody>
       </Section>
       <Section>
-        <Link to="/catalog">
+        {/* <Link to="/catalog"> */}
           <img src={banner} alt="" />
-        </Link>
+        {/* </Link> */}
       </Section>
       <Section>
         <SectionTitle>
