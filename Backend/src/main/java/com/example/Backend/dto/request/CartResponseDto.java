@@ -11,7 +11,7 @@ import java.util.List;
 public class CartResponseDto implements Serializable {
     private String id;
     private String customer_id;
-    private List<CartInfo> list_product;
+    private List<ProductInCartDto> list_product;
     private String address;
     private LocalDate create_date;
     private long total;
@@ -19,7 +19,7 @@ public class CartResponseDto implements Serializable {
 
     public CartResponseDto(){}
 
-    public CartResponseDto(String id, String customer_id, List<CartInfo> list_product, String address, LocalDate create_date, Long total, String status) {
+    public CartResponseDto(String id, String customer_id, List<ProductInCartDto> list_product, String address, LocalDate create_date, Long total, String status) {
         this.id = id;
         this.customer_id = customer_id;
         this.list_product = list_product;
@@ -37,7 +37,7 @@ public class CartResponseDto implements Serializable {
         return customer_id;
     }
 
-    public List<CartInfo> getList_product() {
+    public List<ProductInCartDto> getList_product() {
         return list_product;
     }
 
