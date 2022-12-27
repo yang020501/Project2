@@ -12,6 +12,7 @@ import banner from '../assets/images/banner.png'
 import { getAllSale } from '../redux/product/saleSlice'
 import { getAllProduct } from '../redux/product/productsSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import CustomerProductCard from '../components/CustomerProductCard'
 
 const Home = () => {
   let dispatch = useDispatch()
@@ -68,7 +69,7 @@ const Home = () => {
 
               getProducts(4).map((item, index) => (
 
-                <ProductCard
+                <CustomerProductCard
                   key={index}
                   img01={item.image1}
                   img02={item.image2}
@@ -76,7 +77,7 @@ const Home = () => {
                   slug={item.slug}
                   price={item.price}
                 >
-                </ProductCard>
+                </CustomerProductCard>
               ))
 
             }
@@ -97,7 +98,7 @@ const Home = () => {
           >
             {
               productSale.map((item, index) => (
-                <ProductCard
+                <CustomerProductCard
                   key={index}
                   img01={item.image1}
                   img02={item.image2}
@@ -106,7 +107,7 @@ const Home = () => {
                   price={item.price}
                   sale={item.sale}
                 >
-                </ProductCard>
+                </CustomerProductCard>
               )
               )
             }
@@ -116,7 +117,7 @@ const Home = () => {
       </Section>
       <Section>
         {/* <Link to="/catalog"> */}
-          <img src={banner} alt="" />
+        <img src={banner} alt="" />
         {/* </Link> */}
       </Section>
       <Section>
@@ -132,7 +133,7 @@ const Home = () => {
           >
             {
               getProducts(8).map((item, index) => (
-                <ProductCard
+                <CustomerProductCard
                   key={index}
                   img01={item.image1}
                   img02={item.image2}
@@ -141,7 +142,7 @@ const Home = () => {
                   price={item.price}
 
                 >
-                </ProductCard>
+                </CustomerProductCard>
               )
               )
             }
@@ -166,7 +167,7 @@ const Home = () => {
             {
 
               getProducts(12).map((item, index) => (
-                <ProductCard
+                <CustomerProductCard
                   key={index}
                   img01={item.image1}
                   img02={item.image2}
@@ -174,7 +175,7 @@ const Home = () => {
                   slug={item.slug}
                   price={item.price}
                 >
-                </ProductCard>
+                </CustomerProductCard>
               )
               )
             }
