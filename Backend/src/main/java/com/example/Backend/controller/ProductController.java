@@ -3,6 +3,9 @@ package com.example.Backend.controller;
 import com.example.Backend.RandomGenerate;
 import com.example.Backend.dto.ProductDto;
 import com.example.Backend.dto.request.ProductRequestDto;
+import com.example.Backend.dto.request.ProductResponseDto;
+import com.example.Backend.service.RateService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,11 +24,18 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private RateService rateService;
 
     @GetMapping("")
     public Object getAll() {
         try {
             List<ProductDto> productList = productService.getAll();
+            if(!productList.isEmpty()){
+                for (ProductDto p : productList) {
+                    p.setRate(rateService.CalculateRateOfProduct(p.getId()));
+                }
+            }
             return new ResponseEntity<List<ProductDto>>(productList, HttpStatus.OK);
         }
         catch (Exception e) {
@@ -39,6 +49,7 @@ public class ProductController {
     public Object getDetail_byID(@PathVariable String id){
         try {
             ProductDto product = productService.getDetail_byID(id);
+            product.setRate(rateService.CalculateRateOfProduct(product.getId()));
             return new ResponseEntity<ProductDto>(product, HttpStatus.OK);
         }
         catch (Exception e) {
@@ -51,6 +62,11 @@ public class ProductController {
     public Object getAll_byCateID(@PathVariable String id_cate){
         try {
             List<ProductDto> product_list = productService.getAll_byCateID(id_cate);
+            if(!product_list.isEmpty()){
+                for (ProductDto p : product_list) {
+                    p.setRate(rateService.CalculateRateOfProduct(p.getId()));
+                }
+            }
             return new ResponseEntity<List<ProductDto>>(product_list, HttpStatus.OK);
         }
         catch (Exception e) {
@@ -68,6 +84,7 @@ public class ProductController {
             if(!product_list.isEmpty())
             {
                 for (ProductDto product : product_list) {
+                    product.setRate(rateService.CalculateRateOfProduct(product.getId()));
                     same_cate_list.add(product);
                     count++;
                     if(count == 8){
@@ -86,6 +103,11 @@ public class ProductController {
     public Object getAll_bySlug(@PathVariable String slug){
         try {
             List<ProductDto> product_list = productService.getProduct_bySlug(slug);
+            if(!product_list.isEmpty()){
+                for (ProductDto p : product_list) {
+                    p.setRate(rateService.CalculateRateOfProduct(p.getId()));
+                }
+            }
             return new ResponseEntity<List<ProductDto>>(product_list, HttpStatus.OK);
         }
         catch (Exception e) {
@@ -97,6 +119,11 @@ public class ProductController {
     public Object getAll_SaleProduct(){
         try {
             List<ProductDto> product_list = productService.getAll_SaleProduct();
+            if(!product_list.isEmpty()){
+                for (ProductDto p : product_list) {
+                    p.setRate(rateService.CalculateRateOfProduct(p.getId()));
+                }
+            }
             return new ResponseEntity<List<ProductDto>>(product_list, HttpStatus.OK);
         }
         catch (Exception e) {

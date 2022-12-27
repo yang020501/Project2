@@ -39,8 +39,10 @@ create table Product(
 	image2 varchar(max),
 	price int default(0),
 	slug varchar(100),
-	colors varchar(100),
-	size varchar(50),
+	genres varchar(100),
+	actors varchar(50),
+	status varchar(50),
+	release int,
 	descriptions nvarchar(max),
 	sale int default(0),
 	active bit default(1),
@@ -63,14 +65,10 @@ create table Cart(
 create table CartInfo(
 	cart_id varchar(9),
 	product_id varchar(10),
-	slug varchar(50),
-	color varchar(50),
-	size varchar(50),
 	quantity int default(0),
-	price int default(0),
 	active bit default(1),
 
-	primary key (cart_id, product_id, color, size),
+	primary key (cart_id, product_id),
 	foreign key (cart_id) references Cart(id),
 	foreign key (product_id) references Product(id)
 )

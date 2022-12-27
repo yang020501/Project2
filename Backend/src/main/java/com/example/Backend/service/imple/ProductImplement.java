@@ -134,15 +134,17 @@ public class ProductImplement implements ProductService {
             Long price = product.getPrice();
             String slug = RandomGenerate.generate_slug(product.getTitle());
             String category_slug = RandomGenerate.generate_slug(categoryRepo.GetName_byId(product.getCategory()));
-            String colors = product.getColors();
-            String size = product.getSize();
+            String genres = product.getGenres();
+            String actors = product.getActors();
+            String status = product.getStatus();
+            int release = product.getRelease();
             String description = product.getDescriptions();
 
-            ProductDto dto = new ProductDto(id, title, id_cate, category_slug, gender, image1, image2, price, slug, colors
-                    , size, description, 0);
+            ProductDto dto = new ProductDto(id, title, id_cate, category_slug, gender, image1, image2, price, slug, genres
+                    , actors, status, release, description, 0);
 
-            productRepo.Add_Product(id, title, id_cate, category_slug, gender, image1, image2, price, slug, colors
-                    , size, description);
+            productRepo.Add_Product(id, title, id_cate, category_slug, gender, image1, image2, price, slug, genres
+                    , actors, status, release, description);
 
             return dto;
         }
@@ -164,16 +166,18 @@ public class ProductImplement implements ProductService {
             String image2 = product.getImage2();
             Long price = product.getPrice();
             String slug = RandomGenerate.generate_slug(product.getTitle());
-            String colors = product.getColors();
-            String size = product.getSize();
+            String genres = product.getGenres();
+            String actors = product.getActors();
+            String status = product.getStatus();
+            int release = product.getRelease();
             String description = product.getDescriptions();
             int sale = product.getSale();
 
-            productRepo.Update_Product(title, id_cate, category_slug, gender, image1, image2, price, slug, colors, size,
-                    description, sale, id);
+            productRepo.Update_Product(title, id_cate, category_slug, gender, image1, image2, price, slug, genres, actors,
+                   status, release, description, sale, id);
 
             ProductDto dto = new ProductDto(id, title, id_cate, category_slug, gender, image1, image2, price, slug,
-                    colors, size, description, sale);
+                    genres, actors, status, release, description, sale);
 
             return dto;
         } catch (Exception e) {

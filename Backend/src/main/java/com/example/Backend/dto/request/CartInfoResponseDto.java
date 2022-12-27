@@ -1,6 +1,7 @@
 package com.example.Backend.dto.request;
 
 import com.example.Backend.dto.CartInfoDto;
+import com.example.Backend.model.CartInfo;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class CartInfoResponseDto implements Serializable {
     private String cart_id;
-    private List<CartInfoDto> list_product;
+    private List<CartInfo> list_product;
     private String address;
     private LocalDate create_date;
     private Long total;
@@ -17,7 +18,7 @@ public class CartInfoResponseDto implements Serializable {
 
     public CartInfoResponseDto() {}
 
-    public CartInfoResponseDto(String cart_id, List<CartInfoDto> list_product, String address, LocalDate create_date, Long total, String status) {
+    public CartInfoResponseDto(String cart_id, List<CartInfo> list_product, String address, LocalDate create_date, Long total, String status) {
         this.cart_id = cart_id;
         this.list_product = list_product;
         this.address = address;
@@ -42,11 +43,11 @@ public class CartInfoResponseDto implements Serializable {
         this.cart_id = cart_id;
     }
 
-    public List<CartInfoDto> getList_product() {
+    public List<CartInfo> getList_product() {
         return list_product;
     }
 
-    public void setList_product(List<CartInfoDto> list_product) {
+    public void setList_product(List<CartInfo> list_product) {
         this.list_product = list_product;
     }
 
