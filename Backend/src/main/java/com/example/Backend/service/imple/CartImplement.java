@@ -34,7 +34,7 @@ public class CartImplement implements CartService {
             }
 
             for (CartDto cart : list_cart) {
-                List<CartInfoDto> list_product = cartInfoRepo.getAll_byCartID(cart.getId());
+                List<CartInfo> list_product = cartInfoRepo.getAll_byCartID(cart.getId());
 
                 CartResponseDto c;
                 if(list_product.isEmpty()){

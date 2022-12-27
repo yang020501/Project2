@@ -71,7 +71,7 @@ public class CartInfoImplement implements CartInfoService {
                 String size = product.getSize();
                 int quantity = product.getQuantity();
                 long price= product.getPrice();
-                cartInfoRepo.add(cart_id, product_id, slug, color, size, quantity, price);
+                cartInfoRepo.add(cart_id, product_id, quantity);
             }
         }
         catch (Exception e){

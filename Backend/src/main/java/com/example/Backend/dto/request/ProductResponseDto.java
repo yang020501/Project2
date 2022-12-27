@@ -1,92 +1,33 @@
 package com.example.Backend.dto.request;
 
+import com.example.Backend.dto.ProductDto;
+
 import java.io.Serializable;
+import java.util.List;
 
 public class ProductResponseDto implements Serializable {
-    private String id;
-    private String title;
-    private String id_cate;
-    private String categorySlug;
-    private String gender;
-    private String image1;
-    private String image2;
-    private Long price;
-    private String slug;
-    private String colors;
-    private String size;
-    private String descriptions;
-    private int sale;
+    private List<ProductDto> list_product;
+    private float rate;
 
-    public ProductResponseDto(){
+    public ProductResponseDto(){}
 
+    public ProductResponseDto(List<ProductDto> list_product, float rate) {
+        this.list_product = list_product;
+        this.rate = rate;
     }
 
-    public ProductResponseDto(String id, String title, String id_cate, String categorySlug, String gender, String image1, String image2,
-                              Long price, String slug, String colors, String size, String descriptions, int sale) {
-        this.id = id;
-        this.title = title;
-        this.id_cate = id_cate;
-        this.categorySlug = categorySlug;
-        this.gender = gender;
-        this.image1 = image1;
-        this.image2 = image2;
-        this.price = price;
-        this.slug = slug;
-        this.colors = colors;
-        this.size = size;
-        this.descriptions = descriptions;
-        this.sale = sale;
+    public List<ProductDto> getList_product() {
+        return list_product;
     }
 
-    public String getId() {
-        return id;
+    public void setList_product(List<ProductDto> list_product) {
+        this.list_product = list_product;
     }
 
-    public String getTitle() {
-        return title;
+    public float getRate(){
+        return rate;
     }
-
-    public String getId_cate() {
-        return id_cate;
-    }
-
-    public String getCategorySlug() {
-        return categorySlug;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public String getImage1() {
-        return image1;
-    }
-
-    public String getImage2() {
-        return image2;
-    }
-
-    public Long getPrice() {
-        return price;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public String getColors() {
-        return colors;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public String getDescriptions() {
-        return descriptions;
-    }
-
-    public int getSale() {
-        return sale;
+    public void setRate(float rate) {
+        this.rate = rate;
     }
 }

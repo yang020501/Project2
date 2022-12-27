@@ -10,14 +10,16 @@ public class ProductRequestDto implements Serializable {
     private String image1;
     private String image2;
     private Long price;
-    private String colors;
-    private String size;
+    private String genres;
+    private String actors;
+    private int release;
     private String descriptions;
+    private String status;
     private int sale;
 
     public ProductRequestDto(){ }
-    public ProductRequestDto(String id,String title, String category, String gender, String image1,
-                             String image2, Long price, String colors, String size, String descriptions, int sale) {
+    public ProductRequestDto(String id,String title, String category, String gender, String image1, String status,
+                             String image2, Long price, String genres, String actors, int release, String descriptions, int sale) {
         this.id = id;
         this.title = title;
         this.category = category;
@@ -25,8 +27,10 @@ public class ProductRequestDto implements Serializable {
         this.image1 = image1;
         this.image2 = image2;
         this.price = price;
-        this.colors = colors;
-        this.size = size;
+        this.genres = genres;
+        this.actors = actors;
+        this.status = status;
+        this.release = release;
         this.descriptions = descriptions;
         this.sale = sale;
     }
@@ -50,11 +54,17 @@ public class ProductRequestDto implements Serializable {
     public Long getPrice() {
         return price;
     }
-    public String getColors() {
-        return colors;
+    public String getGenres() {
+        return genres;
     }
-    public String getSize() {
-        return size;
+    public String getStatus() {
+        return status;
+    }
+    public String getActors() {
+        return actors;
+    }
+    public int getRelease() {
+        return release;
     }
     public String getDescriptions() {
         return descriptions;
