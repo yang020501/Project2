@@ -2,10 +2,13 @@ package com.example.Backend.service.imple;
 
 import com.example.Backend.dto.CartDto;
 import com.example.Backend.dto.CartInfoDto;
+import com.example.Backend.dto.ProductDto;
 import com.example.Backend.dto.request.CartResponseDto;
+import com.example.Backend.dto.request.ProductInCartDto;
 import com.example.Backend.model.CartInfo;
 import com.example.Backend.repository.CartInfoRepo;
 import com.example.Backend.repository.CartRepo;
+import com.example.Backend.repository.ProductRepo;
 import com.example.Backend.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,9 @@ public class CartImplement implements CartService {
     private CartRepo cartRepo;
 
     @Autowired
+    private ProductRepo productRepo;
+
+    @Autowired
     private CartInfoRepo cartInfoRepo;
 
     @Override
@@ -28,22 +34,27 @@ public class CartImplement implements CartService {
 
         try{
             List<CartDto> list_cart = cartRepo.getAllCart();
-
             if(list_cart.isEmpty()){
                 return null;
             }
 
             for (CartDto cart : list_cart) {
-                List<CartInfo> list_product = cartInfoRepo.getAll_byCartID(cart.getId());
-
+                List<CartInfo> list_product_id_cart = cartInfoRepo.getAll_byCartID(cart.getId());
+                List<ProductInCartDto> list_product = new ArrayList<>();
                 CartResponseDto c;
-                if(list_product.isEmpty()){
+                if(list_product_id_cart.isEmpty()){
 
                     c = new CartResponseDto(cart.getId(), cart.getCustomer_id(), null,
                             cart.getAddress(), cart.getCreate_date(), cart.getTotal(), cart.getStatus());
 
                 }
                 else {
+                    for (CartInfo i : list_product_id_cart) {
+                        ProductDto dto = productRepo.GetDetail_byID(i.getProduct_id());
+                        ProductInCartDto product = new ProductInCartDto(cart.getId(), dto.getId(), dto.getTitle(), dto.getImage1(),
+                                dto.getImage2(), i.getQuantity(), dto.getPrice());
+                        list_product.add(product);
+                    }
                     c = new CartResponseDto(cart.getId(), cart.getCustomer_id(), list_product,
                             cart.getAddress(), cart.getCreate_date(), cart.getTotal(), cart.getStatus());
 

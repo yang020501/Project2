@@ -62,7 +62,5 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
     @Query(value = "SELECT id FROM Product WHERE title = ?1 AND active = 1", nativeQuery = true)
     public String GetId_fromTitle(String title);
 
-    
-
 
 }
