@@ -14,17 +14,17 @@ const mainNav = [
         path: "/"
     },
     {
-        display: "Quần áo",
+        display: "Phim",
         path: "/catalog"
     },
-    {
-        display: "Phụ kiện",
-        path: "/accessories"
-    },
-    {
-        display: "Liên hệ",
-        path: "/contact"
-    }
+    // {
+    //     display: "Phụ kiện",
+    //     path: "/accessories"
+    // },
+    // {
+    //     display: "Liên hệ",
+    //     path: "/contact"
+    // }
 ]
 
 const Header = () => {
