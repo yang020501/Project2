@@ -84,9 +84,9 @@ const OrderViewAdmin = () => {
         return item.id === id
       })
       if (order) {
-        // list = order.list_product.map(item => {
-        //   return { ...item, product: findProductById(item.product_id) }
-        // })
+        list = order.list_product.map(item => {
+          return { ...item, product: findProductById(item.product_id) }
+        })
       }
       setOrder({ ...order, list_product: list })
 
@@ -97,19 +97,20 @@ const OrderViewAdmin = () => {
     setStatus(order.status)
   }, [order])
   useEffect(() => {
-    // if (order.list_product) {
-    //   settotalPrice(order.list_product.reduce((total, item) => {
-    //     let findSale = productSaleData.find(element => element.slug === item.slug)
-    //     if (findSale) {
-    //       return total + (Number(item.quantity) * Number(item.price - item.price * findSale.sale / 100))
-    //     }
-    //     return total + (Number(item.quantity) * Number(item.price))
-    //   }, 0))
-    //   settmpPrice(order.list_product.reduce((total, item) => total + (Number(item.quantity) * Number(item.price)), 0))
-    // }
+    if (order.list_product) {
+      settotalPrice(order.list_product.reduce((total, item) => {
+        let findSale = productSaleData.find(element => element.id === item.product_id)
+        console.log(findSale,"find");
+        if (findSale) {
+          return total + (Number(item.quantity) * Number(item.price - item.price * findSale.sale / 100))
+        }
+        return total + (Number(item.quantity) * Number(item.price))
+      }, 0))
+      settmpPrice(order.list_product.reduce((total, item) => total + (Number(item.quantity) * Number(item.price)), 0))
+    }
 
   }, [order])
-
+ 
   return (
     <ContentMain headerTitle='Chi tiết đơn hàng'
       headerLeftAction={{
@@ -217,7 +218,7 @@ const OrderViewAdmin = () => {
                 </div>
               </div>
               <div className="orderview-body-listproduct">
-                {/* {
+                {
                   order ?
                     order.list_product ?
                       order.list_product.map((item, index) => {
@@ -225,7 +226,7 @@ const OrderViewAdmin = () => {
                       })
                       : <></>
                     : <></>
-                } */}
+                }
               </div>
               <div className='order-rightcontent-content-fee'>
                 <div className="order-rightcontent-content-fee-item">

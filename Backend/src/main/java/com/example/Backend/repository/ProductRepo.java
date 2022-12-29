@@ -40,7 +40,7 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
     @Transactional
     @Modifying
     @Query(value = "INSERT INTO Product(id, title, id_cate ,categorySlug, gender, image1, image2, price, slug, genres, actors, status, release, descriptions) " +
-            "VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15)", nativeQuery = true)
+            "VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)", nativeQuery = true)
     public void Add_Product(String id, String title, String id_cate, String categorySlug, String gender, String image1, String image2,
                             long price, String slug, String genres, String actors, String status, int release, String descriptions);
 

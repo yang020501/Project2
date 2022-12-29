@@ -39,8 +39,8 @@ create table Product(
 	image2 varchar(max),
 	price int default(0),
 	slug varchar(100),
-	genres varchar(100),
-	actors varchar(50),
+	genres varchar(max),
+	actors varchar(max),
 	status varchar(50),
 	release int,
 	descriptions nvarchar(max),
@@ -49,6 +49,8 @@ create table Product(
 
 	FOREIGN KEY (id_cate) REFERENCES Category(id)
 )
+alter table Product drop column size
+
 
 create table Cart(
 	id varchar(9) primary key,
@@ -72,6 +74,7 @@ create table CartInfo(
 	foreign key (cart_id) references Cart(id),
 	foreign key (product_id) references Product(id)
 )
+alter table CartInfo drop column size
 
 create table Rate(
 	user_id varchar(5),

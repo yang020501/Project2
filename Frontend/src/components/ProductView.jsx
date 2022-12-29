@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 import numberWithCommas from '../utils/numberWithCommas'
+import fakegenres from '../assets/fake-data/fakegenres'
 const labels = {
     0.5: 'Useless',
     1: 'Useless+',
@@ -29,29 +30,13 @@ function getLabelText(value) {
 const ProductView = props => {
     let navigate = useNavigate();
     const dispatch = useDispatch();
-    const convert = (product) => {
 
-        if (product) {
-            return {
-                ...product,
-                color: product.colors.split(','),
-                size: product.size.split(',')
-            }
-        }
-        return undefined
-    }
-    let product = convert(props.product)
-    if (product === undefined)
-        product = {
-            price: 0,
-            title: "",
-            color: [],
-            size: [],
-        }
-    const [previewImg, setPreviewImage] = useState(props.product ? product.image1 : "")
+    const [previewImg, setPreviewImage] = useState(props.product ? props.product.image1 : "")
     const [descriptionExpand, setDescriptionExpand] = useState(false)
-    const [color, setColor] = useState(undefined)
-    const [size, setSize] = useState(undefined)
+    const [product, setProduct] = useState({})
+    const [rateForm, setRateForm] = useState({})
+    const { rate } = product
+
     const [quantity, setQuantity] = useState(1)
     const [value, setValue] = useState(3.5)
     const [hover, setHover] = useState(-1)
@@ -63,48 +48,25 @@ const ProductView = props => {
             setQuantity(quantity - 1 < 1 ? 1 : quantity - 1)
         }
     }
-    const onRateChange = (e) => {
-        setValue(e.target.value)
-    }
-    const check = () => {
-        if (color === undefined) {
-            dispatch(setAlert({
-                message: "     Vui lòng chọn màu sắc",
-                type: "warning"
-            }))
-            return false
-        }
-        if (size === undefined) {
-            dispatch(setAlert({
-                message: "     Vui lòng chọn kích cỡ",
-                type: "warning"
-            }))
-            return false
-        }
-        return true
-    }
-    const addtoCart = () => {
-        if (check()) {
-            dispatch(addItem({
-                slug: product.slug,
-                color: color,
-                size: size,
-                quantity: quantity,
-                price: product.price
 
-            }))
-            dispatch(setAlert({
-                message: "Thêm vào giỏ thành công",
-                type: "success"
-            }))
-        }
+    const addtoCart = () => {
+
+        dispatch(addItem({
+            slug: product.slug,
+            quantity: quantity,
+            price: product.price
+
+        }))
+        dispatch(setAlert({
+            message: "Thêm vào giỏ thành công",
+            type: "success"
+        }))
+
     }
     const gotoCart = () => {
         if (true) {
             dispatch(addItem({
                 slug: product.slug,
-                color: color,
-                size: size,
                 quantity: quantity,
                 price: product.price
 
@@ -114,12 +76,12 @@ const ProductView = props => {
         }
     }
     useEffect(() => {
-        setPreviewImage(props.product ? product.image1 : "")
+        setPreviewImage(props.product ? props.product.image1 : "")
         setQuantity(1)
-        setColor(undefined)
-        setSize(undefined)
+        if (props.product)
+            setProduct(props.product)
     }, [props.product])
-    console.log(product);
+
     return (
         <div className='product'>
             <div className="product-images">
@@ -129,6 +91,19 @@ const ProductView = props => {
                     </div>
                     <div className="product-images-list-item" onClick={() => setPreviewImage(props.product ? product.image2 : "")}>
                         <img src={props.product ? product.image2 : ""} alt="image 2" />
+                    </div>
+                    <div className="product-images-list-item">
+                        <div className="video-responsive">
+                            <iframe
+                                width="100%"
+                                height="100%"
+                                src={`https://www.youtube.com/watch?v=gq2xKJXYZ80`}
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                                title="Embedded youtube"
+                            />
+                        </div>
                     </div>
                 </div>
                 <div className="product-images-main">
@@ -171,63 +146,39 @@ const ProductView = props => {
                 </div>
                 <div className="product-info-item">
                     <div className='product-info-item-title'>
-                        Quốc gia : Mỹ 
+                        Quốc gia : Mỹ
                     </div>
                 </div>
                 <div className="product-info-item">
                     <div className='product-info-item-title'>
-                        Thể loại : 
+                        Thể loại :
                     </div>
                     <div className="product-info-item-list">
-                        {/* {product.color.map((item, index) => (
-                            <div key={index} className={`product-info-item-list-item ${color === item ? 'active' : ''}`}
-                                onClick={() => setColor(item)}
-                            >
-                                {
-                                    <div className={`circle bg-${item}`}></div>
-                                }
-                            </div>
-                        ))
-                        } */}
-                        Hành động, Khoa học viễn tưởng, Phiêu lưu
+                        {
+                            product.genres ?
+                                fakegenres.filter(items => {
+                                    return product.genres.includes(items.value)
+                                }).map(item => item.display).join(", ")
+                                : ""
+                        }
                     </div>
                 </div>
 
-
                 <div className="product-info-item">
                     <div className='product-info-item-title'>
-                        Đạo diễn:                     
+                        Đạo diễn:
                     </div>
                     <div className="product-info-item-list">
-                        {/* {product.size.map((item, index) => (
-                            <div key={index} className={`product-info-item-list-item ${size === item ? 'active' : ''}`}
-                                onClick={() => setSize(item)}
-                            >
-                                <div className="product-info-item-list-item-size">
-                                    {item}
-                                </div>
-                            </div>
-                        ))
-                        } */}
                         James Cameron's
                     </div>
                 </div>
                 <div className="product-info-item">
                     <div className='product-info-item-title'>
-                        Diễn viên:                     
+                        Diễn viên:
                     </div>
                     <div className="product-info-item-list">
-                        {/* {product.size.map((item, index) => (
-                            <div key={index} className={`product-info-item-list-item ${size === item ? 'active' : ''}`}
-                                onClick={() => setSize(item)}
-                            >
-                                <div className="product-info-item-list-item-size">
-                                    {item}
-                                </div>
-                            </div>
-                        ))
-                        } */}
-                        Sam Wothington, Zoe Saldana, Sigourney Weaver, Kate Winslet, Stephen Lang
+                        {product.actors}
+                        {/* Sam Wothington, Zoe Saldana, Sigourney Weaver, Kate Winslet, Stephen Lang */}
                     </div>
                 </div>
                 <div className="product-info-item">
