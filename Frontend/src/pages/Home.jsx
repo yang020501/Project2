@@ -28,6 +28,7 @@ const Home = () => {
     dispatch(getAllProduct())
     dispatch(getAllSale())
   }, [])
+  console.log(productData);
   return (
     <Helmet title='Trang chủ'>
       <HeroSlider data={heroSliderData} control={true} auto={true} timeOut={3000} />
@@ -76,6 +77,8 @@ const Home = () => {
                   name={item.title}
                   slug={item.slug}
                   price={item.price}
+                  rate= {item.rate}
+                  badge={item.status}
                 >
                 </CustomerProductCard>
               ))

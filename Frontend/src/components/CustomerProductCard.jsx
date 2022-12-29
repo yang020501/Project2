@@ -42,11 +42,11 @@ const CustomerProductCard = props => {
             }
         }
     }
-    console.log(props);
+
     const navigate = useNavigate();
     const dispatch = useDispatch()
     return (
-        <Badge badgeContent={"new"} color="error">
+        <Badge badgeContent={props.badge ? props.badge === "normal" ? null : props.badge : null} color={props.badge ? props.badge === "new" ? "success" : "error" : "warning"} >
             <div className='customer-product-card'>
                 <Link to={props.admin ? `/admin/product/${props.slug}` : `/catalog/${props.slug}`}>
                     <img className='customer-product-card-image' src={props.img01} alt="" />
@@ -54,7 +54,7 @@ const CustomerProductCard = props => {
                         <span className='customer-product-card-quality'>FHD</span>
                         <span style={{ float: 'right', fontSize: '14pt' }}>
                             <i className='bx bxs-star ' style={{ color: "yellow" }} />
-                            4/5
+                            {`${props.rate}/5`}
                         </span>
                         <h3 className='customer-product-card-name'>{props.name}</h3>
                         <div className="customer-product-card-price">
@@ -122,6 +122,7 @@ CustomerProductCard.propTypes = {
     admin: PropTypes.bool,
     id: PropTypes.string,
     badge: PropTypes.string,
+    rate: PropTypes.number
 }
 
 export default CustomerProductCard

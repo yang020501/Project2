@@ -1,15 +1,15 @@
-const genres = [
+const fakegenres = [
     {
         display: "Hành động",
         value: "Action"
     },
     {
-        display: "Adventure",
-        value: "Phiêu lưu"
+        display: "Phiêu lưu",
+        value: "Adventure"
     },
     {
-        display: "Animation",
-        value: "Họat hình"
+        display: "Họat hình",
+        value: "Animation"
     },
     {
         display: "Trẻ em",
@@ -20,8 +20,8 @@ const genres = [
         value: "Comedy"
     },
     {
-        display: "Crime",
-        value: "Tội phạm"
+        display: "Tội phạm",
+        value: "Crime"
     },
     {
         display: "Tài liệu",
@@ -57,4 +57,4 @@ const genres = [
     }
 ]
 
-export default genres
+export default fakegenres

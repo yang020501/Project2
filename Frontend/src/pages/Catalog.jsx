@@ -1,15 +1,12 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import Helmet from '../components/Helmet'
-import colors from '../assets/fake-data/product-color'
-import size from '../assets/fake-data/product-size'
-import gender from '../assets/fake-data/gender'
 import CheckBox from '../components/CheckBox'
 import Button from '../components/Button'
 import CatalogNotFound from '../components/CatalogNotFound'
 import InfinityList from '../components/InfinityList'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllProduct } from '../redux/product/productsSlice'
-import genres from '../assets/fake-data/genres'
+import fakegenres from '../assets/fake-data/fakegenres'
 const Catalog = () => {
   // const Clothes = useSelector(state => state.clothesSlice.value)
   const categoryData = useSelector(state => state.categorySlice.value)
@@ -140,7 +137,7 @@ const Catalog = () => {
                 ))
               } */}
               {
-                genres.map((item, index) => (
+                fakegenres.map((item, index) => (
                   <div key={index} className='catalog-filter-widget-content-item'>
                     <CheckBox
                       label={item.display}

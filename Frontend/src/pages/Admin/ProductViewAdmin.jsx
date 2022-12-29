@@ -11,7 +11,7 @@ import axios from 'axios'
 import { apiUrl } from '../../utils/constant'
 import { addProduct, updateProduct } from '../../redux/product/productsSlice'
 import { setAlert } from '../../redux/alert-message/alertMessage'
-
+import fakegenres from '../../assets/fake-data/fakegenres'
 const ProductViewAdmin = props => {
   const navigate = useNavigate();
   const dispatch = useDispatch()
@@ -28,17 +28,24 @@ const ProductViewAdmin = props => {
     image2: "",
     id_cate: "",
     categorySlug: "",
-    colors: "",
-    size: "",
+    genres: "",
+    actors: "",
     sale: 0,
     price: 0,
-    description: " ",
-    gender: 2,
+    release: 0,
+    status: "",
+    descriptions: "",
     slug: "",
+    category: "",
+    gender: 1,
   })
 
 
-  const { title, sale, price, descriptions, gender, categorySlug, image1, image2 } = productForm
+  const { title, sale, price, descriptions, actors, release, status, categorySlug, image1, image2, } = productForm
+  const [genres, setGenres] = useState([])
+  const [saleCheck, setSaleCheck] = useState(false)
+  const [checkPrice, setCheckPrice] = useState(false)
+  const [checkSale, setCheckSale] = useState(false)
   const onChange = e => {
 
     var file = e.target.files
@@ -54,33 +61,52 @@ const ProductViewAdmin = props => {
       fr.readAsDataURL(file[0]);
     }
     else {
-      setproductForm({
-        ...productForm,
-        [e.target.name]: e.target.value,
-      })
+      if (e.target.name === "genres") {
+        let tmp = e.target.value
+        let tmpgenres
+        if (!genres.includes(tmp))
+          genres.push(tmp)
+        else {
+          let index = genres.findIndex(item => item === tmp)
+          genres.splice(index, 1)
+        }
+
+        tmpgenres = genres.join(",")
+        setproductForm({
+          ...productForm,
+          [e.target.name]: tmpgenres,
+        })
+      }
+      else {
+        setproductForm({
+          ...productForm,
+          [e.target.name]: e.target.value,
+        })
+      }
+
     }
 
   }
-  const setActiveColor = (itemActive) => {
-    if (color.includes(itemActive)) {
-      let list = color.filter(item => item !== itemActive)
-      setColor([...list])
+  const check = () => {
+    let tmp = 0
+    if (saleCheck && !(sale > 5 && sale <= 70)) {
+      setCheckSale(true)
+      tmp++
     }
     else {
-      color.push(itemActive)
-      setColor([...color])
+      setCheckSale(false)
     }
-  }
-  const setActiveSize = (itemActive) => {
-    if (sizes.includes(itemActive)) {
-      let list = sizes.filter(item => item !== itemActive)
-      setSizes([...list])
+    if (price < 50000) {
+      setCheckPrice(true)
+      tmp++
+
     }
     else {
-      sizes.push(itemActive)
-      setSizes([...sizes])
+      setCheckPrice(false)
     }
+    return tmp > 0
   }
+
   const clearValues = (type) => {
     if (type) {
       switch (type) {
@@ -89,40 +115,32 @@ const ProductViewAdmin = props => {
       }
     }
   }
-  const check = () => {
-    if (color.length === 0) {
-      dispatch(setAlert({
-        message: "Vui lòng chọn màu sắc",
-        type: "warning"
-      }))
-      return false
-    }
-    if (sizes.length === 0) {
-      dispatch(setAlert({
-        message: "Vui lòng chọn kích cỡ",
-        type: "warning"
-      }))
-      return false
-    }
-    return true
-  }
+
   const Update = async (event) => {
     const form = event.currentTarget;
     event.preventDefault();
     event.stopPropagation();
-    if (form.checkValidity() === false || check() === false) {
+    if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
       setValidated(true);
     }
+    else if (check()) {
+      event.preventDefault();
+      event.stopPropagation();
+      setValidated(false);
+    }
     else {
       setValidated(false)
       let categoryId = categoryData.find(item => item.slug === productForm.categorySlug) ? categoryData.find(item => item.slug === productForm.categorySlug).id : categoryData[0].id
+      console.log(categoryId, "hểhêre");
       let type = productData.findIndex(item => item.id === productForm.id)
       let body = {
         ...productForm,
-        category: categoryId ? categoryId : ""
+        category: categoryId,
+        sale: saleCheck ? sale : 0
       }
+      console.log(body);
       if (type > -1 && slug !== "new") {
         let rs = await axios.post(`${apiUrl}/product/update-product`, body, { headers: { Authorization: `Bearer ${token}` } }).catch(data => { return data })
         if (rs.data) {
@@ -158,21 +176,14 @@ const ProductViewAdmin = props => {
       }
     }
   }
-  useEffect(() => {
-    setproductForm({
-      ...productForm,
-      colors: color.join(","),
-      size: sizes.join(",")
-    })
-  }, [color, sizes])
+
   useEffect(() => {
     if (productData) {
       let product = productData.find((item) => {
         return item.slug === slug
       })
       if (product) {
-        setColor(product.colors.split(","));
-        setSizes(product.size.split(","))
+        setGenres(product.genres.split(","))
         setproductForm({ ...product })
       }
     }
@@ -218,6 +229,7 @@ const ProductViewAdmin = props => {
                 <Form.Group className='me-5 mb-3 w-100'  >
                   <Form.Label>Giá</Form.Label>
                   <Form.Control
+                    isInvalid={checkPrice}
                     required
                     type="number"
                     size="lg"
@@ -226,35 +238,57 @@ const ProductViewAdmin = props => {
                     onChange={onChange}
                   />
                   <Form.Control.Feedback type="invalid">
-                    Vui lòng nhập giá.
+                    Giá tối thiểu 50 000 đ.
                   </Form.Control.Feedback>
                 </Form.Group>
+                <Form.Group className='me-5 mb-4 w-100' >
+                  <Form.Check name="genres" type="checkbox" label="Giảm giá %" onChange={(e) => {
+                    setSaleCheck(e.currentTarget.checked)
+                    setCheckSale(false)
+                  }} />
+                  <Form.Control
+                    isInvalid={checkSale}
+                    disabled={!saleCheck}
+                    required
+                    type="number"
+                    size="lg"
+                    name="sale"
+                    value={sale}
+                    onChange={onChange}
+                    min={0}
+                    max={77}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Phần trăm không được vượt quá 70% và tối thiểu 5%.
+                  </Form.Control.Feedback>
+                </Form.Group>
+
                 <Form.Group className='me-5 mb-3 w-100'  >
                   <Form.Label>Tình trạng</Form.Label>
                   <div style={{ display: "flex", alignContent: "center", justifyContent: "space-around", width: "100%", marginTop: "10px" }}>
                     <Form.Check
                       type='radio'
                       label="Mới"
-                      name="gender"
-                      value={1}
+                      name="status"
+                      value={"new"}
                       onChange={onChange}
-                      checked={gender == 1}
+                      checked={status === "new"}
                     />
                     <Form.Check
                       type='radio'
-                      label="Cũ"
-                      name="gender"
-                      value={0}
+                      label="Thường"
+                      name="status"
+                      value={"normal"}
                       onChange={onChange}
-                      checked={gender == 0}
+                      checked={status === "normal"}
                     />
                     <Form.Check
                       type='radio'
                       label="Bán chạy"
-                      name="gender"
-                      value={2}
+                      name="status"
+                      value={"hot"}
                       onChange={onChange}
-                      checked={gender == 2 || gender == null}
+                      checked={status === "hot"}
                     />
                   </div>
                 </Form.Group>
@@ -310,61 +344,31 @@ const ProductViewAdmin = props => {
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group className='me-5 mb-4' >
-                <Form.Label>Diễn viên <i className='bx bx-trash bx-tad ms-2 fs-5 ' style={{ cursor: 'pointer' }} onClick={() => clearValues("color")} /></Form.Label>
-                {/* <div className="product-info-item-list">
-                  {
-                    colors.map((item, index) => (
-                      <div key={index} className={`product-info-item-list-item ${color.includes(item.color) ? 'active' : ""} `}
-                        onClick={() => { setActiveColor(item.color) }}
-                      >
-                        {
-                          <div className={`circle bg-${item.color}`}></div>
-                        }
-                      </div>
-                    ))
-                  }
-                </div> */}
+                <Form.Label>Diễn viên</Form.Label>
                 <Form.Control
                   required
                   type="text"
                   size="lg"
-                  name="title"
-                  value={title}
-                // onChange={onChange}
+                  name="actors"
+                  value={actors}
+                  onChange={onChange}
                 />
                 <Form.Control.Feedback type="invalid">
-                  Vui lòng nhập tên sản phẩm.
+                  Vui lòng nhập tên diễn viên.
                 </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group className='me-5 mb-4' >
-                <Form.Label>Đạo diễn <i className='bx bx-trash bx-tad ms-2 fs-5' style={{ cursor: 'pointer' }} onClick={() => clearValues("size")} /></Form.Label>
-                {/* <div className="product-info-item-list">
+
+              <Form.Group className="mb-3  "  >
+                <Form.Label>Thể loại </Form.Label>
+                <div className='d-flex flex-row w-100 col-3 flex-wrap'>
                   {
-                    <div className="product-info-item-list">
-                      {size.map((item, index) => (
-                        <div key={index} className={`product-info-item-list-item ${sizes.includes(item.size) ? 'active' : ''}`}
-                          onClick={() => setActiveSize(item.size)}
-                        >
-                          <div className="product-info-item-list-item-size" >
-                            {item.size}
-                          </div>
-                        </div>
-                      ))
-                      }
-                    </div>
+                    fakegenres.map((item, index) => {
+                      return (
+                        <Form.Check className='w-25' key={index} name="genres" type="checkbox" label={item.display} checked={genres.includes(item.value)} value={item.value} onChange={onChange} />
+                      )
+                    })
                   }
-                </div> */}
-                <Form.Control
-                  required
-                  type="text"
-                  size="lg"
-                  name="title"
-                  value={title}
-                // onChange={onChange}
-                />
-                <Form.Control.Feedback type="invalid">
-                  Vui lòng nhập tên sản phẩm.
-                </Form.Control.Feedback>
+                </div>
               </Form.Group>
               <Form.Group className='me-5 mb-4' >
                 <Form.Label>Mô tả</Form.Label>
