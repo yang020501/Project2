@@ -48,7 +48,7 @@ const ProductView = props => {
             color: [],
             size: [],
         }
-    const [previewImg, setPreviewImage] = useState(props.product ? require(`../assets/${product.image1}`) : "")
+    const [previewImg, setPreviewImage] = useState(props.product ? product.image1 : "")
     const [descriptionExpand, setDescriptionExpand] = useState(false)
     const [color, setColor] = useState(undefined)
     const [size, setSize] = useState(undefined)
@@ -100,7 +100,7 @@ const ProductView = props => {
         }
     }
     const gotoCart = () => {
-        if (check()) {
+        if (true) {
             dispatch(addItem({
                 slug: product.slug,
                 color: color,
@@ -114,20 +114,21 @@ const ProductView = props => {
         }
     }
     useEffect(() => {
-        setPreviewImage(props.product ? require(`../assets/${product.image1}`) : "")
+        setPreviewImage(props.product ? product.image1 : "")
         setQuantity(1)
         setColor(undefined)
         setSize(undefined)
     }, [props.product])
+    console.log(product);
     return (
         <div className='product'>
             <div className="product-images">
                 <div className="product-images-list">
-                    <div className="product-images-list-item" onClick={() => setPreviewImage(props.product ? require(`../assets/${product.image1}`) : "")}>
-                        <img src={props.product ? require(`../assets/${product.image1}`) : ""} alt="" />
+                    <div className="product-images-list-item" onClick={() => setPreviewImage(props.product ? product.image1 : "")}>
+                        <img src={props.product ? product.image1 : ""} alt="image 1" />
                     </div>
-                    <div className="product-images-list-item" onClick={() => setPreviewImage(props.product ? require(`../assets/${product.image2}`) : "")}>
-                        <img src={props.product ? require(`../assets/${product.image2}`) : ""} alt="" />
+                    <div className="product-images-list-item" onClick={() => setPreviewImage(props.product ? product.image2 : "")}>
+                        <img src={props.product ? product.image2 : ""} alt="image 2" />
                     </div>
                 </div>
                 <div className="product-images-main">
@@ -170,10 +171,15 @@ const ProductView = props => {
                 </div>
                 <div className="product-info-item">
                     <div className='product-info-item-title'>
-                        Màu sắc
+                        Quốc gia : Mỹ 
+                    </div>
+                </div>
+                <div className="product-info-item">
+                    <div className='product-info-item-title'>
+                        Thể loại : 
                     </div>
                     <div className="product-info-item-list">
-                        {product.color.map((item, index) => (
+                        {/* {product.color.map((item, index) => (
                             <div key={index} className={`product-info-item-list-item ${color === item ? 'active' : ''}`}
                                 onClick={() => setColor(item)}
                             >
@@ -182,7 +188,46 @@ const ProductView = props => {
                                 }
                             </div>
                         ))
-                        }
+                        } */}
+                        Hành động, Khoa học viễn tưởng, Phiêu lưu
+                    </div>
+                </div>
+
+
+                <div className="product-info-item">
+                    <div className='product-info-item-title'>
+                        Đạo diễn:                     
+                    </div>
+                    <div className="product-info-item-list">
+                        {/* {product.size.map((item, index) => (
+                            <div key={index} className={`product-info-item-list-item ${size === item ? 'active' : ''}`}
+                                onClick={() => setSize(item)}
+                            >
+                                <div className="product-info-item-list-item-size">
+                                    {item}
+                                </div>
+                            </div>
+                        ))
+                        } */}
+                        James Cameron's
+                    </div>
+                </div>
+                <div className="product-info-item">
+                    <div className='product-info-item-title'>
+                        Diễn viên:                     
+                    </div>
+                    <div className="product-info-item-list">
+                        {/* {product.size.map((item, index) => (
+                            <div key={index} className={`product-info-item-list-item ${size === item ? 'active' : ''}`}
+                                onClick={() => setSize(item)}
+                            >
+                                <div className="product-info-item-list-item-size">
+                                    {item}
+                                </div>
+                            </div>
+                        ))
+                        } */}
+                        Sam Wothington, Zoe Saldana, Sigourney Weaver, Kate Winslet, Stephen Lang
                     </div>
                 </div>
                 <div className="product-info-item">
@@ -214,24 +259,6 @@ const ProductView = props => {
                             <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
                         )}
                     </Box>
-                </div>
-
-                <div className="product-info-item">
-                    <div className='product-info-item-title'>
-                        Kích cỡ
-                    </div>
-                    <div className="product-info-item-list">
-                        {product.size.map((item, index) => (
-                            <div key={index} className={`product-info-item-list-item ${size === item ? 'active' : ''}`}
-                                onClick={() => setSize(item)}
-                            >
-                                <div className="product-info-item-list-item-size">
-                                    {item}
-                                </div>
-                            </div>
-                        ))
-                        }
-                    </div>
                 </div>
                 <div className="product-info-item">
                     <div className='product-info-item-title'>

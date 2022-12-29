@@ -9,6 +9,7 @@ import CatalogNotFound from '../components/CatalogNotFound'
 import InfinityList from '../components/InfinityList'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllProduct } from '../redux/product/productsSlice'
+import genres from '../assets/fake-data/genres'
 const Catalog = () => {
   // const Clothes = useSelector(state => state.clothesSlice.value)
   const categoryData = useSelector(state => state.categorySlice.value)
@@ -99,10 +100,10 @@ const Catalog = () => {
   }, [updateProducts])
 
   useEffect(() => {
-    let tmp = categoryData.filter(item => {
-      return item.slug.includes("ao") || item.slug.includes("quan")
-    })
-    setCategory(tmp)
+    // let tmp = categoryData.filter(item => {
+    //   return item.slug.includes("ao") || item.slug.includes("quan")
+    // })
+    setCategory([...categoryData])
   }, [categoryData])
   useEffect(() => {
     let Clothes = productData.filter(item => {
@@ -112,7 +113,7 @@ const Catalog = () => {
     setProductList(Clothes)
     setProducts(Clothes)
   }, [productData, category])
-
+  console.log(categoryData);
   const showHideFilter = () => filterRef.current.classList.toggle('active')
   return (
     <Helmet title='Quần áo'>
@@ -123,10 +124,10 @@ const Catalog = () => {
           </div>
           <div className="catalog-filter-widget">
             <div className="catalog-filter-widget-title">
-              Quốc gia
+              Thể loại
             </div>
             <div className="catalog-widget-filter-content">
-              {
+              {/* {
 
                 gender.map((item, index) => (
                   <div key={index} className='catalog-filter-widget-content-item'>
@@ -137,12 +138,23 @@ const Catalog = () => {
                     />
                   </div>
                 ))
+              } */}
+              {
+                genres.map((item, index) => (
+                  <div key={index} className='catalog-filter-widget-content-item'>
+                    <CheckBox
+                      label={item.display}
+                    // onChange={(input) => { filterSelect("CATEGORY", input.checked, item) }}
+                    // checked={filter.category.includes(item.slug)}
+                    />
+                  </div>
+                ))
               }
             </div>
           </div>
           <div className="catalog-filter-widget">
             <div className="catalog-filter-widget-title">
-              Thể loại 
+              Quốc gia
             </div>
             <div className="catalog-widget-filter-content">
               {
@@ -156,6 +168,7 @@ const Catalog = () => {
                   </div>
                 ))
               }
+
             </div>
           </div>
           {/* <div className="catalog-filter-widget">

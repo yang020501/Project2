@@ -5,6 +5,7 @@ import Button from './Button'
 import numberWithCommas from '../utils/numberWithCommas'
 import { useDispatch, useSelector } from 'react-redux'
 import { set } from '../redux/product-modal/productModalSlice'
+import Badge from '@mui/material/Badge';
 import axios from 'axios'
 import { apiUrl } from '../utils/constant'
 import { deleteProduct } from '../redux/product/productsSlice'
@@ -41,37 +42,37 @@ const CustomerProductCard = props => {
             }
         }
     }
+    console.log(props);
     const navigate = useNavigate();
     const dispatch = useDispatch()
     return (
-        <div className='customer-product-card'>
-            <Link to={props.admin ? `/admin/product/${props.slug}` : `/catalog/${props.slug}`}>
+        <Badge badgeContent={"new"} color="error">
+            <div className='customer-product-card'>
+                <Link to={props.admin ? `/admin/product/${props.slug}` : `/catalog/${props.slug}`}>
+                    <img className='customer-product-card-image' src={props.img01} alt="" />
+                    <div className="customer-product-card-description">
+                        <span className='customer-product-card-quality'>FHD</span>
+                        <span style={{ float: 'right', fontSize: '14pt' }}>
+                            <i className='bx bxs-star ' style={{ color: "yellow" }} />
+                            4/5
+                        </span>
+                        <h3 className='customer-product-card-name'>{props.name}</h3>
+                        <div className="customer-product-card-price">
+                            {
+                                props.sale ?
+                                    (
+                                        <div>
+                                            {numberWithCommas(Number((Number(props.price) - Number(props.price) * props.sale / 100)))} đ
+                                            <span className='customer-product-card-price-old'>
+                                                <del>{numberWithCommas(props.price)} đ</del>
+                                            </span>
+                                        </div>)
+                                    :
+                                    <div>{numberWithCommas(Number((props.price)))} đ</div>
+                            }
 
-                <img className='customer-product-card-image' src={props.img01.includes("images") ? require(`../assets/${props.img01}`) : props.img01} alt="" />
-                {/* <img className='customer-product-card-image' src={props.img02.includes("images") ? require(`../assets/${props.img02}`) : props.img02} alt="" /> */}
-                <div className="customer-product-card-description">
-                    <span className='customer-product-card-quality'>FHD</span>
-                    <span style={{ float: 'right', fontSize: '14pt' }}>
-                        <i className='bx bxs-star '  style={{color:"yellow"}}/>
-                        4/5
-                    </span>
-                    <h3 className='customer-product-card-name'>{props.name}</h3>
-                    <div className="customer-product-card-price">
-                        {
-                            props.sale ?
-                                (
-                                    <div>
-                                        {numberWithCommas(Number((Number(props.price) - Number(props.price) * props.sale / 100)))} đ
-                                        <span className='customer-product-card-price-old'>
-                                            <del>{numberWithCommas(props.price)} đ</del>
-                                        </span>
-                                    </div>)
-                                :
-                                <div>{numberWithCommas(Number((props.price)))} đ</div>
-                        }
-
-                    </div>
-                    {/* <div className="customer-product-card-btn">
+                        </div>
+                        {/* <div className="customer-product-card-btn">
                         {!props.admin ?
                             <Button
                                 size='xs'
@@ -104,11 +105,10 @@ const CustomerProductCard = props => {
                         }
 
                     </div> */}
-                </div>
-
-            </Link>
-
-        </div>
+                    </div>
+                </Link>
+            </div>
+        </Badge >
     )
 }
 
@@ -120,7 +120,8 @@ CustomerProductCard.propTypes = {
     slug: PropTypes.string.isRequired,
     sale: PropTypes.number,
     admin: PropTypes.bool,
-    id: PropTypes.string
+    id: PropTypes.string,
+    badge: PropTypes.string,
 }
 
 export default CustomerProductCard

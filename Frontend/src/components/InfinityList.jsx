@@ -10,7 +10,7 @@ const InfinityList = props => {
     const [load, setload] = useState(true)
     const [index, setIndex] = useState(0)
 
-
+    console.log(data);
     useEffect(() => {
         setData(props.data.slice(0, perLoad))
         setIndex(1)
