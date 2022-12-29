@@ -230,11 +230,11 @@ const ProductViewAdmin = props => {
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className='me-5 mb-3 w-100'  >
-                  <Form.Label>Giới tính</Form.Label>
+                  <Form.Label>Tình trạng</Form.Label>
                   <div style={{ display: "flex", alignContent: "center", justifyContent: "space-around", width: "100%", marginTop: "10px" }}>
                     <Form.Check
                       type='radio'
-                      label="Nam"
+                      label="Mới"
                       name="gender"
                       value={1}
                       onChange={onChange}
@@ -242,7 +242,7 @@ const ProductViewAdmin = props => {
                     />
                     <Form.Check
                       type='radio'
-                      label="Nữ"
+                      label="Cũ"
                       name="gender"
                       value={0}
                       onChange={onChange}
@@ -250,7 +250,7 @@ const ProductViewAdmin = props => {
                     />
                     <Form.Check
                       type='radio'
-                      label="Unisex"
+                      label="Bán chạy"
                       name="gender"
                       value={2}
                       onChange={onChange}
@@ -260,7 +260,7 @@ const ProductViewAdmin = props => {
                 </Form.Group>
               </div>
               <Form.Group className='me-5 mb-4' >
-                <Form.Label>Loại sản phẩm</Form.Label>
+                <Form.Label>Quốc gia</Form.Label>
                 <Form.Select
                   size="lg"
                   required
@@ -278,7 +278,7 @@ const ProductViewAdmin = props => {
                   }
                 </Form.Select>
                 <Form.Control.Feedback type="invalid">
-                  Vui lòng nhập loại sản phẩm.
+                  Vui lòng nhập Quốc gia.
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group className='me-5 mb-4' >
@@ -310,8 +310,8 @@ const ProductViewAdmin = props => {
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group className='me-5 mb-4' >
-                <Form.Label>Màu sắc  <i className='bx bx-trash bx-tad ms-2 fs-5 ' style={{ cursor: 'pointer' }} onClick={() => clearValues("color")} /></Form.Label>
-                <div className="product-info-item-list">
+                <Form.Label>Diễn viên <i className='bx bx-trash bx-tad ms-2 fs-5 ' style={{ cursor: 'pointer' }} onClick={() => clearValues("color")} /></Form.Label>
+                {/* <div className="product-info-item-list">
                   {
                     colors.map((item, index) => (
                       <div key={index} className={`product-info-item-list-item ${color.includes(item.color) ? 'active' : ""} `}
@@ -323,11 +323,22 @@ const ProductViewAdmin = props => {
                       </div>
                     ))
                   }
-                </div>
+                </div> */}
+                <Form.Control
+                  required
+                  type="text"
+                  size="lg"
+                  name="title"
+                  value={title}
+                // onChange={onChange}
+                />
+                <Form.Control.Feedback type="invalid">
+                  Vui lòng nhập tên sản phẩm.
+                </Form.Control.Feedback>
               </Form.Group>
               <Form.Group className='me-5 mb-4' >
-                <Form.Label>Kích cỡ <i className='bx bx-trash bx-tad ms-2 fs-5' style={{ cursor: 'pointer' }} onClick={() => clearValues("size")} /></Form.Label>
-                <div className="product-info-item-list">
+                <Form.Label>Đạo diễn <i className='bx bx-trash bx-tad ms-2 fs-5' style={{ cursor: 'pointer' }} onClick={() => clearValues("size")} /></Form.Label>
+                {/* <div className="product-info-item-list">
                   {
                     <div className="product-info-item-list">
                       {size.map((item, index) => (
@@ -342,7 +353,18 @@ const ProductViewAdmin = props => {
                       }
                     </div>
                   }
-                </div>
+                </div> */}
+                <Form.Control
+                  required
+                  type="text"
+                  size="lg"
+                  name="title"
+                  value={title}
+                // onChange={onChange}
+                />
+                <Form.Control.Feedback type="invalid">
+                  Vui lòng nhập tên sản phẩm.
+                </Form.Control.Feedback>
               </Form.Group>
               <Form.Group className='me-5 mb-4' >
                 <Form.Label>Mô tả</Form.Label>

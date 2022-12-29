@@ -146,7 +146,7 @@ const Category = () => {
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", columnGap: 10, height: "480px" }}>
             <div style={{ width: "100%" }}>
               <Form.Group className='me-5 mb-3 w-100' >
-                <Form.Label>Loại sản phẩm </Form.Label>
+                <Form.Label>Quốc gia </Form.Label>
                 <Form.Control
                   required
                   name="name"

@@ -1,9 +1,9 @@
 .customer-info {
     @include flex(flex-start, flex-start);
 
-    margin-top: calc(#{$header-height} + 50px);
+    // margin-top: calc(#{$header-height} + 50px);
     flex-direction: column;
-
+ 
     &-header {
         @include flex(start, flex-start);
         flex-direction: column;
@@ -19,7 +19,7 @@
         &::after {
             content: "";
             width: 100%;
-            border: 0.75px solid #50222b;
+            border: 0.75px solid white;
         }
     }
 
@@ -29,7 +29,7 @@
         width: 100%;
         font-size: 20pt;
         color: $txt-second-color;
-
+        color: $txt-main-color;
         @include tablet {
             flex-direction: column-reverse;
         }

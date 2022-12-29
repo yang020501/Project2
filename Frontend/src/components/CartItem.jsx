@@ -30,12 +30,12 @@ const CartItem = props => {
     return (
         <div className='cart-item'>
             <div className="cart-item-image">
-                <img src={require(`../assets/${item.product.image1}`)} alt='' />
+                <img src={item.product.image1} alt='' />
             </div>
             <div className="cart-item-info">
                 <div className="cart-item-info-name">
                     <Link to={`/catalog/${item.slug}`}>
-                        {`${item.product.title} - ${item.color} - ${item.size}`}
+                        {`${item.product.title}`}
                     </Link>
                 </div>
                 <div className="cart-item-info-price">

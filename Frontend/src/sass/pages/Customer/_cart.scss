@@ -1,6 +1,6 @@
 .cart {
     @include flex(flex-start, flex-start);
-
+    color: $txt-main-color;
     @include mobile {
         flex-wrap: wrap;
     }
