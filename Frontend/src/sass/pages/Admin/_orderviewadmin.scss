@@ -39,4 +39,13 @@
             width: 5%;
         }
     }
+    &-body {
+        &-info {
+            margin-bottom: 25px;
+            @include flex(center, space-around);
+            width: 100%;
+            column-gap: 10px;
+            
+        }
+    }
 }

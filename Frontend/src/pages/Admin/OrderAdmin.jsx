@@ -65,20 +65,22 @@ const Order = () => {
     setorderDataSearch(rows)
   }, [rows])
   useEffect(() => {
-    const tmprows = orderData.map((item) => {
-      return {
-        ...item,
-        email: findCustomerById(item.customer_id) ? findCustomerById(item.customer_id).username : "",
-        name: findCustomerById(item.customer_id) ? findCustomerById(item.customer_id).customer_name : "",
-        createdate: item ? formatDate(item.create_date) : "",
-        total: item ? numberWithCommas(item.total) : "",
-        option: {
-          type: "view",
-          click: gotoOrderView
+    if (orderData && orderData.length > 0) {
+      const tmprows = orderData.map((item) => {
+        return {
+          ...item,
+          email: findCustomerById(item.customer_id) ? findCustomerById(item.customer_id).username : "",
+          name: findCustomerById(item.customer_id) ? findCustomerById(item.customer_id).customer_name : "",
+          createdate: item ? formatDate(item.create_date) : "",
+          total: item ? numberWithCommas(item.total) : "",
+          option: {
+            type: "view",
+            click: gotoOrderView
+          }
         }
-      }
-    })
-    setRows(tmprows)
+      })
+      setRows(tmprows)
+    }
   }, [orderData])
   return (
     <ContentMain headerTitle='Đơn hàng'>
@@ -90,6 +92,9 @@ const Order = () => {
           </div>
           <div onClick={() => { setCheck("email") }}>
             <CheckBox label='E-mail' checked={Check === "email"} />
+          </div>
+          <div onClick={() => { setCheck("status") }}>
+            <CheckBox label='Trạng thái' checked={Check === "status"} />
           </div>
           {/* <CheckBox label='Trạng thái' checked ={Check === "status"} /> */}
         </div>

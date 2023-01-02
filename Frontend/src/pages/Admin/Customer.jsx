@@ -12,6 +12,7 @@ const Customer = () => {
   const [Check, setCheck] = useState("customer_name")
   const [rows, setRows] = useState([])
   const [customerDataSearch, setcustomerDataSearch] = useState([])
+ 
   const columns = [
     {
       key: "customer_name",

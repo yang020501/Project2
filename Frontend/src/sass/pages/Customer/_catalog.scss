@@ -1,6 +1,7 @@
 .catalog {
     @include flex(flex-start, flex-start);
-
+    color: $txt-main-color;
+    padding-top: 20px;
     @include tablet {
         flex-direction: column;
     }
@@ -46,6 +47,9 @@
                 &-item {
                     margin-bottom: 13px;
                 }
+                .btn-sm{
+                    width: 50%;
+                }
             }
         }
 
@@ -61,11 +65,12 @@
     }
 
     &-content {
-        flex-grow: 1;
-
+        // flex-grow: 1;
+        width: 80%;
         @include tablet {
             width: 100%;
         }
+       
     }
 
     &-filter-toggle {

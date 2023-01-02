@@ -23,8 +23,11 @@ import AlertMessage from "../components/AlertMessage"
 import { getAllOrders } from "../redux/order/orderSlice";
 import { getAllCustomers } from "../redux/user/customerSlice";
 import { getAllUsers } from "../redux/user/staffSlice";
+import { getAllSale } from "../redux/product/saleSlice";
+
 
 const AdminLayout = () => {
+
   const user = useSelector(state => state.userState.user)
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -34,6 +37,7 @@ const AdminLayout = () => {
     dispatch(getAllOrders())
     dispatch(getAllCustomers())
     dispatch(getAllUsers())
+    dispatch(getAllSale())
   }, [])
   useEffect(() => {
 

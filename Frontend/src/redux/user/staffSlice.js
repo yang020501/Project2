@@ -42,7 +42,11 @@ export const staffSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(getAllUsers.fulfilled, (state, action) => {
-            state.value = action.payload
+
+            let tmp = action.payload.filter(item => {
+                return item.id_role === "00001"
+            })
+            state.value = tmp
         })
 
     }

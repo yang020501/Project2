@@ -12,6 +12,7 @@ import banner from '../assets/images/banner.png'
 import { getAllSale } from '../redux/product/saleSlice'
 import { getAllProduct } from '../redux/product/productsSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import CustomerProductCard from '../components/CustomerProductCard'
 
 const Home = () => {
   let dispatch = useDispatch()
@@ -27,6 +28,7 @@ const Home = () => {
     dispatch(getAllProduct())
     dispatch(getAllSale())
   }, [])
+  console.log(productData);
   return (
     <Helmet title='Trang chủ'>
       <HeroSlider data={heroSliderData} control={true} auto={true} timeOut={3000} />
@@ -68,15 +70,17 @@ const Home = () => {
 
               getProducts(4).map((item, index) => (
 
-                <ProductCard
+                <CustomerProductCard
                   key={index}
                   img01={item.image1}
                   img02={item.image2}
                   name={item.title}
                   slug={item.slug}
                   price={item.price}
+                  rate= {item.rate}
+                  badge={item.status}
                 >
-                </ProductCard>
+                </CustomerProductCard>
               ))
 
             }
@@ -97,7 +101,7 @@ const Home = () => {
           >
             {
               productSale.map((item, index) => (
-                <ProductCard
+                <CustomerProductCard
                   key={index}
                   img01={item.image1}
                   img02={item.image2}
@@ -106,7 +110,7 @@ const Home = () => {
                   price={item.price}
                   sale={item.sale}
                 >
-                </ProductCard>
+                </CustomerProductCard>
               )
               )
             }
@@ -115,9 +119,9 @@ const Home = () => {
         </SectionBody>
       </Section>
       <Section>
-        <Link to="/catalog">
-          <img src={banner} alt="" />
-        </Link>
+        {/* <Link to="/catalog"> */}
+        <img src={banner} alt="" />
+        {/* </Link> */}
       </Section>
       <Section>
         <SectionTitle>
@@ -132,7 +136,7 @@ const Home = () => {
           >
             {
               getProducts(8).map((item, index) => (
-                <ProductCard
+                <CustomerProductCard
                   key={index}
                   img01={item.image1}
                   img02={item.image2}
@@ -141,7 +145,7 @@ const Home = () => {
                   price={item.price}
 
                 >
-                </ProductCard>
+                </CustomerProductCard>
               )
               )
             }
@@ -166,7 +170,7 @@ const Home = () => {
             {
 
               getProducts(12).map((item, index) => (
-                <ProductCard
+                <CustomerProductCard
                   key={index}
                   img01={item.image1}
                   img02={item.image2}
@@ -174,7 +178,7 @@ const Home = () => {
                   slug={item.slug}
                   price={item.price}
                 >
-                </ProductCard>
+                </CustomerProductCard>
               )
               )
             }

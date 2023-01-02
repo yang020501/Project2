@@ -14,7 +14,6 @@ const CustomerInfo = () => {
     const token = useSelector(state => state.userState.token)
     const cart = useSelector(state => state.userState.cart)
     const products = useSelector(state => state.productsSlice.value)
-    console.log(cart);
     const initialForm = {
         customer_name: user.customer_name ? user.customer_name : "",
         username: user.username,
@@ -40,6 +39,7 @@ const CustomerInfo = () => {
     const [Province, SetProvince] = useState(address)
     const [District, setDistrict] = useState([])
     const [Ward, setWard] = useState([])
+    const [Cart, setCart] = useState([])
 
     const onCustomerFormChange = e => {
         setCustomerForm({
@@ -78,7 +78,7 @@ const CustomerInfo = () => {
             id: user.id,
             ...CustomerForm
         }
-        
+
         let rs = await axios.patch(`${apiUrl}/user/update`, data, { headers: { Authorization: `Bearer ${token}` } })
         dispatch(updateUser(data))
     }
@@ -89,6 +89,9 @@ const CustomerInfo = () => {
         dispatch(getCart())
         dispatch(getAllProduct())
     }, [])
+    useEffect(() => {
+        setCart([...cart])
+    }, [cart])
     useEffect(() => {
         if (address1) {
             if (address.filter(item => item.Name === address1)[0])
@@ -147,7 +150,7 @@ const CustomerInfo = () => {
                             </thead>
                             <tbody>
                                 {
-                                    cart ? cart.map((item, index) => (
+                                    Cart ? Cart.map((item, index) => (
                                         <tr key={index}>
                                             <td>{item.cart_id}</td>
                                             <td className='tdcell'>{item.create_date}</td>

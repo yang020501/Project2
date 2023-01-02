@@ -89,7 +89,7 @@ const LoginModal = () => {
         >
             <ModalHeader closeButton>
                 <Modal.Title id="example-custom-modal-styling-title">
-                    Đăng nhập
+                    {/* Đăng nhập */}
                 </Modal.Title>
             </ModalHeader>
             <ModalBody>
@@ -105,9 +105,8 @@ const LoginModal = () => {
                                                     <h3 className="h4 font-weight-bold text-theme">Đăng nhập</h3>
                                                 </div>
 
-                                                <h6 className="h5 mb-0">Welcome back!</h6>
-                                                <p className="text-muted mt-2 mb-5">Enter your email address and password to access
-                                                    admin panel.</p>
+                                                <h6 className="h5 mb-0">Chào mừng quý khách trở lại!</h6>
+                                                <p className="text-muted mt-2 mb-5">Xin hãy nhập tài khoản và mật khẩu để đăng nhập.</p>
 
                                                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                                     <Form.Group >
@@ -151,18 +150,17 @@ const LoginModal = () => {
                                             <div className="account-block rounded-right">
                                                 <div className="overlay rounded-right"></div>
                                                 <div className="account-testimonial">
-                                                    <h4 className="text-white mb-4">This beautiful theme yours!</h4>
-                                                    <p className="lead text-white">"Best investment i made for a long time. Can only
-                                                        recommend it for other users."</p>
-                                                    <p>- Admin User</p>
+                                                <h4 className="text-white mb-4">This beautiful theme yours!</h4>
+                                                    <p className="lead text-white">"Chúc quý khách hàng sẽ có những trải nghiệm tuyệt vời khi mua sắm ở đây."</p>
+                                                    <p>- Admin</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="text-muted text-center mt-3 mb-0 d-flex justify-content-center">Don't have an account?&nbsp; <div
-                                className="text-primary ml-1 modalmove" onClick={() => gotoRegister()}>Register</div></div>
+                            <div className="text-muted text-center mt-3 mb-0 d-flex justify-content-center">Chưa có tài khoản?&nbsp; <div
+                                className="text-primary ml-1 modalmove" onClick={() => gotoRegister()}>Đăng ký</div></div>
                         </div>
                     </div>
 

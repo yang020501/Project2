@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Grid from './Grid'
 import ProductCard from './ProductCard'
+import CustomerProductCard from './CustomerProductCard'
 const InfinityList = props => {
     const listRef = useRef(null)
     const perLoad = 6 // each items load
@@ -9,7 +10,7 @@ const InfinityList = props => {
     const [load, setload] = useState(true)
     const [index, setIndex] = useState(0)
 
-
+    console.log(data);
     useEffect(() => {
         setData(props.data.slice(0, perLoad))
         setIndex(1)
@@ -58,7 +59,7 @@ const InfinityList = props => {
                 gap={20}>
                 {
                     data.map((item, index) => (
-                        <ProductCard
+                        <CustomerProductCard
                             key={index}
                             img01={item.image1}
                             img02={item.image2}

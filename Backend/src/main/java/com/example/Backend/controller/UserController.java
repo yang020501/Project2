@@ -149,6 +149,15 @@ public class UserController {
         }
     }
 
+    public Object getAllStaff(){
+        try {
+            return new ResponseEntity<>("dasd", HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("/get-all-user")
     public Object getAllUser() {
         try {

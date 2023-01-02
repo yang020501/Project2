@@ -19,14 +19,16 @@ public class Product {
     private String image2;
     private long price;
     private String slug;
-    private String colors;
-    private String size;
+    private String genres;
+    private String actors;
+    private String status;
+    private int release;
     private String descriptions;
     private int sale;
     private boolean active;
 
-    public Product(String id, String title, String id_cate, String categorySlug, String gender, String image1,
-                   String image2, long price, String slug, String colors, String size, String descriptions, int sale) {
+    public Product(String id, String title, String id_cate, String categorySlug, String gender, String image1, int release,
+                   String image2, long price, String slug, String genres, String actors, String status,String descriptions, int sale) {
         this.id = id;
         this.title = title;
         this.id_cate = id_cate;
@@ -36,8 +38,10 @@ public class Product {
         this.image2 = image2;
         this.price = price;
         this.slug = slug;
-        this.colors = colors;
-        this.size = size;
+        this.genres = genres;
+        this.actors = actors;
+        this.status = status;
+        this.release = release;
         this.descriptions = descriptions;
         this.sale = sale;
         this.active = true;
@@ -63,12 +67,12 @@ public class Product {
         this.gender = gender;
     }
 
-    public String getColors() {
-        return colors;
+    public String getGenres() {
+        return genres;
     }
 
-    public void setColors(String colors) {
-        this.colors = colors;
+    public void setGenres(String genres) {
+        this.genres = genres;
     }
 
     public String getDescriptions() {
@@ -111,20 +115,20 @@ public class Product {
         this.slug = slug;
     }
 
-    public String getColor() {
-        return colors;
+    public String getActors() {
+        return actors;
     }
 
-    public void setColor(String colors) {
-        this.colors = colors;
+    public void setActors(String actors) {
+        this.actors = actors;
     }
 
-    public String getSize() {
-        return size;
+    public String getStatus() {
+        return status;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getDescription() {
@@ -164,6 +168,14 @@ public class Product {
 
     public void setSale(int sale) {
         this.sale = sale;
+    }
+
+    public int getRelease() {
+        return release;
+    }
+
+    public void setRelease(int release) {
+        this.release = release;
     }
 
     public boolean isActive() {

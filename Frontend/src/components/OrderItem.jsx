@@ -16,11 +16,11 @@ const OrderItem = props => {
             <div className="cart-item-image">
                 {/* <img src={item.product ? require(`../assets/${item.product.image1}`) : ""} alt='' /> */}
                 {/* <img src={props.img01.includes("images") ? require(`../assets/${props.img01}`) : props.img01} alt="" /> */}
-                <img src={item ? item.product.image1.includes("images") ? require(`../assets/${item.product.image1}`) : item.product.image1 : ""} alt='' />
+                <img src={item ? item.product.image1 : ""} alt='hình ' />
             </div>
             <div className="cart-item-info">
                 <div className="cart-item-info-name">
-                    {`${item.product ? item.product.title : ""} - ${item.color} - ${item.size}`}
+                    {`${item.product ? item.product.title : ""} `}
                 </div>
                 <div className="cart-item-info-price">
                     {item.product ? item.product.sale ?

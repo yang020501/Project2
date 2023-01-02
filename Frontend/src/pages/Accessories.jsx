@@ -96,7 +96,7 @@ const Accessories = () => {
         },
         [filter, setProducts],
     )
-    console.log(productList);
+ 
     useEffect(() => {
         updateProducts();
     }, [updateProducts])

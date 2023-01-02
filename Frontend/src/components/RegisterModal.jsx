@@ -91,7 +91,7 @@ const RegisterModal = () => {
         >
             <ModalHeader closeButton>
                 <Modal.Title id="example-custom-modal-styling-title">
-                    Register Form
+                    {/* Register Form */}
                 </Modal.Title>
             </ModalHeader>
             <ModalBody>
@@ -104,10 +104,10 @@ const RegisterModal = () => {
                                         <div className="col-lg-6">
                                             <div className="p-5">
                                                 <div className="mb-3">
-                                                    <h3 className="h4 font-weight-bold text-theme">Register</h3>
+                                                    <h3 className="h4 font-weight-bold text-theme">Đăng ký</h3>
                                                 </div>
-                                                <h6 className="h5 mb-0">Just Do Register.</h6>
-                                                <p className="text-muted mt-2 mb-3">If You Really Want To Know, Look In The Register.
+                                                <h6 className="h5 mb-0">Biểu mẫu đăng ký.</h6>
+                                                <p className="text-muted mt-2 mb-3">Xin vui lòng điền đầy đủ thông tin.
                                                 </p>
                                                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                                     <Form.Group >
@@ -167,7 +167,7 @@ const RegisterModal = () => {
                                                         </Form.Control.Feedback>
                                                     </Form.Group>
                                                     <div>
-                                                        <button type="submit" className="btn btn-theme mb-3 mt-3">Register</button>
+                                                        <button type="submit" className="btn btn-theme mb-3 mt-3">Xác nhận đăng ký</button>
                                                         {alert}
                                                     </div>
 
@@ -179,9 +179,8 @@ const RegisterModal = () => {
                                                 <div className="overlay rounded-right"></div>
                                                 <div className="account-testimonial">
                                                     <h4 className="text-white mb-4">This beautiful theme yours!</h4>
-                                                    <p className="lead text-white">"Best investment i made for a long time. Can only
-                                                        recommend it for other users."</p>
-                                                    <p>- Admin User</p>
+                                                    <p className="lead text-white">"Chúc quý khách hàng sẽ có những trải nghiệm tuyệt vời khi mua sắm ở đây."</p>
+                                                    <p>- Admin</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -190,8 +189,8 @@ const RegisterModal = () => {
 
                             </div>
 
-                            <div className="text-muted text-center mt-3 mb-0 d-flex justify-content-center" >Already have an account? &nbsp;<div
-                                className="text-primary ml-1 modalmove" onClick={() => gotoLogin()}> Login</div></div>
+                            <div className="text-muted text-center mt-3 mb-0 d-flex justify-content-center" >Đã có tài khoản? &nbsp;<div
+                                className="text-primary ml-1 modalmove" onClick={() => gotoLogin()}> Đăng nhập</div></div>
 
                         </div>
 

@@ -39,14 +39,18 @@ create table Product(
 	image2 varchar(max),
 	price int default(0),
 	slug varchar(100),
-	colors varchar(100),
-	size varchar(50),
+	genres varchar(max),
+	actors varchar(max),
+	status varchar(50),
+	release int,
 	descriptions nvarchar(max),
 	sale int default(0),
 	active bit default(1),
 
 	FOREIGN KEY (id_cate) REFERENCES Category(id)
 )
+alter table Product drop column size
+
 
 create table Cart(
 	id varchar(9) primary key,
@@ -63,15 +67,21 @@ create table Cart(
 create table CartInfo(
 	cart_id varchar(9),
 	product_id varchar(10),
-	slug varchar(50),
-	color varchar(50),
-	size varchar(50),
 	quantity int default(0),
-	price int default(0),
 	active bit default(1),
 
-	primary key (cart_id, product_id, color, size),
+	primary key (cart_id, product_id),
 	foreign key (cart_id) references Cart(id),
+	foreign key (product_id) references Product(id)
+)
+alter table CartInfo drop column size
+
+create table Rate(
+	user_id varchar(5),
+	product_id varchar(10),
+	score float default(0),
+
+	foreign key (user_id) references Users(id),
 	foreign key (product_id) references Product(id)
 )
 
@@ -81,7 +91,7 @@ insert into Roles values('00002', 'customer')
 
 insert into Users values('aaaaa','admin','$2a$12$68/ysYveNCsqjD2ocSxSSe7LeEusqEbgJjyiVPmYszdCxP8.oaWFG','00002',N'Nguyễn Hoàng Thái Dương','0366330205',N'30 đường Lê Hồng Phong',N'Hồ Chí Minh',N'Bình Tân',N'Bình trị Đông B', 1)
 insert into Users values('aaaad','admin@gmail.com','$2a$12$68/ysYveNCsqjD2ocSxSSe7LeEusqEbgJjyiVPmYszdCxP8.oaWFG','00001',N'Nguyễn Hoàng Thái Dương','0366330205',N'481 Tỉnh Lộ 10',N'Thành phố Hồ Chí Minh',N'Quận Bình Tân',N'Phường Bình Trị Đông B', 1)
-
+insert into Users values('bbbbb','customer','$2a$12$68/ysYveNCsqjD2ocSxSSe7LeEusqEbgJjyiVPmYszdCxP8.oaWFG','00002',N'Nguyễn Hoàng Thái Dương','0366330205',N'30 đường Lê Hồng Phong',N'Hồ Chí Minh',N'Bình Tân',N'Bình trị Đông B', 1)
 
 
 update Users set password = '$2a$12$du28zFKD4Zv0b4yRcM6f5.BThFPqCk7OhZhoOpe2nS3optbQ1aaWi' where id = 'aaaaa'

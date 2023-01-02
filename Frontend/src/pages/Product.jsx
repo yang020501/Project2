@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom'
 import ProductView from '../components/ProductView'
 import axios from 'axios'
 import { apiUrl } from '../utils/constant'
+import CustomerProductCard from '../components/CustomerProductCard'
 
 const Product = props => {
   const { slug } = useParams();
@@ -41,7 +42,7 @@ const Product = props => {
       </Section>
       <Section>
         <SectionTitle>
-          Khám phá thêm
+          Phim cùng thể loại
         </SectionTitle>
         <SectionBody>
           <Grid
@@ -52,7 +53,34 @@ const Product = props => {
           >
             {relatedProducts ?
               relatedProducts.map((item, index) => (
-                <ProductCard
+                <CustomerProductCard
+                  key={index}
+                  img01={item.image1}
+                  img02={item.image2}
+                  name={item.title}
+                  price={item.price}
+                  slug={item.slug}
+                />
+              ))
+              : <></>
+            }
+          </Grid>
+        </SectionBody>
+      </Section>
+      <Section>
+        <SectionTitle>
+          Có thể bạn sẽ thích
+        </SectionTitle>
+        <SectionBody>
+          <Grid
+            col={4}
+            mdCol={2}
+            smCol={1}
+            gap={20}
+          >
+            {relatedProducts ?
+              relatedProducts.map((item, index) => (
+                <CustomerProductCard
                   key={index}
                   img01={item.image1}
                   img02={item.image2}

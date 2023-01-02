@@ -13,10 +13,13 @@ public class ProductDto implements Serializable {
     private final String image2;
     private final long price;
     private final String slug;
-    private final String colors;
-    private final String size;
+    private final String genres;
+    private final String actors;
+    private final String status;
+    private final int release;
     private final String descriptions;
     private final int sale;
+    private float rate;
 
     public ProductDto(){
         this.id = null;
@@ -28,13 +31,17 @@ public class ProductDto implements Serializable {
         this.image2 = null;
         this.price = 0;
         this.slug = null;
-        this.colors = null;
-        this.size = null;
+        this.genres = null;
+        this.actors = null;
+        this.status = null;
+        this.release = 0;
         this.descriptions = null;
         this.sale = 0;
+        this.rate = 0;
     }
 
-    public ProductDto(String id, String title, String id_cate, String categorySlug, String gender, String image1, String image2, long price, String slug, String colors, String size, String descriptions, int sale) {
+    public ProductDto(String id, String title, String id_cate, String categorySlug, String gender, String image1, String image2,
+                      long price, String slug, String genres, String actors, String status, int release, String descriptions, int sale) {
         this.id = id;
         this.title = title;
         this.id_cate = id_cate;
@@ -44,10 +51,13 @@ public class ProductDto implements Serializable {
         this.image2 = image2;
         this.price = price;
         this.slug = slug;
-        this.colors = colors;
-        this.size = size;
+        this.genres = genres;
+        this.actors = actors;
+        this.status = status;
+        this.release = release;
         this.descriptions = descriptions;
         this.sale = sale;
+        this.rate = 0;
     }
 
     public String getId() {
@@ -86,20 +96,36 @@ public class ProductDto implements Serializable {
         return slug;
     }
 
-    public String getColors() {
-        return colors;
+    public String getGenres() {
+        return genres;
     }
 
-    public String getSize() {
-        return size;
+    public String getActors() {
+        return actors;
+    }
+
+    public int getRelease() {
+        return release;
     }
 
     public String getDescriptions() {
         return descriptions;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
     public int getSale() {
         return sale;
+    }
+
+    public float getRate() {
+        return rate;
+    }
+
+    public void setRate(float rate) {
+        this.rate = rate;
     }
 
     @Override
@@ -116,15 +142,15 @@ public class ProductDto implements Serializable {
                 Objects.equals(this.image2, entity.image2) &&
                 Objects.equals(this.price, entity.price) &&
                 Objects.equals(this.slug, entity.slug) &&
-                Objects.equals(this.colors, entity.colors) &&
-                Objects.equals(this.size, entity.size) &&
+                Objects.equals(this.genres, entity.genres) &&
+                Objects.equals(this.actors, entity.actors) &&
                 Objects.equals(this.descriptions, entity.descriptions) &&
                 Objects.equals(this.sale, entity.sale);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, id_cate, categorySlug, gender, image1, image2, price, slug, colors, size, descriptions, sale);
+        return Objects.hash(id, title, id_cate, categorySlug, gender, image1, image2, price, slug, genres, actors, release, descriptions, sale);
     }
 
     @Override
@@ -139,8 +165,8 @@ public class ProductDto implements Serializable {
                 "image2 = " + image2 + ", " +
                 "price = " + price + ", " +
                 "slug = " + slug + ", " +
-                "colors = " + colors + ", " +
-                "size = " + size + ", " +
+                "genres = " + genres + ", " +
+                "actors = " + actors + ", " +
                 "descriptions = " + descriptions + ", " +
                 "sale = " + sale + ")";
     }
