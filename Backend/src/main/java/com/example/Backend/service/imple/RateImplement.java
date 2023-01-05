@@ -1,6 +1,7 @@
 package com.example.Backend.service.imple;
 
 import com.example.Backend.dto.RateDto;
+import com.example.Backend.dto.request.GetRateRequestDto;
 import com.example.Backend.repository.RateRepo;
 import com.example.Backend.service.RateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,16 @@ public class RateImplement implements RateService {
         try{
             rateRepo.Update_Rate(rate.getUser_id(), rate.getProduct_id(), rate.getScore());
             return rate;
+        }
+        catch (Exception e){
+            throw new ResourceAccessException(e.getLocalizedMessage());
+        }
+    }
+
+    @Override
+    public RateDto GetRate(GetRateRequestDto request) {
+        try{
+            return rateRepo.GetRate(request.getUser_id(), request.getProduct_id());
         }
         catch (Exception e){
             throw new ResourceAccessException(e.getLocalizedMessage());

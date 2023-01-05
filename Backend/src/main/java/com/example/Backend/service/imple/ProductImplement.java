@@ -128,7 +128,6 @@ public class ProductImplement implements ProductService {
             while (id.equals(id_check));
             String title = product.getTitle();
             String id_cate =product.getCategory();
-            String gender = product.getGender();
             String image1 = product.getImage1();
             String image2 = product.getImage2();
             Long price = product.getPrice();
@@ -139,12 +138,14 @@ public class ProductImplement implements ProductService {
             String status = product.getStatus();
             int release = product.getRelease();
             String description = product.getDescriptions();
+            String director = product.getDirector();
+            String video = product.getVideo();
 
-            ProductDto dto = new ProductDto(id, title, id_cate, category_slug, gender, image1, image2, price, slug, genres
-                    , actors, status, release, description, 0);
+            ProductDto dto = new ProductDto(id, title, id_cate, category_slug, image1, image2, price, slug, genres
+                    , actors, status, release, description,0, director, video);
 
-            productRepo.Add_Product(id, title, id_cate, category_slug, gender, image1, image2, price, slug, genres
-                    , actors, status, release, description);
+            productRepo.Add_Product(id, title, id_cate, category_slug, image1, image2, price, slug, genres
+                    , actors, status, release, description, director, video);
 
             return dto;
         }
@@ -161,7 +162,6 @@ public class ProductImplement implements ProductService {
             String title = product.getTitle();
             String id_cate = categoryRepo.GetId_byName(product.getCategory());
             String category_slug = RandomGenerate.generate_slug(product.getCategory());
-            String gender = product.getGender();
             String image1 = product.getImage1();
             String image2 = product.getImage2();
             Long price = product.getPrice();
@@ -172,12 +172,14 @@ public class ProductImplement implements ProductService {
             int release = product.getRelease();
             String description = product.getDescriptions();
             int sale = product.getSale();
+            String director = product.getDirector();
+            String video = product.getVideo();
 
-            productRepo.Update_Product(title, id_cate, category_slug, gender, image1, image2, price, slug, genres, actors,
-                   status, release, description, sale, id);
+            productRepo.Update_Product(title, id_cate, category_slug, image1, image2, price, slug, genres, actors,
+                   status, release, description, sale, director, video,id);
 
-            ProductDto dto = new ProductDto(id, title, id_cate, category_slug, gender, image1, image2, price, slug,
-                    genres, actors, status, release, description, sale);
+            ProductDto dto = new ProductDto(id, title, id_cate, category_slug, image1, image2, price, slug,
+                    genres, actors, status, release, description, sale, director, video);
 
             return dto;
         } catch (Exception e) {

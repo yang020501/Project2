@@ -2,6 +2,7 @@ package com.example.Backend.controller;
 
 import com.example.Backend.dto.RateDto;
 import com.example.Backend.dto.UserDto;
+import com.example.Backend.dto.request.GetRateRequestDto;
 import com.example.Backend.dto.request.UserRequestDto;
 import com.example.Backend.service.RateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,21 @@ public class RateController {
     @Autowired
     private RateService rateService;
 
+    @GetMapping("/user-product-rating")
+    public Object get_user_product_score(@RequestBody GetRateRequestDto dto){
+        try {
+            RateDto rate = rateService.GetRate(dto);
+            return new ResponseEntity<RateDto>(rate, HttpStatus.OK);
+        }
+        catch (Exception e){
+            throw new ResourceAccessException(e.getLocalizedMessage());
+        }
+    }
+
+
     @Transactional
     @PostMapping("/rate-product")
-    public Object sign(@RequestBody RateDto rate) {
+    public Object add(@RequestBody RateDto rate) {
         try {
             rateService.InsertRate(rate);
             return new ResponseEntity<RateDto>(rate, HttpStatus.CREATED);

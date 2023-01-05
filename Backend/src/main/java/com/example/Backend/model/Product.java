@@ -14,7 +14,6 @@ public class Product {
     private String title;
     private String id_cate;
     private String categorySlug;
-    private String gender;
     private String image1;
     private String image2;
     private long price;
@@ -26,25 +25,27 @@ public class Product {
     private String descriptions;
     private int sale;
     private boolean active;
+    private String director;
+    private String video;
 
-    public Product(String id, String title, String id_cate, String categorySlug, String gender, String image1, int release,
-                   String image2, long price, String slug, String genres, String actors, String status,String descriptions, int sale) {
+    public Product(String id, String title, String id_cate, String categorySlug, String image1, int release, String director,
+                   String image2, long price, String slug, String actors, String status,String descriptions, int sale, String video) {
         this.id = id;
         this.title = title;
         this.id_cate = id_cate;
         this.categorySlug = categorySlug;
-        this.gender = gender;
         this.image1 = image1;
         this.image2 = image2;
         this.price = price;
         this.slug = slug;
-        this.genres = genres;
         this.actors = actors;
         this.status = status;
         this.release = release;
         this.descriptions = descriptions;
         this.sale = sale;
         this.active = true;
+        this.director = director;
+        this.video = video;
     }
 
     public long getPrice() {
@@ -57,14 +58,6 @@ public class Product {
 
 
     public Product() {
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public String getGenres() {
@@ -184,5 +177,21 @@ public class Product {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
     }
 }

@@ -8,7 +8,6 @@ public class ProductDto implements Serializable {
     private final String title;
     private final String id_cate;
     private final String categorySlug;
-    private final String gender;
     private final String image1;
     private final String image2;
     private final long price;
@@ -19,6 +18,8 @@ public class ProductDto implements Serializable {
     private final int release;
     private final String descriptions;
     private final int sale;
+    private final String director;
+    private final String video;
     private float rate;
 
     public ProductDto(){
@@ -26,7 +27,6 @@ public class ProductDto implements Serializable {
         this.title = null;
         this.id_cate = null;
         this.categorySlug = null;
-        this.gender = null;
         this.image1 = null;
         this.image2 = null;
         this.price = 0;
@@ -37,16 +37,18 @@ public class ProductDto implements Serializable {
         this.release = 0;
         this.descriptions = null;
         this.sale = 0;
+        this.director = null;
+        this.video = null;
         this.rate = 0;
     }
 
-    public ProductDto(String id, String title, String id_cate, String categorySlug, String gender, String image1, String image2,
-                      long price, String slug, String genres, String actors, String status, int release, String descriptions, int sale) {
+    public ProductDto(String id, String title, String id_cate, String categorySlug, String image1, String image2,
+                      long price, String slug, String genres, String actors, String status, int release,
+                      String descriptions, int sale, String director, String video) {
         this.id = id;
         this.title = title;
         this.id_cate = id_cate;
         this.categorySlug = categorySlug;
-        this.gender = gender;
         this.image1 = image1;
         this.image2 = image2;
         this.price = price;
@@ -57,6 +59,8 @@ public class ProductDto implements Serializable {
         this.release = release;
         this.descriptions = descriptions;
         this.sale = sale;
+        this.director = director;
+        this.video = video;
         this.rate = 0;
     }
 
@@ -74,10 +78,6 @@ public class ProductDto implements Serializable {
 
     public String getCategorySlug() {
         return categorySlug;
-    }
-
-    public String getGender() {
-        return gender;
     }
 
     public String getImage1() {
@@ -124,6 +124,14 @@ public class ProductDto implements Serializable {
         return rate;
     }
 
+    public String getDirector() {
+        return director;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
     public void setRate(float rate) {
         this.rate = rate;
     }
@@ -137,7 +145,6 @@ public class ProductDto implements Serializable {
                 Objects.equals(this.title, entity.title) &&
                 Objects.equals(this.id_cate, entity.id_cate) &&
                 Objects.equals(this.categorySlug, entity.categorySlug) &&
-                Objects.equals(this.gender, entity.gender) &&
                 Objects.equals(this.image1, entity.image1) &&
                 Objects.equals(this.image2, entity.image2) &&
                 Objects.equals(this.price, entity.price) &&
@@ -150,7 +157,7 @@ public class ProductDto implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, id_cate, categorySlug, gender, image1, image2, price, slug, genres, actors, release, descriptions, sale);
+        return Objects.hash(id, title, id_cate, categorySlug, image1, image2, price, slug, genres, actors, release, descriptions, sale);
     }
 
     @Override
@@ -160,7 +167,6 @@ public class ProductDto implements Serializable {
                 "title = " + title + ", " +
                 "id_cate = " + id_cate + ", " +
                 "categorySlug = " + categorySlug + ", " +
-                "gender = " + gender + ", " +
                 "image1 = " + image1 + ", " +
                 "image2 = " + image2 + ", " +
                 "price = " + price + ", " +

@@ -6,7 +6,6 @@ public class ProductRequestDto implements Serializable {
     private String id;
     private String title;
     private String category;
-    private String gender;
     private String image1;
     private String image2;
     private Long price;
@@ -16,14 +15,16 @@ public class ProductRequestDto implements Serializable {
     private String descriptions;
     private String status;
     private int sale;
+    private String director;
+    private String video;
 
     public ProductRequestDto(){ }
-    public ProductRequestDto(String id,String title, String category, String gender, String image1, String status,
-                             String image2, Long price, String genres, String actors, int release, String descriptions, int sale) {
+    public ProductRequestDto(String id,String title, String category, String image1, String status, String image2,
+                             Long price, String genres, String actors, int release, String descriptions, int sale ,
+                             String director, String video) {
         this.id = id;
         this.title = title;
         this.category = category;
-        this.gender = gender;
         this.image1 = image1;
         this.image2 = image2;
         this.price = price;
@@ -33,6 +34,8 @@ public class ProductRequestDto implements Serializable {
         this.release = release;
         this.descriptions = descriptions;
         this.sale = sale;
+        this.director = director;
+        this.video = video;
     }
 
     public String getId(){ return id; }
@@ -41,9 +44,6 @@ public class ProductRequestDto implements Serializable {
     }
     public String getCategory() {
         return category;
-    }
-    public String getGender() {
-        return gender;
     }
     public String getImage1() {
         return image1;
@@ -71,5 +71,13 @@ public class ProductRequestDto implements Serializable {
     }
     public int getSale() {
         return sale;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public String getVideo() {
+        return video;
     }
 }
