@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Button from './Button'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addItem } from '../redux/shopping-cart/cartItemsSlice'
 import { setAlert } from '../redux/alert-message/alertMessage'
 import { remove } from '../redux/product-modal/productModalSlice'
@@ -30,7 +30,7 @@ function getLabelText(value) {
 const ProductView = props => {
     let navigate = useNavigate();
     const dispatch = useDispatch();
-
+    const categoryData = useSelector(state => state.categorySlice.value)
     const [previewImg, setPreviewImage] = useState(props.product ? props.product.image1 : "")
     const [descriptionExpand, setDescriptionExpand] = useState(false)
     const [product, setProduct] = useState({})
@@ -48,7 +48,11 @@ const ProductView = props => {
             setQuantity(quantity - 1 < 1 ? 1 : quantity - 1)
         }
     }
+    const findCategory = (id) => {
+        let tmp = categoryData.find(item => item.id === id)
 
+        return tmp ? tmp.name : ""
+    }
     const addtoCart = () => {
 
         dispatch(addItem({
@@ -146,7 +150,10 @@ const ProductView = props => {
                 </div>
                 <div className="product-info-item">
                     <div className='product-info-item-title'>
-                        Quốc gia : Mỹ
+                        Quốc gia / Năm phát hành
+                    </div>
+                    <div className='product-info-item-list'>
+                        {findCategory(product.categorySlug)} / {product.release}
                     </div>
                 </div>
                 <div className="product-info-item">
@@ -183,7 +190,7 @@ const ProductView = props => {
                 </div>
                 <div className="product-info-item">
                     <div className='product-info-item-title'>
-                        Đánh giá
+                        Đánh giá của bạn:
                     </div>
                     <Box
                         sx={{
