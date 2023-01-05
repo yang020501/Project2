@@ -46,6 +46,8 @@ create table Product(
 	descriptions nvarchar(max),
 	sale int default(0),
 	active bit default(1),
+	director nvarchar(max),
+	video varchar(max)
 
 	FOREIGN KEY (id_cate) REFERENCES Category(id)
 )

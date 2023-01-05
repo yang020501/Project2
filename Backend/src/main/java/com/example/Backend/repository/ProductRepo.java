@@ -18,7 +18,7 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
     List<ProductDto> GetAll();
 
     @Query("SELECT new com.example.Backend.dto.ProductDto(p.id, p.title, p.id_cate, p.categorySlug ,p.image1, p.image2, p.price, p.slug, p.genres, " +
-            "p.actors, p.status, p.release, p.descriptions, p.sale, p.director, p.video) FROM Product p WHERE p.active = 1 AND p.id = ?1")
+            "p.actors, p.status, p.release, p.descriptions, p.sale, p.director, p.video) FROM Product p WHERE  p.id = ?1")
     ProductDto GetDetail_byID(String id);
 
     @Query("SELECT new com.example.Backend.dto.ProductDto(p.id, p.title, p.id_cate, p.categorySlug ,p.image1, p.image2, p.price, p.slug, p.genres, " +

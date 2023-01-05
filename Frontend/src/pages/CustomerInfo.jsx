@@ -154,7 +154,7 @@ const CustomerInfo = () => {
             wardInvalidRef.current.classList.remove('active')
         }
     }, [address3])
-
+    console.log(cart,"hello");
     return (
         <div className='customer-info'>
             <div className="customer-info-header">

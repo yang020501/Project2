@@ -37,11 +37,12 @@ const ProductViewAdmin = props => {
     descriptions: "",
     slug: "",
     category: "",
-    gender: 1,
+    director: "",
+    video: "",
   })
 
 
-  const { title, sale, price, descriptions, actors, release, status, categorySlug, image1, image2, } = productForm
+  const { title, sale, price, descriptions, actors, release, status, categorySlug, image1, image2, video, director } = productForm
   const [genres, setGenres] = useState([])
   const [saleCheck, setSaleCheck] = useState(false)
   const [checkPrice, setCheckPrice] = useState(false)
@@ -188,7 +189,7 @@ const ProductViewAdmin = props => {
       }
     }
   }, [slug, productData])
-
+  console.log(productForm);
   return (
     <Form noValidate validated={validated} onSubmit={Update}>
       <ContentMain headerTitle='Sản phẩm'
@@ -357,7 +358,34 @@ const ProductViewAdmin = props => {
                   Vui lòng nhập tên diễn viên.
                 </Form.Control.Feedback>
               </Form.Group>
-
+              <Form.Group className='me-5 mb-4' >
+                <Form.Label>Đạo diễn</Form.Label>
+                <Form.Control
+                  required
+                  type="text"
+                  size="lg"
+                  name="director"
+                  value={director}
+                  onChange={onChange}
+                />
+                <Form.Control.Feedback type="invalid">
+                  Vui lòng nhập tên đạo diễn.
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group className='me-5 mb-4' >
+                <Form.Label>Trailer</Form.Label>
+                <Form.Control
+                  
+                  type="text"
+                  size="lg"
+                  name="video"
+                  value={video}
+                  onChange={onChange}
+                />
+                <Form.Control.Feedback type="invalid">
+                  Vui lòng nhập url trailer.
+                </Form.Control.Feedback>
+              </Form.Group>
               <Form.Group className="mb-3  "  >
                 <Form.Label>Thể loại </Form.Label>
                 <div className='d-flex flex-row w-100 col-3 flex-wrap'>
