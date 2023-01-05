@@ -14,6 +14,7 @@ const CustomerInfo = () => {
     const token = useSelector(state => state.userState.token)
     const cart = useSelector(state => state.userState.cart)
     const products = useSelector(state => state.productsSlice.value)
+    const productSaleData = useSelector(state => state.saleSlice.value)
     const initialForm = {
         customer_name: user.customer_name ? user.customer_name : "",
         username: user.username,
@@ -64,13 +65,26 @@ const CustomerInfo = () => {
         })
 
     }
+    const findProductById = (id) => {
+        return products.find(item => {
+            return item.id === id
+        })
+    }
     const getProductName = (slug) => {
-        let rs = products.filter(item => item.slug === slug)[0]
+        let rs = products.filter(item => item.id === slug)[0]
         return rs ? rs.title : ""
     }
     const getProductSale = (slug) => {
-        let rs = products.filter(item => item.slug === slug)[0]
+
+        let rs = products.filter(item => item.id === slug)[0]
         return rs ? rs.sale : ""
+    }
+    const caculatePrice = (product) => {
+        let tmp = findProductById(product.product_id)
+        if (tmp) {
+           return  tmp.sale > 0 ? (tmp.price * product.quantity) - (tmp.price * product.quantity)*25/100  : tmp.price * product.quantity
+        }
+        return 0
     }
     // submit change customer information
     const handleSubmit = async () => {
@@ -82,6 +96,7 @@ const CustomerInfo = () => {
         let rs = await axios.patch(`${apiUrl}/user/update`, data, { headers: { Authorization: `Bearer ${token}` } })
         dispatch(updateUser(data))
     }
+
     useEffect(() => {
         handleSubmit()
     }, [CustomerForm])
@@ -90,7 +105,23 @@ const CustomerInfo = () => {
         dispatch(getAllProduct())
     }, [])
     useEffect(() => {
-        setCart([...cart])
+        if (cart.length > 0) {
+            let t_cart = cart.map(item => {
+                return {
+                    ...item,
+                    list_product: item.list_product.map(item => {
+                        let tmp = findProductById(item.product_id)
+                        return {
+                            ...item,
+                            ...tmp
+                        }
+                    })
+                }
+
+            })
+            setCart([...t_cart])
+        }
+
     }, [cart])
     useEffect(() => {
         if (address1) {
@@ -150,7 +181,7 @@ const CustomerInfo = () => {
                             </thead>
                             <tbody>
                                 {
-                                    Cart ? Cart.map((item, index) => (
+                                    Cart.length > 0 ? Cart.map((item, index) => (
                                         <tr key={index}>
                                             <td>{item.cart_id}</td>
                                             <td className='tdcell'>{item.create_date}</td>
@@ -161,11 +192,13 @@ const CustomerInfo = () => {
                                                 return (
                                                     <div key={index}>
                                                         {
-                                                            `${product.product_id} - ${getProductName(product.slug)} - 
-                                                    ${product.color} - ${product.size} - sale: ${getProductSale(product.slug) ? `${getProductSale(product.slug)}%` : "none"} - ${numberWithCommas(product.price)}đ`
+                                                            `${product.product_id} - ${getProductName(product.product_id)} - 
+                                                    sale: ${getProductSale(product.product_id) ? `${getProductSale(product.product_id)}%` : "none"} -
+                                                     ${numberWithCommas(caculatePrice(product))}đ`
                                                         }
                                                     </div>
                                                 )
+
                                             })}</td>
                                         </tr>
                                     )) : <></>

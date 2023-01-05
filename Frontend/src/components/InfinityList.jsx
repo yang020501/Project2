@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Grid from './Grid'
-import ProductCard from './ProductCard'
+
 import CustomerProductCard from './CustomerProductCard'
 const InfinityList = props => {
     const listRef = useRef(null)
@@ -67,6 +67,7 @@ const InfinityList = props => {
                             price={item.price}
                             slug={item.slug}
                             sale={item.sale}
+                            rate={item.rate}
                         />
                     ))
 
