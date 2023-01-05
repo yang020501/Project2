@@ -110,7 +110,7 @@ const OrderViewAdmin = () => {
     }
 
   }, [order])
- 
+ console.log(order);
   return (
     <ContentMain headerTitle='Chi tiết đơn hàng'
       headerLeftAction={{

@@ -85,7 +85,7 @@ const ProductView = props => {
         if (props.product)
             setProduct(props.product)
     }, [props.product])
-
+    
     return (
         <div className='product'>
             <div className="product-images">
@@ -176,7 +176,7 @@ const ProductView = props => {
                         Đạo diễn:
                     </div>
                     <div className="product-info-item-list">
-                        James Cameron's
+                        {product.director}
                     </div>
                 </div>
                 <div className="product-info-item">
