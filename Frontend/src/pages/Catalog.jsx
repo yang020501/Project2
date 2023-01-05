@@ -13,10 +13,9 @@ const Catalog = () => {
   const productData = useSelector(state => state.productsSlice.value)
   const initFilter = {
     category: [],
-    color: [],
-    size: [],
-    gender: []
-
+    genres: [],
+    // size: [],
+    // gender: []
   }
   const [productList, setProductList] = useState();
   const [products, setProducts] = useState()
@@ -29,15 +28,15 @@ const Catalog = () => {
         case "CATEGORY":
           setFilter({ ...filter, category: [...filter.category, item.slug] })
           break;
-        case "COLOR":
-          setFilter({ ...filter, color: [...filter.color, item.color] })
+        case "GENRES":
+          setFilter({ ...filter, genres: [...filter.genres, item.value] })
           break;
-        case "SIZE":
-          setFilter({ ...filter, size: [...filter.size, item.size] })
-          break;
-        case "GENDER":
-          setFilter({ ...filter, gender: [...filter.gender, item.value] })
-          break;
+        // case "SIZE":
+        //   setFilter({ ...filter, size: [...filter.size, item.size] })
+        //   break;
+        // case "GENDER":
+        //   setFilter({ ...filter, gender: [...filter.gender, item.value] })
+        //   break;
         default:
       }
     }
@@ -47,18 +46,18 @@ const Catalog = () => {
           const newCategory = filter.category.filter(e => e !== item.slug)
           setFilter({ ...filter, category: newCategory })
           break;
-        case "COLOR":
-          const newColor = filter.color.filter(e => e !== item.color)
-          setFilter({ ...filter, color: newColor })
+        case "GENRES":
+          const newGenres = filter.genres.filter(e => e !== item.value)
+          setFilter({ ...filter, genres: newGenres })
           break;
-        case "SIZE":
-          const newSize = filter.size.filter(e => e !== item.size)
-          setFilter({ ...filter, size: newSize })
-          break;
-        case "GENDER":
-          const newGender = filter.gender.filter(e => e !== item.value)
-          setFilter({ ...filter, gender: newGender })
-          break;
+        // case "SIZE":
+        //   const newSize = filter.size.filter(e => e !== item.size)
+        //   setFilter({ ...filter, size: newSize })
+        //   break;
+        // case "GENDER":
+        //   const newGender = filter.gender.filter(e => e !== item.value)
+        //   setFilter({ ...filter, gender: newGender })
+        //   break;
         default:
 
       }
@@ -73,21 +72,22 @@ const Catalog = () => {
       if (filter.category.length > 0) {
         temp = temp.filter(e => filter.category.includes(e.categorySlug))
       }
-      if (filter.color.length > 0) {
+      if (filter.genres.length > 0) {
         temp = temp.filter(e => {
-          const check = e.colors.split(",").find(color => filter.color.includes(color))
+          const check = e.genres.split(",").find(genre => filter.genres.includes(genre))
           return check !== undefined
         })
       }
-      if (filter.size.length > 0) {
-        temp = temp.filter(e => {
-          const check = e.size.split(",").find(size => filter.size.includes(size))
-          return check !== undefined
-        })
-      }
-      if (filter.gender.length > 0) {
-        temp = temp.filter(e => filter.gender.includes(e.gender))
-      }
+      // if (filter.size.length > 0) {
+      //   temp = temp.filter(e => {
+      //     const check = e.size.split(",").find(size => filter.size.includes(size))
+      //     return check !== undefined
+      //   })
+      // }
+      // if (filter.gender.length > 0) {
+      //   temp = temp.filter(e => filter.gender.includes(e.gender))
+      // }
+
       setProducts(temp)
     },
     [filter, setProducts],
@@ -97,20 +97,17 @@ const Catalog = () => {
   }, [updateProducts])
 
   useEffect(() => {
-    // let tmp = categoryData.filter(item => {
-    //   return item.slug.includes("ao") || item.slug.includes("quan")
-    // })
+
     setCategory([...categoryData])
   }, [categoryData])
   useEffect(() => {
-    let Clothes = productData.filter(item => {
-
-      return category.findIndex(itemt => itemt.slug === item.categorySlug) > -1
+    let Movies = productData.filter(item => {
+      return category.findIndex(itemt => itemt.id === item.categorySlug) > -1
     })
-    setProductList(Clothes)
-    setProducts(Clothes)
+    setProductList(Movies)
+    setProducts(Movies)
   }, [productData, category])
-  console.log(categoryData);
+  console.log(products);
   const showHideFilter = () => filterRef.current.classList.toggle('active')
   return (
     <Helmet title='Quần áo'>
@@ -124,25 +121,13 @@ const Catalog = () => {
               Thể loại
             </div>
             <div className="catalog-widget-filter-content">
-              {/* {
-
-                gender.map((item, index) => (
-                  <div key={index} className='catalog-filter-widget-content-item'>
-                    <CheckBox
-                      label={item.display}
-                      onChange={(input) => { filterSelect("GENDER", input.checked, item) }}
-                      checked={filter.gender.includes(item.value)}
-                    />
-                  </div>
-                ))
-              } */}
               {
                 fakegenres.map((item, index) => (
                   <div key={index} className='catalog-filter-widget-content-item'>
                     <CheckBox
                       label={item.display}
-                    // onChange={(input) => { filterSelect("CATEGORY", input.checked, item) }}
-                    // checked={filter.category.includes(item.slug)}
+                      onChange={(input) => { filterSelect("GENRES", input.checked, item) }}
+                      checked={filter.genres.includes(item.value)}
                     />
                   </div>
                 ))
@@ -168,42 +153,6 @@ const Catalog = () => {
 
             </div>
           </div>
-          {/* <div className="catalog-filter-widget">
-            <div className="catalog-filter-widget-title">
-              màu sắc
-            </div>
-            <div className="catalog-widget-filter-content">
-              {
-                colors.map((item, index) => (
-                  <div key={index} className='catalog-filter-widget-content-item'>
-                    <CheckBox
-                      label={item.display}
-                      onChange={(input) => { filterSelect("COLOR", input.checked, item) }}
-                      checked={filter.color.includes(item.color)}
-                    />
-                  </div>
-                ))
-              }
-            </div>
-          </div>
-          <div className="catalog-filter-widget">
-            <div className="catalog-filter-widget-title">
-              Kích cỡ
-            </div>
-            <div className="catalog-widget-filter-content">
-              {
-                size.map((item, index) => (
-                  <div key={index} className='catalog-filter-widget-content-item'>
-                    <CheckBox
-                      label={item.display}
-                      onChange={(input) => { filterSelect("SIZE", input.checked, item) }}
-                      checked={filter.size.includes(item.size)}
-                    />
-                  </div>
-                ))
-              }
-            </div>
-          </div> */}
           <div className="catalog-filter-widget">
             <div className="catalog-filter-widget-content">
               <Button size='sm' onclick={clearFilter}>Xóa bộ lọc</Button>

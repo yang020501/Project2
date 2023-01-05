@@ -14,6 +14,7 @@ import java.util.List;
 @Repository
 public interface ProductRepo extends JpaRepository<Product, Integer> {
     @Query("SELECT new com.example.Backend.dto.ProductDto(p.id, p.title, p.id_cate, p.categorySlug ,p.image1, p.image2, p.price, p.slug, p.genres, " +
+
             "p.actors, p.status, p.release, p.descriptions, p.sale, p.director, p.video, p.active) FROM Product p WHERE p.active = 1")
     List<ProductDto> GetAll();
 

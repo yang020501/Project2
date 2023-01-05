@@ -144,6 +144,7 @@ public class ProductImplement implements ProductService {
             ProductDto dto = new ProductDto(id, title, id_cate, category_slug, image1, image2, price, slug, genres
                     , actors, status, release, description,0, director, video, true);
 
+
             productRepo.Add_Product(id, title, id_cate, category_slug, image1, image2, price, slug, genres
                     , actors, status, release, description, director, video);
 
@@ -180,6 +181,7 @@ public class ProductImplement implements ProductService {
 
             ProductDto dto = new ProductDto(id, title, id_cate, category_slug, image1, image2, price, slug,
                     genres, actors, status, release, description, sale, director, video, true);
+
 
             return dto;
         } catch (Exception e) {
