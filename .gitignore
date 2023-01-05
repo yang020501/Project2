@@ -2,3 +2,4 @@
 ~WRL0652.tmp
 *.csv
 *User*.pkl
+*CF_model.pkl
