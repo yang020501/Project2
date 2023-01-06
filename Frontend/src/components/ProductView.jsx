@@ -11,6 +11,7 @@ import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 import numberWithCommas from '../utils/numberWithCommas'
 import fakegenres from '../assets/fake-data/fakegenres'
+import ReactPlayer from "react-player";
 const labels = {
     0.5: 'Useless',
     1: 'Useless+',
@@ -32,6 +33,7 @@ const ProductView = props => {
     const dispatch = useDispatch();
     const categoryData = useSelector(state => state.categorySlice.value)
     const [previewImg, setPreviewImage] = useState(props.product ? props.product.image1 : "")
+    const [video, setVideo] = useState("")
     const [descriptionExpand, setDescriptionExpand] = useState(false)
     const [product, setProduct] = useState({})
     const [rateForm, setRateForm] = useState({})
@@ -85,7 +87,7 @@ const ProductView = props => {
         if (props.product)
             setProduct(props.product)
     }, [props.product])
-    
+    console.log(props.product);
     return (
         <div className='product'>
             <div className="product-images">
@@ -96,22 +98,16 @@ const ProductView = props => {
                     <div className="product-images-list-item" onClick={() => setPreviewImage(props.product ? product.image2 : "")}>
                         <img src={props.product ? product.image2 : ""} alt="image 2" />
                     </div>
-                    <div className="product-images-list-item">
-                        <div className="video-responsive">
-                            <iframe
-                                width="100%"
-                                height="100%"
-                                src={`https://www.youtube.com/watch?v=gq2xKJXYZ80`}
-                                frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                                title="Embedded youtube"
-                            />
-                        </div>
+                    <div className="product-images-list-item" >
+
                     </div>
                 </div>
                 <div className="product-images-main">
                     <img src={previewImg} alt='' />
+                </div>
+                <div className="product-images-video">
+                    <div className='product-images-video-title '> Trailer</div>
+                    <ReactPlayer controls width="100%" height="100%" className="video" url={`${props.product ? props.product.video : ""}`}  ></ReactPlayer>
                 </div>
                 <div className={`product-description ${descriptionExpand ? 'expand' : ''}`}>
                     <div className="product-description-title">
