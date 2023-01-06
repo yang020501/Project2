@@ -7,15 +7,28 @@ import json as js
 from flask.json import jsonify
 app = Flask(__name__)
 
-@app.route("/begin/<int:customer_id>", methods=['GET', 'POST'])
-def begin_train(customer_id):
-    rating = pd.read_csv('./Dataset/ratings_small.csv')
-    rating = rating.drop(columns='timestamp')
-    train_set = rating.values     
-    re = CF(train_set, k=30, uuCF=1)
-    re.fit()
-    result = re.recommend2(customer_id)
-    return jsonify(result)
+@app.route("/begin", methods=['GET', 'POST'])
+def begin_train():
+    movies = pd.read_csv('./Dataset/tmdb_5000_movies.csv', usecols=['id', 'title', 'genres', 'vote_average', 'vote_count', 'popularity'])
+    c = movies['vote_average'].mean()
+    m = movies['vote_count'].quantile(0.9)
+
+    q_movies = movies.copy().loc[movies['vote_count'] >= m]
+
+    def weighted_rating(x, m=m, C=c):
+        v = x['vote_count']
+        R = x['vote_average']
+        # Calculation based on the IMDB formula
+        return (v/(v+m) * R) + (m/(m+v) * C)
+
+    q_movies['score'] = q_movies.apply(weighted_rating, axis=1)
+    q_movies = q_movies.sort_values('popularity', ascending=False)
+
+    listOfMovie= [(Movie(row.id, row.title, row.genres, row.vote_average)) for index, row in q_movies.iterrows()]
+    listOf10Movie = listOfMovie[0:10]
+    jsonStr = js.dumps([ob.__dict__ for ob in listOf10Movie])
+
+    return jsonify(jsonStr)
 
 
 @app.route("/load-old/<int:customer_id>", methods=['GET','POST'])
@@ -37,7 +50,8 @@ def load_old_model(customer_id):
     df_movie_afterS = movies_data_not_rate.sort_values('vote_average', ascending=False)
 
     listOfMovie= [(Movie(row.id, row.title, row.genres, row.vote_average)) for index, row in df_movie_afterS.iterrows()]
-    jsonStr = js.dumps([ob.__dict__ for ob in listOfMovie])
+    listOf10Movie = listOfMovie[0:10]
+    jsonStr = js.dumps([ob.__dict__ for ob in listOf10Movie])
     return jsonStr
 
 
@@ -59,6 +73,7 @@ def get_items_rated_by_user(rate_matrix, user_id):
 def remove_items_exist_in_list2(list1, list2):
     res = [i for i in list1 if i not in list2]
     return res
+
 
 
 class Movie:
