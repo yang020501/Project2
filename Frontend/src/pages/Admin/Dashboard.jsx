@@ -10,7 +10,6 @@ import MyDataGrid from '../../components/MyDataGrid'
 import { useNavigate } from 'react-router-dom'
 import formatDate from '../../utils/formatDate'
 
-
 const Dashboard = () => {
     ChartJS.register(ArcElement, Tooltip, Legend, Colors)
     ChartJS.register(CategoryScale, LinearScale, BarElement)
@@ -44,7 +43,7 @@ const Dashboard = () => {
                 // id: 'sale',
                 type: 'linear',
                 position: 'right',
-                
+
                 ticks: { beginAtZero: true, color: 'blue' },
             },
             x: { ticks: { beginAtZero: true } }
@@ -55,7 +54,7 @@ const Dashboard = () => {
     const customerData = useSelector(state => state.customerSlice.value)
     const productData = useSelector(state => state.productsSlice.value)
     const staffData = useSelector(state => state.staffSlice.value)
-   
+    
     const [rows, setRows] = useState([])
     const [ProductDataChart, setProductDataChart] = useState({
         labels: [],
@@ -79,6 +78,7 @@ const Dashboard = () => {
         }
         ]
     })
+    console.log(productData,"hello");
     const columns = [
         {
             key: "name",
@@ -148,7 +148,7 @@ const Dashboard = () => {
                 datasets: [{
                     label: ' số lượng: ',
                     data: data,
-                    // borderWidth: 1
+                    borderWidth: 1
                 }]
 
             }

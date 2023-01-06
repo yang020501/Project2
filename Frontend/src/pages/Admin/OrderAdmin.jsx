@@ -12,6 +12,7 @@ import numberWithCommas from '../../utils/numberWithCommas'
 const Order = () => {
   const orderData = useSelector(state => state.orderSlice.value)
   const customerData = useSelector(state => state.customerSlice.value)
+  console.log(orderData);
   const [Check, setCheck] = useState("name")
   const [rows, setRows] = useState([])
   const [orderDataSearch, setorderDataSearch] = useState([])

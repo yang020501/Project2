@@ -47,6 +47,7 @@ public class ProductDto implements Serializable {
     public ProductDto(String id, String title, String id_cate, String categorySlug, String image1, String image2,
                       long price, String slug, String genres, String actors, String status, int release,
                       String descriptions, int sale, String director, String video, boolean active) {
+
         this.id = id;
         this.title = title;
         this.id_cate = id_cate;
@@ -135,9 +136,11 @@ public class ProductDto implements Serializable {
         return video;
     }
 
+
     public boolean isActive() {
         return active;
     }
+
 
     public void setRate(float rate) {
         this.rate = rate;
