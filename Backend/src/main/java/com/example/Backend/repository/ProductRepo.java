@@ -14,27 +14,28 @@ import java.util.List;
 @Repository
 public interface ProductRepo extends JpaRepository<Product, Integer> {
     @Query("SELECT new com.example.Backend.dto.ProductDto(p.id, p.title, p.id_cate, p.categorySlug ,p.image1, p.image2, p.price, p.slug, p.genres, " +
-            "p.actors, p.status, p.release, p.descriptions, p.sale, p.director, p.video) FROM Product p WHERE p.active = 1")
+
+            "p.actors, p.status, p.release, p.descriptions, p.sale, p.director, p.video, p.active) FROM Product p WHERE p.active = 1")
     List<ProductDto> GetAll();
 
     @Query("SELECT new com.example.Backend.dto.ProductDto(p.id, p.title, p.id_cate, p.categorySlug ,p.image1, p.image2, p.price, p.slug, p.genres, " +
-            "p.actors, p.status, p.release, p.descriptions, p.sale, p.director, p.video) FROM Product p WHERE  p.id = ?1")
+            "p.actors, p.status, p.release, p.descriptions, p.sale, p.director, p.video, p.active) FROM Product p WHERE p.id = ?1")
     ProductDto GetDetail_byID(String id);
 
     @Query("SELECT new com.example.Backend.dto.ProductDto(p.id, p.title, p.id_cate, p.categorySlug ,p.image1, p.image2, p.price, p.slug, p.genres, " +
-            "p.actors, p.status, p.release, p.descriptions, p.sale, p.director, p.video) FROM Product p WHERE p.active = 1 AND p.id_cate = ?1")
+            "p.actors, p.status, p.release, p.descriptions, p.sale, p.director, p.video, p.active) FROM Product p WHERE p.active = 1 AND p.id_cate = ?1")
     List<ProductDto> GetAll_byCateID(String id_cate);
 
     @Query("SELECT new com.example.Backend.dto.ProductDto(p.id, p.title, p.id_cate, p.categorySlug ,p.image1, p.image2, p.price, p.slug, p.genres, " +
-            "p.actors, p.status, p.release, p.descriptions, p.sale, p.director, p.video) FROM Product p WHERE p.categorySlug = ?1 AND p.active = 1")
+            "p.actors, p.status, p.release, p.descriptions, p.sale, p.director, p.video, p.active) FROM Product p WHERE p.categorySlug = ?1 AND p.active = 1")
     List<ProductDto> GetProduct_byCateSlug(String categorySlug);
 
     @Query("SELECT new com.example.Backend.dto.ProductDto(p.id, p.title, p.id_cate, p.categorySlug ,p.image1, p.image2, p.price, p.slug, p.genres, " +
-            "p.actors, p.status, p.release, p.descriptions, p.sale, p.director, p.video) FROM Product p WHERE p.slug = ?1 AND p.active = 1")
+            "p.actors, p.status, p.release, p.descriptions, p.sale, p.director, p.video, p.active) FROM Product p WHERE p.slug = ?1 AND p.active = 1")
     List<ProductDto> GetProduct_bySlug(String slug);
 
     @Query("SELECT new com.example.Backend.dto.ProductDto(p.id, p.title, p.id_cate, p.categorySlug ,p.image1, p.image2, p.price, p.slug, p.genres, " +
-            "p.actors, p.status, p.release, p.descriptions, p.sale, p.director, p.video) FROM Product p WHERE p.sale > 0 AND p.active = 1")
+            "p.actors, p.status, p.release, p.descriptions, p.sale, p.director, p.video, p.active) FROM Product p WHERE p.sale > 0 AND p.active = 1")
     List<ProductDto> GetAllSaleProduct();
 
     @Transactional
