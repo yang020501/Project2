@@ -10,10 +10,11 @@ public class ProductInCartDto implements Serializable {
     private String image2;
     private int quantity;
     private Long price;
+    private boolean active;
 
     public ProductInCartDto(){ }
 
-    public ProductInCartDto(String cart_id, String product_id, String title, String image1, String image2, int quantity, Long price) {
+    public ProductInCartDto(String cart_id, String product_id, String title, String image1, String image2, int quantity, Long price, boolean active) {
         this.cart_id = cart_id;
         this.product_id = product_id;
         this.title = title;
@@ -21,6 +22,7 @@ public class ProductInCartDto implements Serializable {
         this.image2 = image2;
         this.quantity = quantity;
         this.price = price;
+        this.active = active;
     }
 
     public String getCart_id() {
@@ -77,5 +79,13 @@ public class ProductInCartDto implements Serializable {
 
     public void setPrice(Long price) {
         this.price = price;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
