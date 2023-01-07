@@ -127,7 +127,7 @@ public class ProductImplement implements ProductService {
             }
             while (id.equals(id_check));
             String title = product.getTitle();
-            String id_cate =product.getCategory();
+            String id_cate = product.getCategory();
             String image1 = product.getImage1();
             String image2 = product.getImage2();
             Long price = product.getPrice();
@@ -161,8 +161,8 @@ public class ProductImplement implements ProductService {
         try {
             String id = product.getId();
             String title = product.getTitle();
-            String id_cate = categoryRepo.GetId_byName(product.getCategory());
-            String category_slug = RandomGenerate.generate_slug(product.getCategory());
+            String id_cate = product.getCategory();
+            String category_slug = RandomGenerate.generate_slug(categoryRepo.GetName_byId(product.getCategory()));
             String image1 = product.getImage1();
             String image2 = product.getImage2();
             Long price = product.getPrice();
