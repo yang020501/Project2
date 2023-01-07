@@ -90,4 +90,21 @@ public class RateImplement implements RateService {
             throw new ResourceAccessException(e.getLocalizedMessage());
         }
     }
+
+    @Override
+    public RateDto Rating(RateDto rate) {
+        try{
+            GetRateRequestDto request = new GetRateRequestDto(rate.getUser_id(), rate.getProduct_id());
+            if(GetRate(request) != null){
+                UpdateRate(rate);
+            }
+            else {
+                InsertRate(rate);
+            }
+            return rate;
+        }
+        catch (Exception e){
+            throw new ResourceAccessException(e.getLocalizedMessage());
+        }
+    }
 }

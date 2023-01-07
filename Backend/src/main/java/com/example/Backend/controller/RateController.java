@@ -20,7 +20,7 @@ public class RateController {
     @Autowired
     private RateService rateService;
 
-    @GetMapping("/user-product-rating")
+    @PostMapping("/user-product-rating")
     public Object get_user_product_score(@RequestBody GetRateRequestDto dto){
         try {
             RateDto rate = rateService.GetRate(dto);
@@ -34,26 +34,15 @@ public class RateController {
 
     @Transactional
     @PostMapping("/rate-product")
-    public Object add(@RequestBody RateDto rate) {
+    public Object rating(@RequestBody RateDto rate) {
         try {
-            rateService.InsertRate(rate);
-            return new ResponseEntity<RateDto>(rate, HttpStatus.CREATED);
-        }
-        catch (Exception e){
-            throw new ResourceAccessException(e.getLocalizedMessage());
-        }
-    }
-
-    @CrossOrigin
-    @Transactional
-    @PatchMapping("/update-rate")
-    public Object update(@RequestBody RateDto rate) {
-        try {
-            rateService.UpdateRate(rate);
+            rateService.Rating(rate);
             return new ResponseEntity<RateDto>(rate, HttpStatus.OK);
         }
         catch (Exception e){
             throw new ResourceAccessException(e.getLocalizedMessage());
         }
     }
+
+
 }
