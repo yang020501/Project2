@@ -52,7 +52,7 @@ public class CartImplement implements CartService {
                     for (CartInfo i : list_product_id_cart) {
                         ProductDto dto = productRepo.GetDetail_byID(i.getProduct_id());
                         ProductInCartDto product = new ProductInCartDto(cart.getId(), dto.getId(), dto.getTitle(), dto.getImage1(),
-                                dto.getImage2(), i.getQuantity(), dto.getPrice());
+                                dto.getImage2(), i.getQuantity(), dto.getPrice(), dto.isActive());
                         list_product.add(product);
                     }
                     c = new CartResponseDto(cart.getId(), cart.getCustomer_id(), list_product,
