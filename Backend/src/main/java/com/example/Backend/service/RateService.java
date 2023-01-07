@@ -12,4 +12,5 @@ public interface RateService {
     public List<RateDto> GetAllRateFromProduct(String product_id);
     public List<RateDto> GetAllRateOfUser(String user_id);
     public float CalculateRateOfProduct(String product_id);
+    public RateDto Rating(RateDto rate);
 }
