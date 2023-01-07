@@ -71,7 +71,7 @@ const OrderViewAdmin = () => {
   }
   const findProductById = (id) => {
     return productData.find(item => {
-      return item.id === id
+      return item.id === id 
     })
   }
   const findCustomerById = (id) => {
@@ -85,7 +85,7 @@ const OrderViewAdmin = () => {
       })
       if (order) {
         list = order.list_product.map(item => {
-          return { ...item, product: findProductById(item.product_id) }
+          return { ...item, product: findProductById(item.product_id) ? findProductById(item.product_id) : {} }
         })
       }
       setOrder({ ...order, list_product: list })
@@ -110,7 +110,7 @@ const OrderViewAdmin = () => {
     }
 
   }, [order])
- console.log(order);
+
   return (
     <ContentMain headerTitle='Chi tiết đơn hàng'
       headerLeftAction={{

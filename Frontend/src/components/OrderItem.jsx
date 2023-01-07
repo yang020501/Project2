@@ -20,7 +20,7 @@ const OrderItem = props => {
             </div>
             <div className="cart-item-info">
                 <div className="cart-item-info-name">
-                    {`${item.product ? item.product.title : ""} `}
+                    {`${item.product ? item.product.title : "Sản phẩm đã hết sản xuất"} `}
                 </div>
                 <div className="cart-item-info-price">
                     {item.product ? item.product.sale ?
