@@ -21,6 +21,9 @@ public interface RateRepo extends JpaRepository<Rate, Integer> {
     @Query("SELECT new com.example.Backend.dto.RateDto(p.user_id, p.product_id, p.score) FROM Rate p WHERE p.user_id = ?1 AND p.product_id = ?2")
     RateDto GetRate(String user_id, String product_id);
 
+    @Query("SELECT count(*) FROM Rate p WHERE p.user_id = ?1 AND p.product_id = ?2")
+    int GetRateCount(String user_id, String product_id);
+
     @Transactional
     @Modifying
     @Query(value = "INSERT INTO Rate(user_id, product_id, score) " +
