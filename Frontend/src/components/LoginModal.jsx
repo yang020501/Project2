@@ -63,7 +63,9 @@ const LoginModal = () => {
     useEffect(() => {
         if (user.loading === false) {
             dispatch(setLoading(false))
+
             if (user.errorMess) {
+
                 setAlert(<Alert variant='danger'>Tài khoản hoặc mật khẩu không đúng!</Alert>)
             }
             else if (user.user) {
