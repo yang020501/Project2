@@ -23,12 +23,12 @@ public interface RateRepo extends JpaRepository<Rate, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "INSERT INTO Rate(user_id, product_id, score)" +
+    @Query(value = "INSERT INTO Rate(user_id, product_id, score) " +
             "VALUES (?1, ?2, ?3)", nativeQuery = true)
     public void Add_Rate(String user_id, String product_id, float score);
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE Product SET score = ?3 WHERE user_id = ?1 AND product_id = ?2", nativeQuery = true)
+    @Query(value = "UPDATE Rate SET score = ?3 WHERE user_id = ?1 AND product_id = ?2", nativeQuery = true)
     public void Update_Rate(String user_id, String product_id, float score);
 }
