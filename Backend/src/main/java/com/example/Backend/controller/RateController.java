@@ -15,7 +15,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.transaction.Transactional;
 
 @RestController
-@RequestMapping(value = "/rate")
+@RequestMapping("/rate")
 public class RateController {
 
     @Autowired
