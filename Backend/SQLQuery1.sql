@@ -40,7 +40,7 @@ create table Product(
 	price int default(0),
 	slug varchar(100),
 	genres varchar(max),
-	actors varchar(max),
+	actors nvarchar(max),
 	status varchar(50),
 	release int,
 	descriptions nvarchar(max),
@@ -82,7 +82,7 @@ create table Rate(
 	user_id varchar(5),
 	product_id varchar(10),
 	score float default(0),
-
+	primary key (user_id, product_id),
 	foreign key (user_id) references Users(id),
 	foreign key (product_id) references Product(id)
 )
