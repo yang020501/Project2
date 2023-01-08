@@ -42,7 +42,10 @@ public class RateImplement implements RateService {
     @Override
     public RateDto GetRate(GetRateRequestDto request) {
         try{
-            return rateRepo.GetRate(request.getUser_id(), request.getProduct_id());
+        
+                return rateRepo.GetRate(request.getUser_id(), request.getProduct_id());
+        
+            
         }
         catch (Exception e){
             throw new ResourceAccessException(e.getLocalizedMessage());
