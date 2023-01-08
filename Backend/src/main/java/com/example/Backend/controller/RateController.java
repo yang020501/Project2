@@ -21,6 +21,7 @@ public class RateController {
     @Autowired
     private RateService rateService;
 
+
     @Transactional
     @PostMapping("/user-product-rating")
     public Object get_user_product_score(@RequestBody GetRateRequestDto dto){
