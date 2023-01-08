@@ -20,7 +20,7 @@ public class RateController {
     @Autowired
     private RateService rateService;
 
-    @GetMapping("/user-product-rating")
+    @PostMapping("/user-product-rating")
     public Object get_user_product_score(@RequestBody GetRateRequestDto dto){
         try {
             RateDto rate = rateService.GetRate(dto);

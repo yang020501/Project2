@@ -102,7 +102,7 @@ const Catalog = () => {
   }, [categoryData])
   useEffect(() => {
     let Movies = productData.filter(item => {
-      return category.findIndex(itemt => itemt.id === item.categorySlug) > -1
+      return category.findIndex(itemt => itemt.slug === item.categorySlug) > -1
     })
     setProductList(Movies)
     setProducts(Movies)

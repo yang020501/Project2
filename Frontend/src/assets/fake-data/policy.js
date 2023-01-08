@@ -9,11 +9,11 @@ const policy = [
         description: "Thanh toán khi nhận hàng (COD)",
         icon: "bx bx-credit-card"
     },
-    {
-        name: "Khách hàng VIP",
-        description: "Ưu đãi dành cho khách hàng VIP",
-        icon: "bx bx-diamond"
-    },
+    // {
+    //     name: "Khách hàng VIP",
+    //     description: "Ưu đãi dành cho khách hàng VIP",
+    //     icon: "bx bx-diamond"
+    // },
     {
         name: "Hỗ trợ bảo hành",
         description: "Đổi, sửa đồ tại tất cả store",

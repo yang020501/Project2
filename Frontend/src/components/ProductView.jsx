@@ -12,6 +12,8 @@ import StarIcon from '@mui/icons-material/Star';
 import numberWithCommas from '../utils/numberWithCommas'
 import fakegenres from '../assets/fake-data/fakegenres'
 import ReactPlayer from "react-player";
+import { apiUrl } from '../utils/constant'
+import axios from 'axios'
 const labels = {
     0.5: 'Useless',
     1: 'Useless+',
@@ -32,15 +34,16 @@ const ProductView = props => {
     let navigate = useNavigate();
     const dispatch = useDispatch();
     const categoryData = useSelector(state => state.categorySlice.value)
+    const user = useSelector(state => state.userState.user)
     const [previewImg, setPreviewImage] = useState(props.product ? props.product.image1 : "")
     const [video, setVideo] = useState("")
     const [descriptionExpand, setDescriptionExpand] = useState(false)
     const [product, setProduct] = useState({})
     const [rateForm, setRateForm] = useState({})
-    const { rate } = product
+
 
     const [quantity, setQuantity] = useState(1)
-    const [value, setValue] = useState(3.5)
+    const [value, setValue] = useState(2.5)
     const [hover, setHover] = useState(-1)
     const updateQuantity = (type) => {
         if (type === "plus") {
@@ -69,6 +72,9 @@ const ProductView = props => {
         }))
 
     }
+    const rate = async (value) => {
+
+    }
     const gotoCart = () => {
         if (true) {
             dispatch(addItem({
@@ -87,7 +93,22 @@ const ProductView = props => {
         if (props.product)
             setProduct(props.product)
     }, [props.product])
-    console.log(props.product);
+    useEffect(() => {
+        if (user && product) {
+            const fetchRate = async () => {
+                let form = {
+                    user_id: user.id,
+                    product_id: product.id
+                }
+                const rs = await axios.post(`${apiUrl}/rate/user-product-rating/`, form).catch(data => data)
+                console.log(rs);
+            }
+
+            fetchRate()
+        }
+
+
+    }, [user, product])
     return (
         <div className='product'>
             <div className="product-images">
@@ -203,6 +224,7 @@ const ProductView = props => {
                             getLabelText={getLabelText}
                             onChange={(event, newValue) => {
                                 setValue(newValue);
+                                rate(newValue)
                             }}
                             onChangeActive={(event, newHover) => {
                                 setHover(newHover);

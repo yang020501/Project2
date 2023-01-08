@@ -18,24 +18,48 @@ const Home = () => {
   let dispatch = useDispatch()
   const productData = useSelector(state => state.productsSlice.value)
   const productSale = useSelector(state => state.saleSlice.value)
+  const [hotProducts, setHotProducts] = useState([])
+  const [newProducts, setNewProducts] = useState([])
+  const [saleProducts, setSaleProducts] = useState([])
   const getProducts = (count) => {
     const max = productData.length - count
     const min = 0
     const start = Math.floor(Math.random() * (max - min) + min)
     return productData.slice(start, start + count)
   }
+  const getProductsByStatus = (products, count) => {
+    if (products.length < count) {
+      return products
+    }
+    const max = products.length - count
+    const min = 0
+    const start = Math.floor(Math.random() * (max - min) + min)
+    return products.slice(start, start + count)
+  }
+
+  useEffect(() => {
+    if (productData && productData.length > 0) {
+      let hot = productData.filter(item => item.status === "hot")
+      setHotProducts([...hot])
+      let New = productData.filter(item => item.status === "new")
+      setNewProducts([...New])
+      let sale = productData.filter(item => item.sale > 0)
+      setSaleProducts([...sale])
+    }
+  }, [productData])
   useEffect(() => {
     dispatch(getAllProduct())
     dispatch(getAllSale())
   }, [])
-  console.log(productData);
+ 
   return (
     <Helmet title='Trang chủ'>
       <HeroSlider data={heroSliderData} control={true} auto={true} timeOut={3000} />
+
       <Section>
         <SectionBody>
           <Grid
-            col={4}
+            col={3}
             mdCol={2}
             smCol={1}
             gap={20}
@@ -57,6 +81,39 @@ const Home = () => {
 
       <Section>
         <SectionTitle>
+          sản phẩm mới
+        </SectionTitle>
+        <SectionBody>
+          <Grid
+            col={4}
+            mdCol={2}
+            smCol={1}
+            gap={20}
+          >
+            {
+              getProductsByStatus(newProducts,8).map((item, index) => (
+                <CustomerProductCard
+                  key={index}
+                  img01={item.image1}
+                  img02={item.image2}
+                  name={item.title}
+                  slug={item.slug}
+                  price={item.price}
+                  rate={item.rate}
+                  badge={item.status}
+
+                >
+                </CustomerProductCard>
+              )
+              )
+            }
+
+          </Grid>
+        </SectionBody>
+      </Section>
+
+      <Section>
+        <SectionTitle>
           Top sản phẩm bán chạy
         </SectionTitle>
         <SectionBody>
@@ -68,8 +125,7 @@ const Home = () => {
           >
             {
 
-              getProducts(4).map((item, index) => (
-
+              getProductsByStatus(hotProducts, 4).map((item, index) => (
                 <CustomerProductCard
                   key={index}
                   img01={item.image1}
@@ -77,7 +133,7 @@ const Home = () => {
                   name={item.title}
                   slug={item.slug}
                   price={item.price}
-                  rate= {item.rate}
+                  rate={item.rate}
                   badge={item.status}
                 >
                 </CustomerProductCard>
@@ -88,6 +144,7 @@ const Home = () => {
           </Grid>
         </SectionBody>
       </Section>
+
       <Section>
         <SectionTitle>
           sản phẩm giảm giá
@@ -100,6 +157,7 @@ const Home = () => {
             gap={20}
           >
             {
+
               productSale.map((item, index) => (
                 <CustomerProductCard
                   key={index}
@@ -109,6 +167,8 @@ const Home = () => {
                   slug={item.slug}
                   price={item.price}
                   sale={item.sale}
+                  rate={item.rate}
+                  badge={item.status}
                 >
                 </CustomerProductCard>
               )
@@ -118,42 +178,12 @@ const Home = () => {
           </Grid>
         </SectionBody>
       </Section>
+
       <Section>
         {/* <Link to="/catalog"> */}
-        <img src={banner} alt="" />
+        <img id="banner" src={banner} alt="" />
         {/* </Link> */}
       </Section>
-      <Section>
-        <SectionTitle>
-          sản phẩm mới
-        </SectionTitle>
-        <SectionBody>
-          <Grid
-            col={4}
-            mdCol={2}
-            smCol={1}
-            gap={20}
-          >
-            {
-              getProducts(8).map((item, index) => (
-                <CustomerProductCard
-                  key={index}
-                  img01={item.image1}
-                  img02={item.image2}
-                  name={item.title}
-                  slug={item.slug}
-                  price={item.price}
-
-                >
-                </CustomerProductCard>
-              )
-              )
-            }
-
-          </Grid>
-        </SectionBody>
-      </Section>
-
 
 
       <Section>
@@ -177,6 +207,8 @@ const Home = () => {
                   name={item.title}
                   slug={item.slug}
                   price={item.price}
+                  rate={item.rate}
+                  badge={item.status}
                 >
                 </CustomerProductCard>
               )

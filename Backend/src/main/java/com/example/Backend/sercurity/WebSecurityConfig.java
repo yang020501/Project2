@@ -83,7 +83,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET).permitAll()
                 .antMatchers(HttpMethod.PATCH).hasAuthority("customer")
                 .antMatchers(HttpMethod.POST).hasAuthority("admin")
-                .antMatchers(HttpMethod.DELETE).hasAuthority("admin")
+                .antMatchers(HttpMethod.DELETE).hasAuthority("admin")              
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
