@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 
+import javax.annotation.security.RolesAllowed;
 import javax.transaction.Transactional;
 
 @RestController
@@ -20,6 +21,7 @@ public class RateController {
     @Autowired
     private RateService rateService;
 
+    
     @PostMapping("/user-product-rating")
     public Object get_user_product_score(@RequestBody GetRateRequestDto dto){
         try {

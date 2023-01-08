@@ -392,7 +392,7 @@ const Dashboard = () => {
                             </CardHeader>
                             <CardBody>
                                 <div style={{ width: "100%", columnGap: 10, height: "350px" }}>
-                                    <MyDataGrid ColumnHeader={columns} Data={rows} />
+                                    <MyDataGrid ColumnHeader={columns} Data={rows}  />
                                 </div>
                             </CardBody>
                         </Card>

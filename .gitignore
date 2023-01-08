@@ -3,3 +3,5 @@
 *.csv
 *User*.pkl
 *CF_model.pkl
+*.sh
+ml-100k
