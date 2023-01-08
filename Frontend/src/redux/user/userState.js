@@ -68,7 +68,7 @@ export const userState = createSlice({
         builder.addCase(login.fulfilled, (state, action) => {
             state.loading = false
             state.user = { ...action.payload.user, role: action.payload.role }
-            
+            state.errorMess = null
             localStorage.setItem('user', JSON.stringify(state.user))
             localStorage.setItem('token', JSON.stringify(action.payload.jwt))
         })
@@ -87,8 +87,6 @@ export const userState = createSlice({
         })
         builder.addCase(getCart.rejected, (state, action) => {
             state.loading = false;
-            state.errorMess = action.payload;
-            state.user = null
         })
 
     }
