@@ -10,13 +10,14 @@ app = Flask(__name__)
 
 @app.route("/begin", methods=['GET', 'POST'])
 def begin_train():
-    movies = pd.read_csv('./Dataset/tmdb_5000_movies.csv', usecols=['id', 'title', 'genres', 'vote_average', 'vote_count', 'popularity'])
+    movies = pd.read_csv('./Dataset/tmdb_5000_movies.csv', usecols=['id', 'title', 'genres', 'original_language', 'release_date', 'vote_average', 'vote_count', 'popularity'])
     
     re = WRT(movies)
     q_movies = re.recommend_top_10()
 
-    listOfMovie= [(Movie(row.id, row.title, row.genres, row.vote_average)) for index, row in q_movies.iterrows()]
+    listOfMovie= [(Movie(row.id, row.title, row.genres, row.original_language, row.release_date, row.vote_average)) for index, row in q_movies.iterrows()]
     listOf10Movie = listOfMovie[0:10]
+
     jsonStr = js.dumps([ob.__dict__ for ob in listOf10Movie])
 
     return jsonify(jsonStr)
@@ -35,12 +36,12 @@ def load_old_model(model_name, customer_id):
     ids_movie_not_rate_by_user = get_items_rated_by_user(re.Y_data , customer_id)
 
     result = remove_items_exist_in_list2(ids_movie_recommend, ids_movie_not_rate_by_user)
-    movie_data = pd.read_csv('./Dataset/tmdb_5000_movies.csv', usecols=['id', 'title', 'genres', 'vote_average'])
+    movie_data = pd.read_csv('./Dataset/tmdb_5000_movies.csv', usecols=['id', 'title', 'genres', 'original_language', 'release_date', 'vote_average'])
 
     movies_data_not_rate = movie_data.loc[movie_data['id'].isin(result)]
     #df_movie_afterS = movies_data_not_rate.sort_values('vote_average', ascending=False)
 
-    listOfMovie= [(Movie(row.id, row.title, row.genres, row.vote_average)) for index, row in movies_data_not_rate.iterrows()]
+    listOfMovie= [(Movie(row.id, row.title, row.genres, row.original_language, row.release_date, row.vote_average)) for index, row in movies_data_not_rate.iterrows()]
     listOf10Movie = listOfMovie[0:10]
     jsonStr = js.dumps([ob.__dict__ for ob in listOf10Movie])
     return jsonStr
@@ -82,10 +83,12 @@ def store_model(model, model_name):
 
 class Movie:
 
-    def __init__(self, id, title, genres, vote):
+    def __init__(self, id, title, genres, category, release ,vote):
         self.id = id
         self.title = title
         self.genres = genres
+        self.category = category
+        self.release = release
         self.vote = vote
     
     def __repr__(self):
