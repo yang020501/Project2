@@ -15,13 +15,13 @@ import javax.annotation.security.RolesAllowed;
 import javax.transaction.Transactional;
 
 @RestController
-@RequestMapping(value = "/rate")
+@RequestMapping("/rate")
 public class RateController {
 
     @Autowired
     private RateService rateService;
 
-    
+    @Transactional
     @PostMapping("/user-product-rating")
     public Object get_user_product_score(@RequestBody GetRateRequestDto dto){
         try {
