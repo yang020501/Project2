@@ -10,7 +10,7 @@ public class RateDto implements Serializable {
     private float score;
 
     public RateDto() {}
-    
+
     public RateDto(String user_id, String product_id, float score) {
         this.user_id = user_id;
         this.product_id = product_id;

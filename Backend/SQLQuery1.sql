@@ -82,6 +82,7 @@ create table Rate(
 	user_id varchar(5),
 	product_id varchar(10),
 	score float default(0),
+
 	primary key (user_id, product_id),
 	foreign key (user_id) references Users(id),
 	foreign key (product_id) references Product(id)
