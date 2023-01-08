@@ -82,9 +82,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/rate/rate-product").hasAnyAuthority("admin", "customer")
                 // .antMatchers("/user/get-all-customer").hasAuthority("admin")
                 .antMatchers("cart/get-all").hasAuthority("admin")
+            
                 .antMatchers(HttpMethod.GET).permitAll()
                 .antMatchers(HttpMethod.PATCH).hasAnyAuthority("admin", "customer")
-                .antMatchers(HttpMethod.POST).hasAnyAuthority("admin")              
+                // .antMatchers(HttpMethod.POST).hasAnyAuthority("admin")         
                 .antMatchers(HttpMethod.DELETE).hasAuthority("admin")              
                 .anyRequest().authenticated()
                 .and()
