@@ -8,7 +8,9 @@ import { removeSignModal } from '../redux/login-sign_modal/signSlice'
 import Alert from 'react-bootstrap/Alert'
 import Form from 'react-bootstrap/Form'
 import axios from 'axios'
+import MojoAuth from "mojoauth-web-sdk"
 import { apiUrl } from '../utils/constant'
+
 const RegisterModal = () => {
     const initialForm = {
         username: "",
@@ -18,14 +20,15 @@ const RegisterModal = () => {
         phone: "",
         role: "customer"
     }
-
+    const apiKey = '0d41f9d7ec2e4cb69f51b0e3b37b809a';
+    const apiURL = 'https://emailvalidation.abstractapi.com/v1/?api_key=' + apiKey
     const dispatch = useDispatch()
     const [RegisterForm, setRegisterForm] = useState(initialForm)
     const show = useSelector(state => state.signModal.value)
     const [alert, setAlert] = useState(null)
     const { username, password, rpassword, customer_name } = RegisterForm
     const [validated, setValidated] = useState(false);
-
+    const [payload, setPayload] = React.useState(null)
     const gotoLogin = () => {
         dispatch(removeSignModal())
         dispatch(setLoginModal())
@@ -37,6 +40,21 @@ const RegisterModal = () => {
 
         })
     }
+    const sendEmailValidationRequest = async (email) => {
+        try {
+            const response = await axios.get(apiURL + '&email=' + email).catch(data => data);
+            if (response.data.is_valid_format.value)
+                return response.data.is_smtp_valid.value
+            return false
+
+        } catch (error) {
+            throw error;
+        }
+    }
+    const handleValidateEmail = async (email) => {
+        const isValid = await sendEmailValidationRequest(email);
+        return isValid;
+    }
     const checkPass = () => {
         if (password !== rpassword)
             return true
@@ -46,6 +64,7 @@ const RegisterModal = () => {
         const form = event.currentTarget;
         event.preventDefault();
         event.stopPropagation();
+
         if (form.checkValidity() === false) {
             setValidated(true);
         }
@@ -55,15 +74,25 @@ const RegisterModal = () => {
         }
         else {
             try {
-
-                const rs = await axios.post(`${apiUrl}/user/sign-in`, RegisterForm)
-                if (rs.data) {
-                    setAlert(<Alert variant='success'>Tạo tài khoản thành công!</Alert>)                    
+                const isValid = await sendEmailValidationRequest(RegisterForm.username)
+                console.log(isValid);
+                if (isValid) {
+                    const rs = await axios.post(`${apiUrl}/user/sign-in`, RegisterForm)
+                    if (rs.data) {
+                        setAlert(<Alert variant='success'>Tạo tài khoản thành công!</Alert>)
+                    }
                 }
+                else {
+                    setAlert(<Alert variant='danger'>Email không hợp lệ: Định dạng hoặc mail không tồn tại!</Alert>)
+                    setValidated(false)
+                    return
+                }
+
             }
             catch {
-                setAlert(<Alert variant='danger'>Đăng ký thất bại! Email đã tồn tại</Alert>)
-                
+                setAlert(<Alert variant='danger'>Đăng ký thất bại! Email đã được đăng ký.</Alert>)
+                setValidated(false)
+                return
             }
             setRegisterForm(initialForm)
             setValidated(false)
@@ -166,6 +195,7 @@ const RegisterModal = () => {
                                                             Vui lòng nhập lại mật khẩu.
                                                         </Form.Control.Feedback>
                                                     </Form.Group>
+                                                    {/* <MailValidation></MailValidation> */}
                                                     <div>
                                                         <button type="submit" className="btn btn-theme mb-3 mt-3">Xác nhận đăng ký</button>
                                                         {alert}

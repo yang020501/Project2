@@ -4,10 +4,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from scipy import sparse
 
 
-
 class CF(object):
-    """docstring for CF"""
-
     def __init__(self, Y_data, k, dist_func=cosine_similarity, uuCF=1):
         self.uuCF = uuCF  # user-user (1) or item-item (0) CF
         self.Y_data = Y_data if uuCF else Y_data[:, [1, 0, 2]]
@@ -116,7 +113,7 @@ class CF(object):
         for i in range(self.n_items):
             if i not in items_rated_by_u:
                 rating = self.__pred(u, i)
-                if rating > 2.5:
+                if rating > 2:
                     recommended_items.append(i)
 
         return recommended_items
@@ -135,30 +132,23 @@ class CF(object):
         for i in range(self.n_items):
             if i not in items_rated_by_u:
                 rating = self.__pred(u, i)
-                if rating > 2.5:
+                if rating > 2:
                     recommended_items.append(i)
 
         return recommended_items
 
-    def print_recommendation(self):
-        """
-        print all items which should be recommended for each user
-        """
-        print('Recommendation: ')
-        for u in range(self.n_users):
-            recommended_items = self.recommend(u)
-            if self.uuCF:
-                print('Recommend item(s):', recommended_items, 'for user', u)
-            else:
-                print('Recommend item', u, 'for user(s) : ', recommended_items)
+    def get_items_not_rated_by_user(rate_matrix, user_id):
+    
+        y = rate_matrix[:, 0]  # all users
 
-    def print_recommendation2(self, x):
-        """
-        print all items which should be recommended for each user
-        """
-        print('Recommendation: ')
-        recommended_items = self.recommend(x)
-        if self.uuCF:
-            print('Recommend item(s):', recommended_items, 'for user', x)
-        else:
-            print('Recommend item', x, 'for user(s) : ', recommended_items)
+        ids = np.where(y != (user_id + 1))[0]
+        tmp_ids = []
+        for item in ids:
+            if item.size > 0:
+                tmp_ids.append(item)
+    
+        item_ids = rate_matrix[tmp_ids,1] - 1  # index starts from 0
+   
+        scores = rate_matrix[tmp_ids, 2]
+        # print(ids)
+        return (item_ids, scores)

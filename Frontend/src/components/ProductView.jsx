@@ -12,7 +12,8 @@ import StarIcon from '@mui/icons-material/Star';
 import numberWithCommas from '../utils/numberWithCommas'
 import fakegenres from '../assets/fake-data/fakegenres'
 import ReactPlayer from "react-player";
-import { apiUrl } from '../utils/constant'
+import { apiUrl, apiUrlML } from '../utils/constant'
+
 import axios from 'axios'
 const labels = {
     0.5: 'Useless',
@@ -95,13 +96,18 @@ const ProductView = props => {
     }, [props.product])
     useEffect(() => {
         if (user && product) {
+
             const fetchRate = async () => {
                 let form = {
                     user_id: user.id,
                     product_id: product.id
                 }
-                const rs = await axios.post(`${apiUrl}/rate/user-product-rating/`, form).catch(data => data)
-                console.log(rs);
+
+                // const rs = await axios.post(`${apiUrl}/rate/user-product-rating/`, form).catch(data => data)
+                // console.log(rs);
+                const rs2 = await axios.get(`${apiUrlML}/load-old/CF/2`).catch(data => data)
+                console.log(rs2);
+
             }
 
             fetchRate()

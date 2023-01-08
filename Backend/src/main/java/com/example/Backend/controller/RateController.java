@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 
+import javax.annotation.security.RolesAllowed;
 import javax.transaction.Transactional;
 
 @RestController
@@ -19,6 +20,7 @@ public class RateController {
 
     @Autowired
     private RateService rateService;
+
 
     @Transactional
     @PostMapping("/user-product-rating")
