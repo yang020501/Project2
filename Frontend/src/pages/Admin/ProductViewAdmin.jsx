@@ -134,14 +134,13 @@ const ProductViewAdmin = props => {
     else {
       setValidated(false)
       let categoryId = categoryData.find(item => item.slug === productForm.categorySlug) ? categoryData.find(item => item.slug === productForm.categorySlug).id : categoryData[0].id
-      console.log(categoryId, "hểhêre");
       let type = productData.findIndex(item => item.id === productForm.id)
       let body = {
         ...productForm,
         category: categoryId,
         sale: saleCheck ? sale : 0
       }
-      console.log(body);
+      console.log(token);
       if (type > -1 && slug !== "new") {
         let rs = await axios.post(`${apiUrl}/product/update-product`, body, { headers: { Authorization: `Bearer ${token}` } }).catch(data => { return data })
         if (rs.data) {
@@ -384,6 +383,19 @@ const ProductViewAdmin = props => {
                 />
                 <Form.Control.Feedback type="invalid">
                   Vui lòng nhập url trailer.
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group className='me-5 mb-4' >
+                <Form.Label>Năm phát hành</Form.Label>
+                <Form.Control
+                  type="number"
+                  size="lg"
+                  name="release"
+                  value={release}
+                  onChange={onChange}
+                />
+                <Form.Control.Feedback type="invalid">
+                  Vui lòng nhập Năm phát hành.
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group className="mb-3  "  >

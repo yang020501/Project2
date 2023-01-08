@@ -138,15 +138,16 @@ public class ProductImplement implements ProductService {
             String status = product.getStatus();
             int release = product.getRelease();
             String description = product.getDescriptions();
+            int sale = product.getSale();
             String director = product.getDirector();
             String video = product.getVideo();
 
             ProductDto dto = new ProductDto(id, title, id_cate, category_slug, image1, image2, price, slug, genres
-                    , actors, status, release, description,0, director, video, true);
+                    , actors, status, release, description,sale, director, video, true);
 
 
             productRepo.Add_Product(id, title, id_cate, category_slug, image1, image2, price, slug, genres
-                    , actors, status, release, description, director, video);
+                    , actors, status, release, description,sale, director, video);
 
             return dto;
         }

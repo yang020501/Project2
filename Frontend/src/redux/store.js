@@ -32,7 +32,6 @@ export const store = configureStore({
         orderSlice: orderSlice,
         customerSlice: customerSlice,
         staffSlice: staffSlice
-
     },
     devTools: true
 })

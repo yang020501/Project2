@@ -54,6 +54,7 @@ const MyDataGrid = props => {
             // onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             // rowsPerPageOptions={10}
             // disableSelectionOnClick
+            
             autoPageSize
             onSelectionModelChange={id => handlechange(id)}
             experimentalFeatures={{ newEditingApi: true }}
