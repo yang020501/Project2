@@ -5,10 +5,12 @@ import lombok.Data;
 import java.io.Serializable;
 
 public class RateDto implements Serializable {
-    private final String user_id;
-    private final String product_id;
-    private final float score;
+    private String user_id;
+    private String product_id;
+    private float score;
 
+    public RateDto() {}
+    
     public RateDto(String user_id, String product_id, float score) {
         this.user_id = user_id;
         this.product_id = product_id;
