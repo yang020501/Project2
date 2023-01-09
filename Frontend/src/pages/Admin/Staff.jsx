@@ -93,9 +93,9 @@ const Staff = () => {
     }
   }
   const handleAddress = (item) => {
-    console.log(item);
+    
     let tmp = item.split(",")
-    console.log(tmp);
+    
     return {
       house_address: tmp[0],
       address1: tmp[3],

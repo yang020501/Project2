@@ -39,7 +39,7 @@ const ProductView = props => {
     const user = useSelector(state => state.userState.user)
     const token = useSelector(state => state.userState.token)
 
-    const [previewImg, setPreviewImage] = useState(props.product ? props.product.image1 : "")
+    const [previewImg, setPreviewImage] = useState(props.ProductReal ? props.ProductReal.image1 : "")
     const [descriptionExpand, setDescriptionExpand] = useState(false)
     const [product, setProduct] = useState({})
     const [Rate, setRate] = useState(0)
@@ -85,7 +85,7 @@ const ProductView = props => {
         if (rs.data && rs.data.score) {
             setRate(rs.data.score)
             setRated(true)
-            dispatch(getRatings())
+            dispatch(getRatings(user.id))
         }
     }
     const gotoCart = () => {
@@ -101,11 +101,11 @@ const ProductView = props => {
         }
     }
     useEffect(() => {
-        setPreviewImage(props.product ? props.product.image1 : "")
+        setPreviewImage(props.ProductReal ? props.ProductReal.image1 : "")
         setQuantity(1)
-        if (props.product)
-            setProduct(props.product)
-    }, [props.product])
+        if (props.ProductReal)
+            setProduct(props.ProductReal)
+    }, [props.ProductReal])
 
     useEffect(() => {
         if (user && product) {
@@ -131,18 +131,18 @@ const ProductView = props => {
             }
             fetchRate()
         }
-
+        console.log(product);
     }, [user, product])
-
+   
     return (
         <div className='product'>
             <div className="product-images">
                 <div className="product-images-list">
-                    <div className="product-images-list-item" onClick={() => setPreviewImage(props.product ? product.image1 : "")}>
-                        <img src={props.product ? product.image1 : ""} alt="image 1" />
+                    <div className="product-images-list-item" onClick={() => setPreviewImage(props.ProductReal ? product.image1 : "")}>
+                        <img src={props.ProductReal ? product.image1 : ""} alt="image 1" />
                     </div>
-                    <div className="product-images-list-item" onClick={() => setPreviewImage(props.product ? product.image2 : "")}>
-                        <img src={props.product ? product.image2 : ""} alt="image 2" />
+                    <div className="product-images-list-item" onClick={() => setPreviewImage(props.ProductReal ? product.image2 : "")}>
+                        <img src={props.ProductReal ? product.image2 : ""} alt="image 2" />
                     </div>
                     <div className="product-images-list-item" >
 
@@ -153,7 +153,7 @@ const ProductView = props => {
                 </div>
                 <div className="product-images-video">
                     <div className='product-images-video-title '> Trailer</div>
-                    <ReactPlayer controls width="100%" height="100%" className="video" url={`${props.product ? props.product.video : ""}`}  ></ReactPlayer>
+                    <ReactPlayer controls width="100%" height="100%" className="video" url={`${props.ProductReal ? props.ProductReal.video : ""}`}  ></ReactPlayer>
                 </div>
                 <div className={`product-description ${descriptionExpand ? 'expand' : ''}`}>
                     <div className="product-description-title">
@@ -305,8 +305,7 @@ const ProductView = props => {
 }
 
 ProductView.propTypes = {
-    product: PropTypes.object
-
+    ProductReal: PropTypes.object
 }
 
 export default ProductView

@@ -5,9 +5,9 @@ import axios from "axios";
 import { apiUrl, apiUrlML } from "../../utils/constant";
 
 
-const user = localStorage.getItem('user') !== null ? JSON.parse(localStorage.getItem('user')) : null
-const token = localStorage.getItem('token') !== null ? JSON.parse(localStorage.getItem('token')) : null
-const CF = localStorage.getItem('CF') !== null ? JSON.parse(localStorage.getItem('CF')) : []
+// let user = localStorage.getItem('user') !== null ? JSON.parse(localStorage.getItem('user')) : null
+// let token = localStorage.getItem('token') !== null ? JSON.parse(localStorage.getItem('token')) : null
+let CF = localStorage.getItem('CF') !== null ? JSON.parse(localStorage.getItem('CF')) : []
 
 export const login = createAsyncThunk(
     'user/login',
@@ -26,7 +26,7 @@ export const login = createAsyncThunk(
 export const getCart = createAsyncThunk(
     'user/getCart',
     async (data, { rejectWithValue }) => {
-        const rs = await axios.get(`${apiUrl}/cart/${user.id}`)
+        const rs = await axios.get(`${apiUrl}/cart/${data}`)
         if (rs.status < 200 || rs.status >= 300) {
             return rejectWithValue(rs.data)
         }
@@ -36,7 +36,7 @@ export const getCart = createAsyncThunk(
 export const getRatings = createAsyncThunk(
     'user/getRatings',
     async (data, { rejectWithValue }) => {
-        const rs = await axios.get(`${apiUrl}/rate/user-rating/${user.id}`)
+        const rs = await axios.get(`${apiUrl}/rate/user-rating/${data}`)
         if (rs.status < 200 || rs.status >= 300) {
             return rejectWithValue(rs.data)
         }
@@ -67,12 +67,13 @@ export const userState = createSlice({
     name: 'userState',
     initialState: {
         loading: false,
-        user: user,
-        token: token,
+        user: localStorage.getItem('user') !== null ? JSON.parse(localStorage.getItem('user')) : null,
+        token: localStorage.getItem('token') !== null ? JSON.parse(localStorage.getItem('token')) : null,
         errorMess: null,
         cart: [],
         CF: CF,
-        ratings: null
+        ratings: null,
+        similar: []
     },
     reducers: {
         logout: (state) => {
@@ -80,7 +81,8 @@ export const userState = createSlice({
             state.errorMess = null;
             state.token = null;
             state.CF = [];
-            state.ratings= null;
+            state.ratings = null;
+
             localStorage.removeItem('user')
             localStorage.removeItem('token')
             localStorage.removeItem('CF')
@@ -98,11 +100,10 @@ export const userState = createSlice({
         },
         setCF: (state, action) => {
             state.CF = action.payload
- 
+
         },
-        setW: (state, action) => {
-            state.CF = []
-            state.W = action.payload
+        setSimilar: (state, action) => {
+            state.similar = action.payload
         }
     },
 
@@ -116,7 +117,7 @@ export const userState = createSlice({
             state.user = { ...action.payload.user, role: action.payload.role }
             state.token = action.payload.jwt
             state.errorMess = null
-            localStorage.setItem('user', JSON.stringify(state.user))
+            localStorage.setItem('user', JSON.stringify(action.payload.user))
             localStorage.setItem('token', JSON.stringify(action.payload.jwt))
         })
         builder.addCase(login.rejected, (state, action) => {
@@ -142,24 +143,24 @@ export const userState = createSlice({
         builder.addCase(getRatings.fulfilled, (state, action) => {
             state.loading = false
             state.ratings = action.payload
- 
+
         })
         builder.addCase(getRatings.rejected, (state, action) => {
             state.loading = false;
         })
-        builder.addCase(getCFRecommends.pending, state => {          
+        builder.addCase(getCFRecommends.pending, state => {
 
         })
-        builder.addCase(getCFRecommends.fulfilled, (state, action) => {      
+        builder.addCase(getCFRecommends.fulfilled, (state, action) => {
             state.CF = action.payload
             localStorage.setItem('CF', JSON.stringify(action.payload))
         })
         builder.addCase(getCFRecommends.rejected, (state, action) => {
         })
-        builder.addCase(getWRecommends.pending, state => {          
+        builder.addCase(getWRecommends.pending, state => {
 
         })
-        builder.addCase(getWRecommends.fulfilled, (state, action) => {      
+        builder.addCase(getWRecommends.fulfilled, (state, action) => {
             state.CF = action.payload
         })
         builder.addCase(getWRecommends.rejected, (state, action) => {
@@ -170,5 +171,5 @@ export const userState = createSlice({
 
 
 })
-export const { logout, updateUser, updateUserPart, setCF, setW } = userState.actions
+export const { logout, updateUser, updateUserPart, setCF, setSimilar } = userState.actions
 export default userState.reducer

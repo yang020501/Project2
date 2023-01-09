@@ -100,7 +100,7 @@ const OrderViewAdmin = () => {
     if (order.list_product) {
       settotalPrice(order.list_product.reduce((total, item) => {
         let findSale = productSaleData.find(element => element.id === item.product_id)
-        console.log(findSale,"find");
+       
         if (findSale) {
           return total + (Number(item.quantity) * Number(item.price - item.price * findSale.sale / 100))
         }

@@ -5,17 +5,17 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { addItem } from '../redux/shopping-cart/cartItemsSlice'
 import { setAlert } from '../redux/alert-message/alertMessage'
-import { remove } from '../redux/product-modal/productModalSlice'
+
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 import numberWithCommas from '../utils/numberWithCommas'
 import fakegenres from '../assets/fake-data/fakegenres'
 import ReactPlayer from "react-player";
-import { apiUrl, apiUrlML } from '../utils/constant'
+import { apiImage, apiUrl, apiUrlML, apiVideo } from '../utils/constant'
 
 import axios from 'axios'
-import { setCF, setW } from '../redux/user/userState'
+import { setCF, setSimilar, setW } from '../redux/user/userState'
 const labels = {
     0.5: 'Bad',
     1: 'Bad+',
@@ -38,12 +38,13 @@ const RecommendProductView = props => {
     const categoryData = useSelector(state => state.categorySlice.value)
     const user = useSelector(state => state.userState.user)
     const token = useSelector(state => state.userState.token)
-    const [previewImg, setPreviewImage] = useState(props.product ? require("../assets/images/tmp.jpg") : "")
+    const [previewImg, setPreviewImage] = useState(props.product ? props.product.img01 : "")
     const [descriptionExpand, setDescriptionExpand] = useState(false)
     const [product, setProduct] = useState({})
     const [Rate, setRate] = useState(0)
     const [Rated, setRated] = useState(false)
-
+    const [video, setvideo] = useState("")
+ 
     const [quantity, setQuantity] = useState(1)
 
     const [hover, setHover] = useState(-1)
@@ -56,14 +57,15 @@ const RecommendProductView = props => {
         }
     }
     const findCategory = (slug) => {
-        switch(slug){
-            case "en": return  Math.random()*100 > 0.5 ? "Mỹ" : "Anh"
+        switch (slug) {
+            case "en": return Math.random() * 100 > 0.5 ? "Mỹ" : "Anh"
             case "vi": return "Việt Nam"
+            case "ja": return "Nhật Bản"
+            case "fr": return "Pháp"
+            default: return "Đang cập nhật"
         }
-        
-        
- 
     }
+
     const addtoCart = () => {
 
         dispatch(addItem({
@@ -103,47 +105,65 @@ const RecommendProductView = props => {
         }
     }
     useEffect(() => {
-        setPreviewImage(props.product ? require("../assets/images/tmp.jpg"): "")
+        setPreviewImage(props.product ? props.product.img01 : "")
         setQuantity(1)
         if (props.product)
             setProduct(props.product)
     }, [props.product])
     useEffect(() => {
-        // if (user && product) {
-        //     const fetchRate = async () => {
-        //         let form = {
-        //             user_id: user.id,
-        //             product_id: product.id
-        //         }
 
-        //         const rs = await axios.post(`${apiUrl}/rate/user-product-rating`, form, { headers: { Authorization: `Bearer ${token}` } }).catch(data => data)
+        if (Object.keys(product).length > 0) {
+            const fetchSimilar = async () => {
+                // const rs = await axios.get(`https://api.themoviedb.org/3/movie/${props.product.id}/similar?api_key=8be33bdae0e6e5766b8e30bf628df7a6&language=en-US&page=${Math.round(Math.random()*100)}`).catch(data => data)
+                const rs = await axios.get(`https://api.themoviedb.org/3/movie/${props.product.id}/similar?api_key=8be33bdae0e6e5766b8e30bf628df7a6&language=en-US&page=${1}`).catch(data => data)
 
-        //         if (rs.data && rs.data != "") {
-        //             setRate(rs.data.score)
-        //             setRated(true)
-        //             const rs2 = await axios.get(`${apiUrlML}/load-old/CF/2`).catch(data => data)
-        //             dispatch(setCF(await rs2.data))
-        //         }
-        //         else {
-        //             const rs3 = await axios.get(`${apiUrlML}/begin`).catch(data => data)
-        //             dispatch(setW(await rs3.data))
-        //         }
-        //     }
-        //     fetchRate()
-        // }
+                dispatch(setSimilar(rs.data.results))
+            }
+            fetchSimilar()
+            const fetchProduct = async () => {
+                const rs = await axios.get(`https://api.themoviedb.org/3/movie/${props.product.id}?api_key=8be33bdae0e6e5766b8e30bf628df7a6&language=en-US`).catch(data => data)
 
+                if (rs.data) {
+                    let data_tmp = {
 
-    }, [user, product])
+                        description: rs.data.overview,
+                        budget: Number(rs.data.budget) / 10,
+                        release: rs.data.release_date.substring(0, 4),
+                        img01: apiImage + rs.data.poster_path,
+                        img02: apiImage + rs.data.backdrop_path,
+                        genres: rs.data.genres.toString(),
+                        category: rs.data.original_language,
+                        title: rs.data.title
+
+                    }
+                    setPreviewImage(apiImage + rs.data.poster_path)
+                    const rs2 = await axios.get(`https://api.themoviedb.org/3/movie/${props.product.id}/videos?api_key=8be33bdae0e6e5766b8e30bf628df7a6&language=en-US`).catch(data => data)
+                    if (rs2.data) {
+                   
+                        data_tmp = {
+                            ...data_tmp,
+                            video: apiVideo + rs2.data.results[0].key
+                        }
+                        setProduct({ ...data_tmp })
+                        return
+                    }
+                    setProduct({ ...data_tmp })
+                }
+            }
+            fetchProduct()
+        }
+
+    }, [props.product])
 
     return (
         <div className='product'>
             <div className="product-images">
                 <div className="product-images-list">
-                    <div className="product-images-list-item" onClick={() => setPreviewImage(props.product ? require("../assets/images/tmp.jpg") : "")}>
-                        <img src={props.product ? require("../assets/images/tmp.jpg") : require("../assets/images/tmp.jpg")} alt="Hình ảnh bìa" />
+                    <div className="product-images-list-item" onClick={() => setPreviewImage(product.img01 ? product.img01 : require("../assets/images/tmp.jpg"))}>
+                        <img src={Object.keys(product).length > 0 ? product.img01 ? product.img01 : "" : require("../assets/images/tmp.jpg")} alt="Hình ảnh bìa" />
                     </div>
-                    <div className="product-images-list-item" onClick={() => setPreviewImage(props.product ? require("../assets/images/tmp.jpg") : "")}>
-                        <img src={props.product ? require("../assets/images/tmp.jpg") : require("../assets/images/tmp.jpg")} alt="Hình ảnh bìa" />
+                    <div className="product-images-list-item" onClick={() => setPreviewImage(product.img02 ? product.img02 : require("../assets/images/tmp.jpg"))}>
+                        <img src={Object.keys(product).length > 0 ? product.img02 ? product.img02 : "" : require("../assets/images/tmp.jpg")} alt="Hình ảnh bìa" />
                     </div>
                     <div className="product-images-list-item" >
 
@@ -154,7 +174,7 @@ const RecommendProductView = props => {
                 </div>
                 <div className="product-images-video">
                     <div className='product-images-video-title '> Trailer</div>
-                    <ReactPlayer controls width="100%" height="100%" className="video" url={`${props.product ? props.product.video : ""}`}  ></ReactPlayer>
+                    <ReactPlayer controls width="100%" height="100%" className="video" url={`${Object.keys(product).length > 0 ? product.video : ""}`}  ></ReactPlayer>
                 </div>
                 <div className={`product-description ${descriptionExpand ? 'expand' : ''}`}>
                     <div className="product-description-title">
@@ -188,8 +208,8 @@ const RecommendProductView = props => {
                             //         </span>
                             //     </div>)
                             // :
-                            <div>{numberWithCommas(Number((product.budget / 10)))} đ</div>
-                        :<div>{numberWithCommas(4750000)} đ</div>
+                            <div>{numberWithCommas(Number((product.budget)))} đ</div>
+                            : <div>{numberWithCommas(4750000)} đ</div>
                         }
                     </span>
                 </div>
@@ -198,7 +218,7 @@ const RecommendProductView = props => {
                         Quốc gia / Năm phát hành
                     </div>
                     <div className='product-info-item-list'>
-                        {findCategory(product.category)} / { product.release ? product.release.substring(0,4) : "Đang cập nhật."}
+                        {findCategory(product.category)} / {product.release ? product.release.substring(0, 4) : "Đang cập nhật."}
                     </div>
                 </div>
                 <div className="product-info-item">
@@ -286,7 +306,7 @@ const RecommendProductView = props => {
                         Thêm vào giỏ
                     </Button>
                     <Button
-                     onclick={() => gotoCart()}>
+                        onclick={() => gotoCart()}>
                         Mua ngay
                     </Button>
                 </div>

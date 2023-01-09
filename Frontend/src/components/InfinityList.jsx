@@ -68,6 +68,7 @@ const InfinityList = props => {
                             slug={item.slug}
                             sale={item.sale}
                             rate={item.rate}
+                            badge={item.status}
                         />
                     ))
 

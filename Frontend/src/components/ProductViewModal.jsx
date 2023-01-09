@@ -21,7 +21,7 @@ const ProductViewModal = () => {
     return (
         <div className={`product-view-modal ${product === undefined ? '' : 'active'}`}>
             <div className="product-view-modal-content">
-                <ProductView product={product} />
+                <ProductView ProductReal={product} />
                 <div className="product-view-modal-content-close">
                     <Button
                         size='sm'
