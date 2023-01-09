@@ -35,12 +35,14 @@ const Layout = () => {
     if (user) {
       if (user.role === "admin")
         navigate("/admin")
-      dispatch(getRatings())
+      dispatch(getRatings(user.id))
+      dispatch(getCart(user.id))
     }
   }, [user]);
   useEffect(() => {
-    console.log(("hello", ratings));
+   
     if (ratings && user) {
+   
       if (ratings > 0) {
         dispatch(getCFRecommends(user.id))
       }

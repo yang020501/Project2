@@ -38,7 +38,7 @@ export const categorySlice = createSlice({
             Categorys.push(updateCategory)
             state.value = Categorys
 
-            console.log(action.payload,  state.value);
+          
         },
         deleteCategory: (state, action) => {
             const Categorys = state.value
@@ -49,7 +49,7 @@ export const categorySlice = createSlice({
             Categorys.splice(index,1)
             state.value = Categorys
 
-            console.log(action.payload,  state.value);
+            
         },
     },
     extraReducers: (builder) => {

@@ -78,7 +78,7 @@ const Dashboard = () => {
         }
         ]
     })
-    console.log(productData,"hello");
+  
     const columns = [
         {
             key: "name",

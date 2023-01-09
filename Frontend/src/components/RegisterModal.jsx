@@ -75,7 +75,7 @@ const RegisterModal = () => {
         else {
             try {
                 const isValid = await sendEmailValidationRequest(RegisterForm.username)
-                console.log(isValid);
+               
                 if (isValid) {
                     const rs = await axios.post(`${apiUrl}/user/sign-in`, RegisterForm)
                     if (rs.data) {

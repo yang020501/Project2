@@ -8,17 +8,19 @@ import { useParams } from 'react-router-dom'
 import ProductView from '../components/ProductView'
 import RecommendProductView from '../components/RecommendProductView'
 import axios from 'axios'
-import { apiUrl } from '../utils/constant'
+import { apiImage, apiUrl } from '../utils/constant'
 import CustomerProductCard from '../components/CustomerProductCard'
 import { useSelector } from 'react-redux';
+
 
 const Product = props => {
   const { slug } = useParams();
   const [product, setproduct] = useState()
   const [rproduct, setrproduct] = useState(null)
+  const [sproduct, setsproduct] = useState([])
   const [relatedProducts, setRelatedProducts] = useState([])
   const CFProducts = useSelector(state => state.userState.CF)
-
+  const similar = useSelector(state => state.userState.similar)
   const [recommend, setRecommend] = useState([])
 
   const getProducts = (products, count) => {
@@ -38,6 +40,7 @@ const Product = props => {
     if (product)
       fetchData()
   }, [product])
+
   useEffect(() => {
     if (!Number(slug)) {
       const fetchData = async () => {
@@ -46,20 +49,62 @@ const Product = props => {
           rs.data[0]
         )
       }
+  
       fetchData()
-      setproduct(null)
+      setrproduct(null)
     }
     else {
-      setrproduct({ ...CFProducts.find(item => item.id == slug) })
-
+      let tmp = CFProducts.find(item => item.id == slug)
+      if (tmp)
+        setrproduct({ ...tmp })
+      else {
+        tmp = similar.find(item => item.id == slug)
+        if (tmp) {
+          let tmp2 = {
+            budget: 4750000,
+            description: tmp.overview,
+            release: tmp.release_date.substring(0, 4),
+            img01: apiImage + tmp.poster_path,
+            img02: apiImage + tmp.backdrop_path,
+            ...tmp
+          }
+          setrproduct({ ...tmp2 })
+        }
+      }
+    
     }
   }, [slug])
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [slug])
   useEffect(() => {
-    setRecommend([...CFProducts])
+    if (CFProducts.length > 0) {
+      (async function () {
+        const response = await Promise.all(CFProducts.map(item => axios.get(`https://api.themoviedb.org/3/movie/${item.id}?api_key=8be33bdae0e6e5766b8e30bf628df7a6&language=en-US`).catch(data => data)));
+        let tmp = response.map(item => {
+          let rs = item
+          let rs_data
+          return rs_data = {
+            description: rs.data.overview,
+            budget: rs.data.budget / 10,
+            release: rs.data.release_date.substring(0, 4),
+            img01: apiImage + rs.data.poster_path,
+            img02: apiImage + rs.data.backdrop_path,
+            genres: rs.data.genres.toString(),
+            category: rs.data.original_language,
+            title: rs.data.title,
+            vote: rs.data.vote_average,
+            id: rs.data.id
+          }
+        })
+        setRecommend([...tmp])
+      })()
+
+    }
   }, [CFProducts])
+  useEffect(() => {
+    setsproduct([...similar])
+  }, [similar])
 
   return (
     <Helmet title={product ? product.title : ""}>
@@ -77,16 +122,16 @@ const Product = props => {
                 gap={20}
               >
                 {
-                  getProducts(CFProducts, 4).map((item, index) => (
+                  getProducts(recommend, 4).map((item, index) => (
                     <CustomerProductCard
                       recommend
                       key={index}
-                      img01={item.image1 ? item.image1 : require("../assets/images/tmp.jpg")}
-                      img02={item.image2 ? item.image2 : ""}
+                      img01={item.img01 ? item.img01 : require("../assets/images/tmp.jpg")}
+                      img02={item.img02 ? item.img02 : ""}
                       name={item.title}
-                      price={item.budget > 0 ? item.budget / 10 : 4750000}
+                      price={item.budget > 0 ? item.budget : 4750000}
                       badge={"normal"}
-                      rate={item.vote / 2}
+                      rate={Math.round(item.vote / 2)}
                       id={item.id}
                     />
                   ))
@@ -116,16 +161,16 @@ const Product = props => {
         <SectionBody>
           {
             rproduct ?
-              <RecommendProductView  product={rproduct}/>
+              <RecommendProductView product={rproduct} />
               :
-              <ProductView product={product} />
+              <ProductView ProductReal={product} />
           }
 
         </SectionBody>
       </Section>
       <Section>
         <SectionTitle>
-          Phim cùng thể loại
+          Phim liên quan
         </SectionTitle>
         <SectionBody>
           <Grid
@@ -134,16 +179,18 @@ const Product = props => {
             smCol={1}
             gap={20}
           >
-            {relatedProducts ?
-              relatedProducts.map((item, index) => (
+            {sproduct.length > 0 ?
+              getProducts(sproduct, 8).map((item, index) => (
                 <CustomerProductCard
+                  recommend
                   key={index}
-                  img01={item.image1}
+                  img01={apiImage + item.poster_path}
                   img02={item.image2}
                   name={item.title}
-                  price={item.price}
-                  slug={item.slug}
-                  badge={item.status ? item.status : "normal"}
+                  price={item.budget > 0 ? item.budget : 4750000}
+                  badge={"normal"}
+                  rate={Math.round(item.vote_average / 2)}
+                  id={item.id}
                 />
               ))
               : <></>
