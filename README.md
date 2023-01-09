@@ -1,2 +1,2 @@
-# Project2
-A basic e-commerce website with recommendation system model 
+# Movie E-Commerce Webshop with Recommendation system base on User-rating
+
