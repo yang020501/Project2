@@ -28,7 +28,7 @@ const OrderViewAdmin = () => {
   const [tmpPrice, settmpPrice] = useState(0)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  console.log(orderData);
+
   const statusOption = [
     "đang chờ xữ lí",
     "Xác nhận",

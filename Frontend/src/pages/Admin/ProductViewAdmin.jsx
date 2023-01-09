@@ -4,8 +4,6 @@ import ContentMain from '../../components/Admin/ContentMain'
 import btnAction from '../../utils/btnAction'
 import Card, { CardBody } from '../../components/Card'
 import Form from 'react-bootstrap/Form'
-import colors from '../../assets/fake-data/product-color'
-import size from '../../assets/fake-data/product-size'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { apiUrl } from '../../utils/constant'
@@ -19,8 +17,6 @@ const ProductViewAdmin = props => {
   const productData = useSelector(state => state.productsSlice.value)
   const categoryData = useSelector(state => state.categorySlice.value)
   const token = useSelector(state => state.userState.token)
-  const [color, setColor] = useState([])
-  const [sizes, setSizes] = useState([])
   const [validated, setValidated] = useState(false);
   const [productForm, setproductForm] = useState({
     title: "",
@@ -108,14 +104,6 @@ const ProductViewAdmin = props => {
     return tmp > 0
   }
 
-  const clearValues = (type) => {
-    if (type) {
-      switch (type) {
-        case "size": setSizes([])
-        case "color": setColor([])
-      }
-    }
-  }
 
   const Update = async (event) => {
     const form = event.currentTarget;
@@ -140,7 +128,7 @@ const ProductViewAdmin = props => {
         category: categoryId,
         sale: saleCheck ? sale : 0
       }
-      console.log(token);
+     
       if (type > -1 && slug !== "new") {
         let rs = await axios.post(`${apiUrl}/product/update-product`, body, { headers: { Authorization: `Bearer ${token}` } }).catch(data => { return data })
         if (rs.data) {
@@ -188,7 +176,7 @@ const ProductViewAdmin = props => {
       }
     }
   }, [slug, productData])
-  console.log(productForm);
+
   return (
     <Form noValidate validated={validated} onSubmit={Update}>
       <ContentMain headerTitle='Sản phẩm'

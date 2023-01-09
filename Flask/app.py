@@ -23,7 +23,7 @@ def begin_train():
     listOf10Movie = listOfMovie[0:10]
     jsonStr = js.dumps([ob.__dict__ for ob in listOf10Movie])
 
-    return jsonify(jsonStr)
+    return jsonStr
 
 
 @app.route("/load-old/<model_name>/<int:customer_id>", methods=['GET', 'POST'])
@@ -101,4 +101,4 @@ class Movie:
         self.vote = vote
 
     def __repr__(self):
-        return f'{self.__class__.__name__}> (id={self.id}, title={self.title}, genres={self.title}, vote={self.vote})'
+        return f'{self.__class__.__name__}> (id={self.id}, title={self.title}, genres={self.genres}, vote={self.vote})'

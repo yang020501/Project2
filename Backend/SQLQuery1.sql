@@ -40,7 +40,7 @@ create table Product(
 	price int default(0),
 	slug varchar(100),
 	genres varchar(max),
-	actors varchar(max),
+	actors nvarchar(max),
 	status varchar(50),
 	release int,
 	descriptions nvarchar(max),

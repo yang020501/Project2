@@ -36,15 +36,16 @@ const ProductView = props => {
     const dispatch = useDispatch();
     const categoryData = useSelector(state => state.categorySlice.value)
     const user = useSelector(state => state.userState.user)
+    const token = useSelector(state => state.userState.token)
     const [previewImg, setPreviewImage] = useState(props.product ? props.product.image1 : "")
-    const [video, setVideo] = useState("")
     const [descriptionExpand, setDescriptionExpand] = useState(false)
     const [product, setProduct] = useState({})
-    const [rateForm, setRateForm] = useState({})
-
+    const [Rate, setRate] = useState(2.5)
+    const [CFRecommend, setCFRecommend] = useState([])
+    const [WRecommend, setWRecommend] = useState([])
 
     const [quantity, setQuantity] = useState(1)
-    const [value, setValue] = useState(2.5)
+   
     const [hover, setHover] = useState(-1)
     const updateQuantity = (type) => {
         if (type === "plus") {
@@ -74,7 +75,15 @@ const ProductView = props => {
 
     }
     const rate = async (value) => {
-
+        let form = {
+            user_id: user.id,
+            product_id: product.id,
+            score: value
+        }
+        const rs = await axios.post(`${apiUrl}/rate/rate-product`, form, { headers: { Authorization: `Bearer ${token}` } }).catch(data => data)
+        if(rs.data && rs.data.score){
+            setRate(rs.data.score)
+        }
     }
     const gotoCart = () => {
         if (true) {
@@ -96,20 +105,25 @@ const ProductView = props => {
     }, [props.product])
     useEffect(() => {
         if (user && product) {
-
             const fetchRate = async () => {
                 let form = {
                     user_id: user.id,
                     product_id: product.id
                 }
+                // const rs2 = await axios.get(`${apiUrlML}/load-old/CF/2`).catch(data => data)
+                // console.log(rs2.data, "hello");
+                const rs = await axios.post(`${apiUrl}/rate/user-product-rating`, form, { headers: { Authorization: `Bearer ${token}` } }).catch(data => data)
 
-                // const rs = await axios.post(`${apiUrl}/rate/user-product-rating/`, form).catch(data => data)
-                // console.log(rs);
-                const rs2 = await axios.get(`${apiUrlML}/load-old/CF/2`).catch(data => data)
-                console.log(rs2);
-
+                if (rs.data && rs.data != "") {
+                    setRate(rs.data.score)
+                    const rs2 = await axios.get(`${apiUrlML}/load-old/CF/2`).catch(data => data)
+                    setCFRecommend(rs2.data)
+                }
+                else {
+                    const rs3 = await axios.get(`${apiUrlML}/begin`).catch(data => data)
+                    console.log(rs3);
+                }
             }
-
             fetchRate()
         }
 
@@ -225,11 +239,11 @@ const ProductView = props => {
                     >
                         <Rating
                             name="hover-feedback"
-                            value={value}
+                            value={Rate}
                             precision={0.5}
                             getLabelText={getLabelText}
                             onChange={(event, newValue) => {
-                                setValue(newValue);
+                          
                                 rate(newValue)
                             }}
                             onChangeActive={(event, newHover) => {
@@ -237,8 +251,8 @@ const ProductView = props => {
                             }}
                             emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
                         />
-                        {value !== null && (
-                            <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
+                        {Rate !== null && (
+                            <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : Rate]}</Box>
                         )}
                     </Box>
                 </div>
