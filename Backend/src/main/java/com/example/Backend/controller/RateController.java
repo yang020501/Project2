@@ -34,6 +34,18 @@ public class RateController {
         }
     }
 
+    @Transactional
+    @GetMapping("/user-rating/{userid}")
+    public Object get_user_rating(@PathVariable String userid){
+        try {
+            int ratings = rateService.GetRatings(userid);
+            return new ResponseEntity<Integer>(ratings, HttpStatus.OK);
+        }
+        catch (Exception e){
+            throw new ResourceAccessException(e.getLocalizedMessage());
+        }
+    }
+
 
     @Transactional
     @PostMapping("/rate-product")

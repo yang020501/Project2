@@ -15,7 +15,7 @@ import ReactPlayer from "react-player";
 import { apiUrl, apiUrlML } from '../utils/constant'
 
 import axios from 'axios'
-import { getRatings, setCF, setW } from '../redux/user/userState'
+import { setCF, setW } from '../redux/user/userState'
 const labels = {
     0.5: 'Bad',
     1: 'Bad+',
@@ -32,14 +32,13 @@ function getLabelText(value) {
     return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
 }
 
-const ProductView = props => {
+const RecommendProductView = props => {
     let navigate = useNavigate();
     const dispatch = useDispatch();
     const categoryData = useSelector(state => state.categorySlice.value)
     const user = useSelector(state => state.userState.user)
     const token = useSelector(state => state.userState.token)
-
-    const [previewImg, setPreviewImage] = useState(props.product ? props.product.image1 : "")
+    const [previewImg, setPreviewImage] = useState(props.product ? require("../assets/images/tmp.jpg") : "")
     const [descriptionExpand, setDescriptionExpand] = useState(false)
     const [product, setProduct] = useState({})
     const [Rate, setRate] = useState(0)
@@ -57,9 +56,13 @@ const ProductView = props => {
         }
     }
     const findCategory = (slug) => {
-        let tmp = categoryData.find(item => item.slug === slug)
-
-        return tmp ? tmp.name : ""
+        switch(slug){
+            case "en": return  Math.random()*100 > 0.5 ? "Mỹ" : "Anh"
+            case "vi": return "Việt Nam"
+        }
+        
+        
+ 
     }
     const addtoCart = () => {
 
@@ -85,52 +88,50 @@ const ProductView = props => {
         if (rs.data && rs.data.score) {
             setRate(rs.data.score)
             setRated(true)
-            dispatch(getRatings())
         }
     }
     const gotoCart = () => {
         if (true) {
-            dispatch(addItem({
-                slug: product.slug,
-                quantity: quantity,
-                price: product.price
+            // dispatch(addItem({
+            //     slug: product.slug,
+            //     quantity: quantity,
+            //     price: product.price
 
-            }))
-            dispatch(remove())
+            // }))
+            // dispatch(remove())
             navigate("/cart")
         }
     }
     useEffect(() => {
-        setPreviewImage(props.product ? props.product.image1 : "")
+        setPreviewImage(props.product ? require("../assets/images/tmp.jpg"): "")
         setQuantity(1)
         if (props.product)
             setProduct(props.product)
     }, [props.product])
-
     useEffect(() => {
-        if (user && product) {
-            const fetchRate = async () => {
-                let form = {
-                    user_id: user.id,
-                    product_id: product.id
-                }
+        // if (user && product) {
+        //     const fetchRate = async () => {
+        //         let form = {
+        //             user_id: user.id,
+        //             product_id: product.id
+        //         }
 
-                const rs = await axios.post(`${apiUrl}/rate/user-product-rating`, form, { headers: { Authorization: `Bearer ${token}` } }).catch(data => data)
+        //         const rs = await axios.post(`${apiUrl}/rate/user-product-rating`, form, { headers: { Authorization: `Bearer ${token}` } }).catch(data => data)
 
+        //         if (rs.data && rs.data != "") {
+        //             setRate(rs.data.score)
+        //             setRated(true)
+        //             const rs2 = await axios.get(`${apiUrlML}/load-old/CF/2`).catch(data => data)
+        //             dispatch(setCF(await rs2.data))
+        //         }
+        //         else {
+        //             const rs3 = await axios.get(`${apiUrlML}/begin`).catch(data => data)
+        //             dispatch(setW(await rs3.data))
+        //         }
+        //     }
+        //     fetchRate()
+        // }
 
-                if (rs.data) {
-                    setRate(rs.data.score)
-                    setRated(true)
-
-                }
-                else {
-                    setRate(0)
-                    setRated(false)
-                }
-
-            }
-            fetchRate()
-        }
 
     }, [user, product])
 
@@ -138,11 +139,11 @@ const ProductView = props => {
         <div className='product'>
             <div className="product-images">
                 <div className="product-images-list">
-                    <div className="product-images-list-item" onClick={() => setPreviewImage(props.product ? product.image1 : "")}>
-                        <img src={props.product ? product.image1 : ""} alt="image 1" />
+                    <div className="product-images-list-item" onClick={() => setPreviewImage(props.product ? require("../assets/images/tmp.jpg") : "")}>
+                        <img src={props.product ? require("../assets/images/tmp.jpg") : require("../assets/images/tmp.jpg")} alt="Hình ảnh bìa" />
                     </div>
-                    <div className="product-images-list-item" onClick={() => setPreviewImage(props.product ? product.image2 : "")}>
-                        <img src={props.product ? product.image2 : ""} alt="image 2" />
+                    <div className="product-images-list-item" onClick={() => setPreviewImage(props.product ? require("../assets/images/tmp.jpg") : "")}>
+                        <img src={props.product ? require("../assets/images/tmp.jpg") : require("../assets/images/tmp.jpg")} alt="Hình ảnh bìa" />
                     </div>
                     <div className="product-images-list-item" >
 
@@ -160,7 +161,7 @@ const ProductView = props => {
                         Chi tiết sản phẩm
                     </div>
                     <div className="product-description-content"
-                        dangerouslySetInnerHTML={{ __html: product.descriptions }}
+                        dangerouslySetInnerHTML={{ __html: product.description }}
                     ></div>
                     <div className="product-description-toggle">
                         <Button size='sm' onclick={() => setDescriptionExpand(!descriptionExpand)}>
@@ -178,16 +179,18 @@ const ProductView = props => {
                 <div className="product-info-item">
                     <span className='product-info-item-price'>
 
-                        {product.sale ?
-                            (
-                                <div>
-                                    {numberWithCommas(Number((product.price - product.price * product.sale / 100)))} đ
-                                    <span className='product-card-price-old'>
-                                        <del>{numberWithCommas(product.price)} đ</del>
-                                    </span>
-                                </div>)
-                            :
-                            <div>{numberWithCommas(Number((product.price)))} đ</div>}
+                        {product.budget ?
+                            // (
+                            //     <div>
+                            //         {numberWithCommas(Number((product.budget - product.budget * product.sale / 100)))} đ
+                            //         <span className='product-card-price-old'>
+                            //             <del>{numberWithCommas(product.budget)} đ</del>
+                            //         </span>
+                            //     </div>)
+                            // :
+                            <div>{numberWithCommas(Number((product.budget / 10)))} đ</div>
+                        :<div>{numberWithCommas(4750000)} đ</div>
+                        }
                     </span>
                 </div>
                 <div className="product-info-item">
@@ -195,7 +198,7 @@ const ProductView = props => {
                         Quốc gia / Năm phát hành
                     </div>
                     <div className='product-info-item-list'>
-                        {findCategory(product.categorySlug)} / {product.release}
+                        {findCategory(product.category)} / { product.release ? product.release.substring(0,4) : "Đang cập nhật."}
                     </div>
                 </div>
                 <div className="product-info-item">
@@ -206,6 +209,7 @@ const ProductView = props => {
                         {
                             product.genres ?
                                 fakegenres.filter(items => {
+
                                     return product.genres.includes(items.value)
                                 }).map(item => item.display).join(", ")
                                 : ""
@@ -218,7 +222,7 @@ const ProductView = props => {
                         Đạo diễn:
                     </div>
                     <div className="product-info-item-list">
-                        {product.director}
+                        Đang cập nhật.
                     </div>
                 </div>
                 <div className="product-info-item">
@@ -226,8 +230,7 @@ const ProductView = props => {
                         Diễn viên:
                     </div>
                     <div className="product-info-item-list">
-                        {product.actors}
-                        {/* Sam Wothington, Zoe Saldana, Sigourney Weaver, Kate Winslet, Stephen Lang */}
+                        Đang cập nhật.
                     </div>
                 </div>
                 <div className="product-info-item">
@@ -277,10 +280,13 @@ const ProductView = props => {
                     </div>
                 </div>
                 <div className="product-info-item">
-                    <Button onclick={() => addtoCart()}>
+                    <Button
+                    //  onclick={() => addtoCart()}
+                    >
                         Thêm vào giỏ
                     </Button>
-                    <Button onclick={() => gotoCart()}>
+                    <Button
+                     onclick={() => gotoCart()}>
                         Mua ngay
                     </Button>
                 </div>
@@ -304,9 +310,9 @@ const ProductView = props => {
     )
 }
 
-ProductView.propTypes = {
+RecommendProductView.propTypes = {
     product: PropTypes.object
 
 }
 
-export default ProductView
+export default RecommendProductView

@@ -1,11 +1,13 @@
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-import { apiUrl } from "../../utils/constant";
+import { apiUrl, apiUrlML } from "../../utils/constant";
 
 
 const user = localStorage.getItem('user') !== null ? JSON.parse(localStorage.getItem('user')) : null
 const token = localStorage.getItem('token') !== null ? JSON.parse(localStorage.getItem('token')) : null
+const CF = localStorage.getItem('CF') !== null ? JSON.parse(localStorage.getItem('CF')) : []
 
 export const login = createAsyncThunk(
     'user/login',
@@ -31,6 +33,36 @@ export const getCart = createAsyncThunk(
         return rs.data
     }
 )
+export const getRatings = createAsyncThunk(
+    'user/getRatings',
+    async (data, { rejectWithValue }) => {
+        const rs = await axios.get(`${apiUrl}/rate/user-rating/${user.id}`)
+        if (rs.status < 200 || rs.status >= 300) {
+            return rejectWithValue(rs.data)
+        }
+        return rs.data
+    }
+)
+export const getCFRecommends = createAsyncThunk(
+    'user/getCFRecommends',
+    async (data, { rejectWithValue }) => {
+        const rs = await axios.get(`${apiUrlML}/load-old/CF/${data}`)
+        if (rs.status < 200 || rs.status >= 300) {
+            return rejectWithValue(rs.data)
+        }
+        return rs.data
+    }
+)
+export const getWRecommends = createAsyncThunk(
+    'user/getWRecommends',
+    async (data, { rejectWithValue }) => {
+        const rs = await axios.get(`${apiUrlML}/begin`)
+        if (rs.status < 200 || rs.status >= 300) {
+            return rejectWithValue(rs.data)
+        }
+        return rs.data
+    }
+)
 export const userState = createSlice({
     name: 'userState',
     initialState: {
@@ -38,15 +70,20 @@ export const userState = createSlice({
         user: user,
         token: token,
         errorMess: null,
-        cart: []
+        cart: [],
+        CF: CF,
+        ratings: null
     },
     reducers: {
         logout: (state) => {
             state.user = null;
             state.errorMess = null;
             state.token = null;
+            state.CF = [];
+            state.ratings= null;
             localStorage.removeItem('user')
             localStorage.removeItem('token')
+            localStorage.removeItem('CF')
         },
         updateUser: (state, action) => {
             state.user = action.payload
@@ -58,6 +95,14 @@ export const userState = createSlice({
                 [action.payload.name]: action.payload.value
             }
             localStorage.setItem('user', JSON.stringify(state.user))
+        },
+        setCF: (state, action) => {
+            state.CF = action.payload
+ 
+        },
+        setW: (state, action) => {
+            state.CF = []
+            state.W = action.payload
         }
     },
 
@@ -90,11 +135,40 @@ export const userState = createSlice({
         builder.addCase(getCart.rejected, (state, action) => {
             state.loading = false;
         })
+        builder.addCase(getRatings.pending, state => {
+            state.loading = true;
+
+        })
+        builder.addCase(getRatings.fulfilled, (state, action) => {
+            state.loading = false
+            state.ratings = action.payload
+ 
+        })
+        builder.addCase(getRatings.rejected, (state, action) => {
+            state.loading = false;
+        })
+        builder.addCase(getCFRecommends.pending, state => {          
+
+        })
+        builder.addCase(getCFRecommends.fulfilled, (state, action) => {      
+            state.CF = action.payload
+            localStorage.setItem('CF', JSON.stringify(action.payload))
+        })
+        builder.addCase(getCFRecommends.rejected, (state, action) => {
+        })
+        builder.addCase(getWRecommends.pending, state => {          
+
+        })
+        builder.addCase(getWRecommends.fulfilled, (state, action) => {      
+            state.CF = action.payload
+        })
+        builder.addCase(getWRecommends.rejected, (state, action) => {
+        })
 
     }
 
 
 
 })
-export const { logout, updateUser, updateUserPart } = userState.actions
+export const { logout, updateUser, updateUserPart, setCF, setW } = userState.actions
 export default userState.reducer

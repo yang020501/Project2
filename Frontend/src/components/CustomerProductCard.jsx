@@ -48,7 +48,7 @@ const CustomerProductCard = props => {
     return (
         <Badge badgeContent={props.badge ? props.badge === "normal" ? null : props.badge : null} color={props.badge ? props.badge === "new" ? "success" : "error" : "warning"} >
             <div className='customer-product-card'>
-                <Link to={props.admin ? `/admin/product/${props.slug}` : `/catalog/${props.slug}`}>
+                <Link to={props.recommend ? `/catalog/${props.id}` : `/catalog/${props.slug}`}>
                     <img className='customer-product-card-image' src={props.img01} alt="" />
                     <div className="customer-product-card-description">
                         <span className='customer-product-card-quality'>FHD</span>
@@ -114,15 +114,17 @@ const CustomerProductCard = props => {
 
 CustomerProductCard.propTypes = {
     img01: PropTypes.string.isRequired,
-    img02: PropTypes.string.isRequired,
+    img02: PropTypes.string,
     name: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
-    slug: PropTypes.string.isRequired,
+    slug: PropTypes.string,
     sale: PropTypes.number,
     admin: PropTypes.bool,
     id: PropTypes.string,
     badge: PropTypes.string,
-    rate: PropTypes.number
+    rate: PropTypes.number,
+    recommend: PropTypes.bool,
+
 }
 
 export default CustomerProductCard

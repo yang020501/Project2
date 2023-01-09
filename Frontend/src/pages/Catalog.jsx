@@ -107,7 +107,7 @@ const Catalog = () => {
     setProductList(Movies)
     setProducts(Movies)
   }, [productData, category])
-  console.log(products);
+
   const showHideFilter = () => filterRef.current.classList.toggle('active')
   return (
     <Helmet title='Quần áo'>

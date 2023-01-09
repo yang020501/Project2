@@ -19,7 +19,7 @@ import CustomerInfo from "../pages/CustomerInfo";
 import Policy from "../pages/Policy";
 import NoPage from "../pages/NoPage";
 import Backdropp from "../components/Backdropp";
-import { getCart } from "../redux/user/userState";
+import { getCart, getCFRecommends, getRatings, getWRecommends } from "../redux/user/userState";
 import { getAllSale } from '../redux/product/saleSlice'
 import { getAllCategory } from "../redux/category/categorySlice";
 import { getAllProduct } from "../redux/product/productsSlice";
@@ -27,20 +27,38 @@ import { getAllProduct } from "../redux/product/productsSlice";
 
 const Layout = () => {
   let dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(getAllSale())
-    dispatch(getAllCategory())
-    dispatch(getAllProduct())
-    dispatch(getCart())
-  }, [])
+
   const user = useSelector(state => state.userState.user)
+  const ratings = useSelector(state => state.userState.ratings)
   const navigate = useNavigate()
   useEffect(() => {
     if (user) {
       if (user.role === "admin")
         navigate("/admin")
+      dispatch(getRatings())
     }
   }, [user]);
+  useEffect(() => {
+    console.log(("hello", ratings));
+    if (ratings && user) {
+      if (ratings > 0) {
+        dispatch(getCFRecommends(user.id))
+      }
+      else {
+        dispatch(getWRecommends())
+      }
+    }
+    else if (!user) {
+      dispatch(getWRecommends())
+    }
+  }, [ratings, user])
+  useEffect(() => {
+    dispatch(getAllSale())
+    dispatch(getAllCategory())
+    dispatch(getAllProduct())
+    dispatch(getCart())
+    dispatch(getRatings())
+  }, [])
   return (
     <React.Fragment>
       <Header />

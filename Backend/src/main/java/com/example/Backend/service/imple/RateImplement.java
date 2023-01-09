@@ -110,4 +110,15 @@ public class RateImplement implements RateService {
             throw new ResourceAccessException(e.getLocalizedMessage());
         }
     }
+    @Override
+    public int GetRatings(String userid) {
+        try{
+            int ratings = rateRepo.GetRatings(userid);
+            return ratings;
+        }
+        catch (Exception e){
+            throw new ResourceAccessException(e.getLocalizedMessage());
+        }
+    }
+    
 }
