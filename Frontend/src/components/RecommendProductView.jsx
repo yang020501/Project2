@@ -124,6 +124,7 @@ const RecommendProductView = props => {
                 const rs = await axios.get(`https://api.themoviedb.org/3/movie/${props.product.id}?api_key=8be33bdae0e6e5766b8e30bf628df7a6&language=en-US`).catch(data => data)
 
                 if (rs.data) {
+            
                     let data_tmp = {
 
                         description: rs.data.overview,
@@ -131,7 +132,7 @@ const RecommendProductView = props => {
                         release: rs.data.release_date.substring(0, 4),
                         img01: apiImage + rs.data.poster_path,
                         img02: apiImage + rs.data.backdrop_path,
-                        genres: rs.data.genres.toString(),
+                        genres: rs.data.genres,
                         category: rs.data.original_language,
                         title: rs.data.title
 
@@ -154,7 +155,7 @@ const RecommendProductView = props => {
         }
 
     }, [props.product])
-
+   
     return (
         <div className='product'>
             <div className="product-images">
@@ -229,8 +230,11 @@ const RecommendProductView = props => {
                         {
                             product.genres ?
                                 fakegenres.filter(items => {
-
-                                    return product.genres.includes(items.value)
+                                    let tmp = product.genres
+                                    tmp = JSON.stringify(tmp)
+                          
+                                    return tmp.includes(items.value)
+                                    // return product.genres.
                                 }).map(item => item.display).join(", ")
                                 : ""
                         }
