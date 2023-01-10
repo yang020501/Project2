@@ -43,7 +43,7 @@
     
   4. After that install jupyter notebook extension and Python extension
   
-    ![image](https://user-images.githubusercontent.com/79902770/211555604-286de6ca-d297-42e0-bc37-ee04f4c499d9.png)
+  ![image](https://user-images.githubusercontent.com/79902770/211555604-286de6ca-d297-42e0-bc37-ee04f4c499d9.png)
     
   5. Then start env first and install Python library use for API and Model and Jupyter file
 
