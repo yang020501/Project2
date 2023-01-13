@@ -22,7 +22,7 @@ const Product = props => {
   const CFProducts = useSelector(state => state.userState.CF)
   const similar = useSelector(state => state.userState.similar)
   const [recommend, setRecommend] = useState([])
-
+  const [udpateKey, setUpdateKey] = useState( Math.random())
   const getProducts = (products, count) => {
     if (products.length < count) {
       return products
@@ -49,9 +49,10 @@ const Product = props => {
           rs.data[0]
         )
       }
-  
+
       fetchData()
       setrproduct(null)
+      
     }
     else {
       let tmp = CFProducts.find(item => item.id == slug)
@@ -71,7 +72,7 @@ const Product = props => {
           setrproduct({ ...tmp2 })
         }
       }
-    
+
     }
   }, [slug])
   useEffect(() => {
@@ -193,7 +194,19 @@ const Product = props => {
                   id={item.id}
                 />
               ))
-              : <></>
+              : getProducts(relatedProducts, 8).map((item, index) => (
+                <CustomerProductCard
+                  recommend
+                  key={index}
+                  img01={item.image1}
+                  img02={item.image2}
+                  name={item.title}
+                  price={item.budget > 0 ? item.budget : 4750000}
+                  badge={item.status}
+                  rate={item.rate}
+                  id={item.id}
+                />
+              ))
             }
           </Grid>
         </SectionBody>

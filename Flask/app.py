@@ -31,9 +31,7 @@ def begin_train():
 @app.route("/load-old/<model_name>/<int:customer_id>", methods=['GET', 'POST'])
 def load_old_model(model_name, customer_id):
 
-    def load_model(model_name):
-        model = jb.load('./TrainedModel/' + model_name + '_model.pkl')
-        return model
+    
 
     re = load_model(model_name)
 
@@ -66,6 +64,26 @@ def train_model(model_name):
     store_model(re, model_name)
     return model_name + ' has been trained'
 
+#api add new rate and retrain model
+@app.route("/add-rate/<model_name>", methods=('POST', 'GET'))
+def add_rate_to_model(model_name):
+    content_type = request.headers.get('Content-Type')
+    if (content_type == 'application/json'):
+        json = request.json
+
+        a = float(json['user_id'])
+        b = float(json['product_id'])
+        c = float(json['score'])
+        
+        data = np.array([[a,b,c]])
+        print(data)
+        re = load_model(model_name)
+        re.add(data)
+        re.fit()
+        store_model(re, model_name)
+        return jsonify(json)
+    else:
+        return 'Content-Type not supported!'
 
 def get_items_rated_by_user(rate_matrix, user_id):
 
@@ -92,7 +110,10 @@ def store_model(model, model_name):
     if model_name == "":
         model_name = type(model).__name__
     jb.dump(model, './TrainedModel/' + model_name + '_model.pkl')
-
+    
+def load_model(model_name):
+        model = jb.load('./TrainedModel/' + model_name + '_model.pkl')
+        return model
 
 class Movie:
 

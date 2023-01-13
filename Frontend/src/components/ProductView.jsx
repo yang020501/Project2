@@ -46,7 +46,7 @@ const ProductView = props => {
     const [Rated, setRated] = useState(false)
 
     const [quantity, setQuantity] = useState(1)
-
+    const [udpateKey, setUpdateKey] = useState(Math.random() )
     const [hover, setHover] = useState(-1)
     const updateQuantity = (type) => {
         if (type === "plus") {
