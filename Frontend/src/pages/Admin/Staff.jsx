@@ -17,6 +17,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form'
 const Staff = () => {
   const staffData = useSelector(state => state.staffSlice.value)
+  const user = useSelector(state => state.userState.user)
   const [Check, setCheck] = useState("customer_name")
   const [staffDataSearch, setstaffDataSearch] = useState([])
   const [rows, setRows] = useState([])
@@ -144,7 +145,7 @@ const Staff = () => {
     setstaffDataSearch(rows)
   }, [rows])
   useEffect(() => {
-    const tmprows = staffData.map((item) => {
+    const tmprows = staffData.filter(item => item.id !== user.id).map((item) => {
       return {
         ...item,
         name: item.customer_name,

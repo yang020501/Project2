@@ -44,9 +44,9 @@ const RecommendProductView = props => {
     const [Rate, setRate] = useState(0)
     const [Rated, setRated] = useState(false)
     const [video, setvideo] = useState("")
- 
+    const [udpateKey, setUpdateKey] = useState(Math.random() )
     const [quantity, setQuantity] = useState(1)
-
+    
     const [hover, setHover] = useState(-1)
     const updateQuantity = (type) => {
         if (type === "plus") {
@@ -155,7 +155,52 @@ const RecommendProductView = props => {
         }
 
     }, [props.product])
-   
+    useEffect(() => {
+
+        if (Object.keys(product).length > 0) {
+            const fetchSimilar = async () => {
+                // const rs = await axios.get(`https://api.themoviedb.org/3/movie/${props.product.id}/similar?api_key=8be33bdae0e6e5766b8e30bf628df7a6&language=en-US&page=${Math.round(Math.random()*100)}`).catch(data => data)
+                const rs = await axios.get(`https://api.themoviedb.org/3/movie/${props.product.id}/similar?api_key=8be33bdae0e6e5766b8e30bf628df7a6&language=en-US&page=${1}`).catch(data => data)
+
+                dispatch(setSimilar(rs.data.results))
+            }
+            fetchSimilar()
+            const fetchProduct = async () => {
+                const rs = await axios.get(`https://api.themoviedb.org/3/movie/${props.product.id}?api_key=8be33bdae0e6e5766b8e30bf628df7a6&language=en-US`).catch(data => data)
+
+                if (rs.data) {
+            
+                    let data_tmp = {
+
+                        description: rs.data.overview,
+                        budget: Number(rs.data.budget) / 10,
+                        release: rs.data.release_date.substring(0, 4),
+                        img01: apiImage + rs.data.poster_path,
+                        img02: apiImage + rs.data.backdrop_path,
+                        genres: rs.data.genres,
+                        category: rs.data.original_language,
+                        title: rs.data.title
+
+                    }
+                    setPreviewImage(apiImage + rs.data.poster_path)
+                    const rs2 = await axios.get(`https://api.themoviedb.org/3/movie/${props.product.id}/videos?api_key=8be33bdae0e6e5766b8e30bf628df7a6&language=en-US`).catch(data => data)
+                    if (rs2.data) {
+                   
+                        data_tmp = {
+                            ...data_tmp,
+                            video: apiVideo + rs2.data.results[0].key
+                        }
+                        setProduct({ ...data_tmp })
+                        return
+                    }
+                    setProduct({ ...data_tmp })
+                }
+            }
+            fetchProduct()
+        }
+
+    }, [udpateKey])
+    useEffect(() => {setUpdateKey(2)},[])
     return (
         <div className='product'>
             <div className="product-images">

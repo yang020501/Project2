@@ -199,7 +199,7 @@ const Home = () => {
           >
             {
 
-              getProducts(12).map((item, index) => (
+              getProductsByStatus(productData,8).map((item, index) => (
                 <CustomerProductCard
                   key={index}
                   img01={item.image1}
